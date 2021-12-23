@@ -162,28 +162,138 @@
 	\addcontentsline{toc}{chapter}{1. Introduction}	% to add in the toc
 	
 	\begin{algorithm}
-	\caption{Calculate $y = x^n$}
+	\caption{BSPRecherche(T, a, b)}
 	\label{Modele pour un algo}
 	\begin{algorithmic} [1]
-	\REQUIRE $n \geq 0 \vee x \neq 0$
-	\ENSURE $y = x^n$
-	\STATE $y \gets 1$
-	\IF{$n < 0$}
-	\STATE $X \leftarrow 1 / x$
-	\STATE $N \leftarrow -n$
+	\REQUIRE Un arbre BSP T représentant une scène dans un plan(donné par la référenceà sa racine ou vide) et deux points a et b
+	\ENSURE Un Booléen (Vrai si le segment d'extrémité a et b appartient à la scène, faux sinon)
+	\IF{estVide(T)}
+	\STATE Retourner Faux
 	\ELSE
-	\STATE $X \leftarrow x$
-	\STATE $N \leftarrow n$
+	\IF{listeChainéeRecherche($T_{seg}$, a, b)}
+	\STATE Retourner Vrai
+	\ELSE 
+	\STATE $bool_a$ <- inOpenNegativeHalfSpace($T_{div}$,a)
+	\STATE $bool_b$ <- inOpenNegativeHalfSpace($T_{div}$,b)
+	\IF{$bool_a$ est vrai et $bool_b$ est vrai}
+	\STATE Retourner BSPRecherche($T_{-}$, a, b)
+	\ELSE
+	\IF{$bool_a$ est Faux et $bool_b$ est Faux}
+	\STATE Retourner BSPRecherche($T_{+}$, a, b)\\
+	\ELSE
+	\STATE $D_{ab}$ segToLine(a, b)
+	\STATE c <- intersection($T_{div}$, $D_{ab}$)
+	\IF{$bool_a$ est Vrai et $bool_b$ est Faux}
+	\STATE Retourner BSPRecherche($T_{-}$, a, c) Et BSPRecherche($T_{+}$, c, b)
+	\ELSE
+	\STATE Retourner BSPRecherche($T_{-}$, b, c) Et BSPRecherche($T_{+}$, a, b)
 	\ENDIF
-	\WHILE{$N \neq 0$ \and $N \neq 0$}
-	\IF{$N$ is even}
-	\STATE $X \leftarrow X \times X$
-	\STATE $N \leftarrow N / 2$
-	\ELSE[$N$ is odd]
-	\STATE $y \leftarrow y \times X$
-	\STATE $N \leftarrow N - 1$
 	\ENDIF
-	\ENDWHILE
+	\ENDIF
+	\ENDIF
+	\ENDIF
+	\end{algorithmic}
+	\end{algorithm}
+
+	{\section*{2. Algorithmes Utilitaires}}
+	\addcontentsline{toc}{chapter}{2. Algorithmes Utilitaires}	% to add in the toc	
+	
+	\begin{algorithm}
+	\caption{inOpenNegativeHalfSpace(D, p)}
+	\label{Modele pour un algo}
+	\begin{algorithmic} [2]
+	\REQUIRE Une droite D dans $R^2$ représentée par le triplet $a_d$, $b_D$, $c_D$ tel que D est défini par $a_D$ $\times$ x + $b_D$ $\times$ y + $c_D$ = 0, un point p de coordonnée ($x_P$, $y_P$)
+	\ENSURE Booléen Vrai si le point p se trouve dans le demi-espace négatif ouvert par rapport à D, faux sinon. 
+	\STATE Récupération des composantes de la droite D et du point p.
+	\IF{$D_a$ $\times$ $x_p$ + $D_b$ $\times$ $y_p$ + $D_c$ < 0}
+	\STATE Retourner Vrai
+	\ELSE
+	\STATE Retourner Faux
+	\ENDIF
+	\end{algorithmic}
+	\end{algorithm}
+	
+	
+	\begin{algorithm}
+	\caption{vecDir(a,b)}
+	\label{Modele pour un algo}
+	\begin{algorithmic} [3]
+	\REQUIRE Deux points a et b de coordonnées ($x_{a}$, $y_{a}$) et ($x_{b}$, $y_{b}$) 
+	\ENSURE Un vecteur directeur d’une droite d’équation inconnue passant par les points a et b
+	\STATE Récupération des coordonnées des points.
+	\STATE $a_{d}$ <- $x_{a}$ - $x_{b}$
+	\STATE $b_{d}$ <- $y_{a}$ - $y_{b}$
+	\STATE vecDir <- [$a_{d}$, $b_{d}$]
+	\STATE Retourner vecDir
+	\end{algorithmic}
+	\end{algorithm}
+	
+	
+	\begin{algorithm}
+	\caption{vecNorm(a,b)}
+	\label{Modele pour un algo}
+	\begin{algorithmic} [4]
+	\REQUIRE Deux points a et b de coordonnées ($x_{a}$, $y_{a}$) et ($x_{b}$, $y_{b}$) 
+	\ENSURE Un vecteur normal d'une droite  passant par les points a et b
+	\STATE Récupération des coordonnées des points.
+	\STATE $a_{n}$ <- - $b_d$
+	\STATE $b_{n}$ <- $a_d$
+	\STATE vecNorm <- [$a_{n}$, $b_{n}$]
+	\STATE Retourner vecNorm
+	\end{algorithmic}
+	\end{algorithm}
+	
+	
+	\begin{algorithm}
+	\caption{segToLine(a, b)}
+	\label{Modele pour un algo}
+	\begin{algorithmic} [5]
+	\REQUIRE Deux points a et b de coordonnées ($x_{a}$, $y_{a}$) et ($x_{b}$, $y_{b}$) 
+	\ENSURE Une droite D dans $R^2$ représentée par le triplet $a_d$, $b_D$, $c_D$ tel que D est défini par $a_D$ $\times$ x + $b_D$ $\times$ y + $c_D$ = 0 passant par les points a et b
+	\STATE Récupération des coordonnées des points
+	\STATE vecNorm <- vecNorm(a, b)
+	\IF {$a_{n}$ = 0 And $b_{n}$ = 0}
+	\STATE Retourner Null
+	\ELSE 
+	\STATE c <- - $a_{n}$ $\times$ $x_{a}$ - $b_{n}$ $\times$ $y_{a}$
+	\STATE D <- [$a_{n}$, $b_{n}$, c]
+	\STATE Retourner D
+	\ENDIF
+	\end{algorithmic}
+	\end{algorithm}
+	
+	\begin{algorithm}
+	\caption{intersection(D1, D2}
+	\label{Modele pour un algo}
+	\begin{algorithmic} [6]
+	\REQUIRE Deux droites D1 et D2 sécantes dans $R^2$ représentée par le triplet ($a_{D}$, $b_{D}$, $c_{D}$) tel que D est défini par $a_{D}$ $\times$ x + $b_{D}$ $\times$ y + $c_{D}$ = 0 
+	\ENSURE Le point p d’intersection des deux droites.
+	\STATE Récupération des triplets des droites.
+	\STATE $n_{1}$ <- $b_{D1}$ $\times$ $c_{D2}$ - $b_{D2}$ $\times$ $c_{D1}$
+	\STATE $n_{2}$ <- $a_{D2}$ $\times$ $c_{D1}$ - $a_{D1}$ $\times$ $c_{D2}$
+	\STATE d <- $a_{D2}$ $\times$ $b_{D1}$ - $a_{D1}$ $\times$ $b_{D2}$
+	\STATE $x_{p}$ <- $n_{1}$ / d
+	\STATE $y_{p}$ <- $n_{2}$ / d
+	\STATE p = [$x_{p}$, $y_{p}$]
+	\STATE Retourner p
+	\end{algorithmic}
+	\end{algorithm}
+	
+	
+	\begin{algorithm}
+	\caption{listeChainéeRecherche(L, a, b}
+	\label{Modele pour un algo}
+	\begin{algorithmic} [7]
+	\REQUIRE Une liste chainée L non triée contenant des segments, un point a et un point b de coordonnées ( $x_{a}$, $y_{a}$) et ($x_{b}$, $y_{b}$) . Notons f et g les
+	éxtrémités d'un segment contenu dans L dont les coordonnées sont  ($x_{f}$, $y_{f}$) et ($x_{g}$, $y_{g})$. On suppose que deux points sont égaux si leurs
+	coordonnées sont égales
+	\ENSURE Un booléen vrai si le segment d'extrémité (a, b) est dans L , faux sinon
+	\STATE Récupération des coordonnées des points a et b
+	\FOR{chaque segment s dans L}
+	\IF{a = $f_s$ et b = $g_s$
+	\STATE Retourner Vrai
+	\ENDIF
+	\ENDFOR
 	\end{algorithmic}
 	\end{algorithm}
 			
