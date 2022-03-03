@@ -6,7 +6,7 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
-public class MainApp extends Application{
+public class TestInteractive extends Application{
 
     public void start(Stage stage) {
         String javaVersion = System.getProperty("java.version");
