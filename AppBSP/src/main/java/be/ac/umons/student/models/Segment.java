@@ -1,38 +1,52 @@
 package be.ac.umons.student.models;
 
+import java.awt.Color;
+
 public class Segment {
 
+    private static final Color DEFAULT_COLOR = Color.BLACK;
+
     private final Point a, b;
-    private final double length;
+    private final Color color;
+
+    public Segment(Point a, Point b, Color color) {
+        this.a = a;
+        this.b = b;
+        this.color = color;
+    }
 
     public Segment(Point a, Point b) {
         this.a = a;
         this.b = b;
-        this.length = length(a, b);
+        this.color = DEFAULT_COLOR;
+    }
+
+    /**
+     * Retourne la droite correspondante au segment.
+     *
+     * @return la droite correspondante au segment.
+     */
+    public Line toLine() {
+        return new Line(this.a, this.b);
+    }
+
+    /**
+     * Retourne un tableau de deux segments correspondant au partitionnement du segment en deux à partir <u>d'un point du segment</u>.
+     *
+     * @param point le point appartenant au segment.
+     * @return le tableau de deux segments.
+     */
+    public Segment[] split(Point point) {
+        return new Segment[]{new Segment(this.a, point, this.color), new Segment(point, this.b, this.color)};
     }
 
     /**
      * Retourne la longueur d'un segment à partir de ses extrémités.
      *
-     * @param a la première extrémité du segment.
-     * @param b la seconde extrémité du segment.
-     * @return la longueur du segment d'extrémités a et b.
+     * @return la longueur du segment.
      */
-    public static double length(Point a, Point b) {
-        return Math.sqrt(Math.pow(b.getX() - a.getX(), 2) + Math.pow(b.getY() - a.getY(), 2));
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Segment segment = (Segment) o;
-        double epsilon = 0.000001d;
-
-        if (Math.abs(segment.length - length) > epsilon) return false;
-        if (!a.equals(segment.a)) return false;
-        return b.equals(segment.b);
+    public double length() {
+        return Math.sqrt(Math.pow(this.b.getX() - this.a.getX(), 2) + Math.pow(this.b.getY() - this.a.getY(), 2));
     }
 
     public Point getA() {
@@ -43,7 +57,28 @@ public class Segment {
         return b;
     }
 
-    public double getLength() {
-        return length;
+    public Color getColor() {
+        return color;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Segment segment = (Segment) o;
+
+        if (!a.equals(segment.a)) return false;
+        if (!b.equals(segment.b)) return false;
+        return color.equals(segment.color);
+    }
+
+    @Override
+    public String toString() {
+        return "Segment@" + Integer.toHexString(hashCode()) + "{" +
+                "a=" + a +
+                ", b=" + b +
+                ", color=" + color +
+                '}';
     }
 }

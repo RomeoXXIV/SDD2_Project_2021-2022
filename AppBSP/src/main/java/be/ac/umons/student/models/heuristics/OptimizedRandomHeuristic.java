@@ -4,12 +4,13 @@ import be.ac.umons.student.models.Segment;
 
 import java.util.ArrayList;
 
-public class TWNBHeuristic implements HeuristicSelector{
+public class OptimizedRandomHeuristic implements HeuristicSelector{
     @Override
     public Segment selectSegment(ArrayList<Segment> segments) {
         //TODO à implémenter
+        /*int length = segments.size();
+        Boolean [] rightEndPoint = new Boolean[length];
+        Boolean [] leftEndPoint = new Boolean[length];*/
         return segments.get(0);
     }
-    /*d éterminer la droite d qui supporte le segment s;
-    evaluer la “qualit ́e” de d selon les crit`eres de l’heuristique.*/
 }

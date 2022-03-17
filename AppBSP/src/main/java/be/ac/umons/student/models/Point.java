@@ -9,6 +9,14 @@ public class Point {
         this.y = y;
     }
 
+    public double getX() {
+        return x;
+    }
+
+    public double getY() {
+        return y;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -21,11 +29,11 @@ public class Point {
         return Math.abs(point.y - y) < epsilon;
     }
 
-    public double getX() {
-        return x;
-    }
-
-    public double getY() {
-        return y;
+    @Override
+    public String toString() {
+        return "Point@" + Integer.toHexString(hashCode()) + "{" +
+                "x=" + x +
+                ", y=" + y +
+                '}';
     }
 }

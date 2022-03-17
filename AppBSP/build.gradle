@@ -29,4 +29,11 @@ javafx {
     modules = [ 'javafx.controls', 'javafx.fxml' ]
 }
 
-mainClassName = 'be.ac.umons.student.MainApp'
+mainClassName = 'be.ac.umons.student.TestInteractive'
+
+task runConsole (type : JavaExec) {
+    description = "Run the application's console program"
+    classpath = sourceSets.main.runtimeClasspath
+    standardInput = System.in
+    main = 'be.ac.umons.student.TestConsole'
+}
