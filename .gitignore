@@ -79,6 +79,7 @@ hs_err_pid*
 #For Java/IntelliJ/gradle
 # From https://github.com/github/gitignore/blob/master/Gradle.gitignore
 .gradle
+.idea
 /build/
 
 # Ignore Gradle GUI config
