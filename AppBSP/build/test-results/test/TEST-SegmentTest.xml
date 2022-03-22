@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="SegmentTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2022-03-18T17:32:30" hostname="mbp-de-romeo.umons.ac.be" time="0.018">
+  <properties/>
+  <testcase name="test_length()" classname="SegmentTest" time="0.015"/>
+  <testcase name="test_toLine()" classname="SegmentTest" time="0.001"/>
+  <testcase name="test_split()" classname="SegmentTest" time="0.0"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
