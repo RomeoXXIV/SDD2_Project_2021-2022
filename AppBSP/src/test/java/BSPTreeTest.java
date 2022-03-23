@@ -15,21 +15,40 @@ public class BSPTreeTest {
     BSPTree bspTree = new BSPTree(segmentArrayList, heuristic);
 
     @Test
+    /**
+     * hauteur 0
+     * hauteur 1
+     * hauteur n
+     */
     public void test_height() {
+        
         // TODO
     }
 
     @Test
+    /**
+     * size 0
+     * size 1
+     * size n
+     */
     public void test_size() {
         // TODO
     }
 
     @Test
+    /**
+     * true
+     * false
+     */
     public void test_isLeaf() {
         // TODO
     }
 
     @Test
+    /**
+     * true
+     * false
+     */
     public void test_isEmpty() {
         // TODO
     }
