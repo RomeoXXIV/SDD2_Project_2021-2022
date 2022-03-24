@@ -60,12 +60,45 @@ public class BSPTree {
     }
 
     /**
+     * Retourne la hauteur de l'arbre.
+     *
+     * @return la hauteur de l'arbre.
+     */
+    public int height() {
+        if (this.isLeaf())
+            return 1;
+        else
+            return 1 + Math.max(left.height(), right.height());
+    }
+
+    /**
+     * Retourne la taille de l'arbre.
+     *
+     * @return la taille de l'arbre.
+     */
+    public int size() {
+        if (this.isLeaf())
+            return 1;
+        else
+            return 1 + this.left.size() + this.right.size();
+    }
+
+    /**
+     * Retourne true si l'arbre est réduit à une feuille.
+     *
+     * @return true si l'arbre est réduit à une feuille, false sinon.
+     */
+    public boolean isLeaf() {
+        return this.segments.size() <= 1 && this.left.isEmpty() && this.right.isEmpty();
+    }
+
+    /**
      * Retourne true si l'arbre est vide.
      *
      * @return true si l'arbre est vide, false sinon.
      */
     public boolean isEmpty() {
-        return this.segments == null && this.split == null && this.left == null && this.right == null;
+        return this.segments == null && this.split == null && this.left == null && this.right == null && this.heuristic == null;
     }
 
     public ArrayList<Segment> getSegments() {
