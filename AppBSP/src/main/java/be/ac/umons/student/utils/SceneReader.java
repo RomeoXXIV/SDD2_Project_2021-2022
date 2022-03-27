@@ -1,6 +1,6 @@
 package be.ac.umons.student.utils;
 import javax.naming.directory.InvalidAttributesException;
-import java.awt.*;
+import java.awt.Color;
 import java.io.*;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ public class SceneReader {
         this.sceneLength = 0;
         this.sceneHeight = 0;
         this.numbOfSegment = 0;
-        this.segmentList = null;
+        this.segmentList = new ArrayList<Segment>();
     }
 
     public int getSceneLength(){return this.sceneLength;}
@@ -47,8 +47,8 @@ public class SceneReader {
                 throw new InvalidAttributesException("The selected file doesn't have the format of a Scene");
             }
             while(scan.hasNext()){
-                Point x = new Point(scan.nextDouble(), scan.nextDouble());
-                Point y = new Point(scan.nextDouble(), scan.nextDouble());
+                Point x = new Point(Double.parseDouble(scan.next()), Double.parseDouble(scan.next()));
+                Point y = new Point(Double.parseDouble(scan.next()), Double.parseDouble(scan.next()));
                 Color color = stringToColor(scan.next());
                 Segment segment = new Segment(x, y, color);
                 this.segmentList.add(segment);
