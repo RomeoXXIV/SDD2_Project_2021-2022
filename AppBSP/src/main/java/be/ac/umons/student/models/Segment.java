@@ -37,7 +37,18 @@ public class Segment {
      * @return le tableau de deux segments.
      */
     public Segment[] split(Point point) {
-        return new Segment[]{new Segment(this.a, point, this.color), new Segment(point, this.b, this.color)};
+        Segment firstSegment = new Segment(this.a, point, this.color);
+        Segment secondSegment = new Segment(point, this.b, this.color);
+        return new Segment[] {firstSegment, secondSegment};
+    }
+
+    /**
+     * Retourne true si le segment est un point, c-à-d qu'il ne possède pas deux extrémités distinctes.
+     *
+     * @return true si le segment est un point, false sinon.
+     */
+    public Boolean isPoint() {
+        return this.length() == 0.;
     }
 
     /**

@@ -20,17 +20,17 @@ public class LineTest {
     }
 
     @Test
-    public void test_inOpenNegativeHalfSpace() {
+    public void test_containsInOpenNegativeHalfSpace() {
         Point pointInOpenNegativeHalfSpace = new Point(0, -0.00001);
-        assertFalse(xLine.inOpenNegativeHalfSpace(origin));
-        assertTrue(xLine.inOpenNegativeHalfSpace(pointInOpenNegativeHalfSpace));
+        assertFalse(xLine.containsInOpenNegativeHalfSpace(origin));
+        assertTrue(xLine.containsInOpenNegativeHalfSpace(pointInOpenNegativeHalfSpace));
     }
 
     @Test
-    public void test_isContained() {
+    public void test_contains() {
         Point pointJustInXLine = new Point(1, 0);
-        assertTrue(xLine.isContained(pointJustInXLine));
-        assertFalse(yLine.isContained(pointJustInXLine));
+        assertTrue(xLine.contains(pointJustInXLine));
+        assertFalse(yLine.contains(pointJustInXLine));
     }
 
     @Test

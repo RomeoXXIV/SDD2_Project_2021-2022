@@ -3,7 +3,7 @@ import be.ac.umons.student.models.Point;
 import be.ac.umons.student.models.Segment;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SegmentTest {
 
@@ -50,6 +50,12 @@ public class SegmentTest {
         assertEquals(expectedSplitSegmentOriginA[1], splitSegmentOriginA[1]);
         assertEquals(expectedSplitSegmentAB[0], splitSegmentAB[0]);
         assertEquals(expectedSplitSegmentAB[1], splitSegmentAB[1]);
+    }
+
+    @Test
+    public void test_isPoint() {
+        assertTrue(s_o.isPoint());
+        assertFalse(s_ab.isPoint());
     }
 
     @Test

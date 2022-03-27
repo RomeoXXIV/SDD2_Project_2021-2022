@@ -54,8 +54,8 @@ public class Line {
      * @param segment le segment.
      * @return true si le segment se trouve dans le demi-espace négatif ouvert, false sinon.
      */
-    public Boolean inOpenNegativeHalfSpace(Segment segment) {
-        return this.inOpenNegativeHalfSpace(segment.getA()) && this.inOpenNegativeHalfSpace(segment.getB());
+    public Boolean containsInOpenNegativeHalfSpace(Segment segment) {
+        return this.containsInOpenNegativeHalfSpace(segment.getA()) && this.containsInOpenNegativeHalfSpace(segment.getB());
     }
 
     /**
@@ -64,8 +64,28 @@ public class Line {
      * @param point le point.
      * @return true si le point se trouve dans le demi-espace négatif ouvert, false sinon.
      */
-    public Boolean inOpenNegativeHalfSpace(Point point) {
+    public Boolean containsInOpenNegativeHalfSpace(Point point) {
         return this.alpha * point.getX() + this.beta * point.getY() + this.gamma < 0;
+    }
+
+    /**
+     * Retourne true si le segment se trouve dans le demi-espace positif ouvert par rapport à la droite.
+     *
+     * @param segment le segment.
+     * @return true si le segment se trouve dans le demi-espace positif ouvert, false sinon.
+     */
+    public Boolean containsInOpenPositiveHalfSpace(Segment segment) {
+        return this.containsInOpenPositiveHalfSpace(segment.getA()) && this.containsInOpenPositiveHalfSpace(segment.getB());
+    }
+
+    /**
+     * Retourne true si le point se trouve dans le demi-espace positif ouvert par rapport à la droite.
+     *
+     * @param point le point.
+     * @return true si le point se trouve dans le demi-espace positif ouvert, false sinon.
+     */
+    public Boolean containsInOpenPositiveHalfSpace(Point point) {
+        return this.alpha * point.getX() + this.beta * point.getY() + this.gamma > 0;
     }
 
     /**
@@ -74,10 +94,10 @@ public class Line {
      * @param segments une liste de segments.
      * @return la liste de segments confondus à la droite.
      */
-    public ArrayList<Segment> contains(ArrayList<Segment> segments) {
+    public ArrayList<Segment> getContentSegments(ArrayList<Segment> segments) {
         ArrayList<Segment> segmentsInLine = new ArrayList<>();
         for (Segment segment: segments)
-            if (this.isContained(segment))
+            if (this.contains(segment))
                 segmentsInLine.add(segment);
         return segmentsInLine;
     }
@@ -88,8 +108,8 @@ public class Line {
      * @param segment le segment.
      * @return true si le segment appartient à la droite, false sinon.
      */
-    public Boolean isContained(Segment segment) {
-        return this.isContained(segment.getA()) && this.isContained(segment.getB());
+    public Boolean contains(Segment segment) {
+        return this.contains(segment.getA()) && this.contains(segment.getB());
     }
 
     /**
@@ -98,7 +118,7 @@ public class Line {
      * @param point le point.
      * @return true si le point appartient à la droite, false sinon.
      */
-    public Boolean isContained(Point point) {
+    public Boolean contains(Point point) {
         double epsilon = 0.000001d;
         return Math.abs(this.alpha * point.getX() + this.beta * point.getY() + this.gamma) < epsilon;
     }
