@@ -11,25 +11,14 @@ import be.ac.umons.student.models.Point;
 import be.ac.umons.student.models.Segment;
 
 public class SceneReader {
-    private int sceneLength;
-    private int sceneHeight;
-    private int numbOfSegment;
     private ArrayList<Segment> segmentList;
     public static final Color BROWN = new Color(102,51,0);
 
 
-    public SceneReader(){
-        this.sceneLength = 0;
-        this.sceneHeight = 0;
-        this.numbOfSegment = 0;
+    public SceneReader(String fileDirectory) throws InvalidAttributesException, FileNotFoundException {
         this.segmentList = new ArrayList<Segment>();
+        this.read(fileDirectory);
     }
-
-    public int getSceneLength(){return this.sceneLength;}
-
-    public int getSceneHeight(){return this.sceneHeight;}
-
-    public int getNumbOfSegment(){return this.numbOfSegment;}
 
     public ArrayList<Segment> getSegmentList() {return segmentList;}
 
@@ -39,9 +28,9 @@ public class SceneReader {
         try(Scanner scan = new Scanner(scene)){
             if(scan.hasNextLine()){
                 scan.next();
-                this.sceneLength = scan.nextInt();
-                this.sceneHeight = scan.nextInt();
-                this.numbOfSegment = scan.nextInt();
+                scan.nextInt();
+                scan.nextInt();
+                scan.nextInt();
             }
             else{
                 throw new InvalidAttributesException("The selected file doesn't have the format of a Scene");
