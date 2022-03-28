@@ -28,7 +28,7 @@ public class TestConsole {
     }
     //TODO : Path pour le fichier.
     public static void main(String[] args) throws InvalidAttributesException, FileNotFoundException {
-        System.out.println("Pour ce test dans la console, nous utilisons le fichier ellipsesLarge.txt");
+        System.out.println("Pour ce test dans la console, nous utilisons le fichier randomHuge.txt");
         SceneReader sr = new SceneReader();
         sr.read("randomHuge.txt");
         int numbOfSeg = sr.getNumbOfSegment();
