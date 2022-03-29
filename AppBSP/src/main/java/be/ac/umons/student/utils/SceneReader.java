@@ -1,62 +1,86 @@
 package be.ac.umons.student.utils;
-import javax.naming.directory.InvalidAttributesException;
+
 import java.awt.Color;
 import java.io.*;
-import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Scanner;
 
 import be.ac.umons.student.models.Point;
 import be.ac.umons.student.models.Segment;
 
 public class SceneReader {
-    private ArrayList<Segment> segmentList;
+
     public static final Color BROWN = new Color(102,51,0);
 
+    private final ArrayList<Segment> segments;
+    private int xAxisLimit;
+    private int yAxisLimit;
+    private int segmentsSize;
 
-    public SceneReader(String fileDirectory) throws InvalidAttributesException, FileNotFoundException {
-        this.segmentList = new ArrayList<Segment>();
-        this.read(fileDirectory);
+    public SceneReader(String pathFile) {
+        this.segments = new ArrayList<>();
+        this.readSceneFile(pathFile);
     }
 
-    public ArrayList<Segment> getSegmentList() {return segmentList;}
-
-    public void read(String fileDirectory) throws FileNotFoundException, InvalidAttributesException{
-        fileDirectory = Paths.get(fileDirectory).toString();
-        File scene = new File(fileDirectory);
-        try(Scanner scan = new Scanner(scene)){
-            if(scan.hasNextLine()){
-                scan.next();
-                scan.nextInt();
-                scan.nextInt();
-                scan.nextInt();
+    public void readSceneFile(String pathFile) {
+        try {
+            File sceneFile = new File(pathFile);
+            try (Scanner sc = new Scanner(sceneFile)) {
+                sc.next();
+                this.xAxisLimit = sc.nextInt();
+                this.yAxisLimit = sc.nextInt();
+                this.segmentsSize = sc.nextInt();
+                while (sc.hasNext()) {
+                    Point x = new Point(Double.parseDouble(sc.next()), Double.parseDouble(sc.next()));
+                    Point y = new Point(Double.parseDouble(sc.next()), Double.parseDouble(sc.next()));
+                    Color color = stringToColor(sc.next());
+                    this.segments.add(new Segment(x, y, color));
+                }
             }
-            else{
-                throw new InvalidAttributesException("The selected file doesn't have the format of a Scene");
-            }
-            while(scan.hasNext()){
-                Point x = new Point(Double.parseDouble(scan.next()), Double.parseDouble(scan.next()));
-                Point y = new Point(Double.parseDouble(scan.next()), Double.parseDouble(scan.next()));
-                Color color = stringToColor(scan.next());
-                Segment segment = new Segment(x, y, color);
-                this.segmentList.add(segment);
-            }
+        }
+        catch (FileNotFoundException e) {
+            System.out.println("Exception : \"" + e.getMessage() + "\"");
         }
     }
 
-
     public Color stringToColor(String color){
-        if(Objects.equals(color, "Rouge")){return Color.RED;}
-        else if(Objects.equals(color, "Bleu")){return Color.BLUE;}
-        else if(Objects.equals(color, "Gris")){return Color.GRAY;}
-        else if(Objects.equals(color, "Vert")){return Color.GREEN;}
-        else if(Objects.equals(color, "Orange")){return Color.ORANGE;}
-        else if(Objects.equals(color, "Violet")){return Color.MAGENTA;}
-        else if(Objects.equals(color, "Jaune")){return Color.YELLOW;}
-        else if(Objects.equals(color, "Noir")){return Color.BLACK;}
-        else if(Objects.equals(color, "Rose")){return Color.PINK;}
-        else if(Objects.equals(color, "Marron")){return BROWN;}
-        else{return Color.BLACK;}
+        switch (color) {
+            case "Rouge":
+                return Color.RED;
+            case "Bleu":
+                return Color.BLUE;
+            case "Gris":
+                return Color.GRAY;
+            case "Vert":
+                return Color.GREEN;
+            case "Orange":
+                return Color.ORANGE;
+            case "Violet":
+                return Color.MAGENTA;
+            case "Jaune":
+                return Color.YELLOW;
+            case "Rose":
+                return Color.PINK;
+            case "Marron":
+                return BROWN;
+            default:
+                return Color.BLACK;
+        }
+    }
+
+    public ArrayList<Segment> getSegments() {
+        return segments;
+    }
+
+    public int getxAxisLimit() {
+        return xAxisLimit;
+    }
+
+    public int getyAxisLimit() {
+        return yAxisLimit;
+    }
+
+    public int getSegmentsSize() {
+        return segmentsSize;
     }
 }
