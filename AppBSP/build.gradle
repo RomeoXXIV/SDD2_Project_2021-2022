@@ -35,5 +35,6 @@ task runConsole (type : JavaExec) {
     description = "Run the application's console program"
     classpath = sourceSets.main.runtimeClasspath
     standardInput = System.in
+    jvmArgs '-Xss3m'
     main = 'be.ac.umons.student.TestConsole'
 }

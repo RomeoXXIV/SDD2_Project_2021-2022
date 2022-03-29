@@ -32,7 +32,6 @@ public class TestConsole {
     private final static String pathRandomLarge = "../Scenes/random/randomLarge.txt";
     private final static String pathRandomMedium = "../Scenes/random/randomMedium.txt";
     private final static String pathRandomSmall = "../Scenes/random/randomSmall.txt";
-    private final static String pathRectangle = "../Scenes/rectangles/rectangles.txt";
 
     private final static String pathRectangleHuge = "../Scenes/rectangles/rectanglesHuge.txt";
     private final static String pathRectangleLarge = "../Scenes/rectangles/rectanglesLarge.txt";
@@ -49,16 +48,15 @@ public class TestConsole {
         System.out.println("+----------------------+----------+--------+----------------+------------------+");
         System.out.printf("| %-20s | %8s | %6s | %14s | %15s |\n","Heuristic","Size","Height","Build CPU Time","Painter CPU Time");
         System.out.println("+----------------------+----------+--------+----------------+------------------+");
-        System.out.printf("| %-20s | %8d | %6d | %14d | %15s |\n",heuristic.toString(), tree.size(), tree.height(), randomTimeElapsed.toMillis(),"Painter CPU Time");
+        System.out.printf("| %-20s | %8d | %6d | %11d ms | %13s ms |\n",heuristic.toString(), tree.size(), tree.height(), randomTimeElapsed.toMillis(),"CPU Time");
         System.out.println("+----------------------+----------+--------+----------------+------------------+");
 
     }
 
     public static void main(String[] args) {
-        SceneReader sceneReader = new SceneReader(pathEllipsesLarge);
+        SceneReader sceneReader = new SceneReader(pathRandomHuge);
         ArrayList<Segment> segmentArrayList = sceneReader.getSegments();
-        System.out.println(segmentArrayList.size());
-        //printDetails(segmentArrayList, randomHeuristic);
+        printDetails(segmentArrayList, randomHeuristic);
         printDetails(segmentArrayList, standardHeuristic);
     }
 }
