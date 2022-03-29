@@ -13,4 +13,9 @@ public class OptimizedRandomHeuristic implements HeuristicSelector{
         Boolean [] leftEndPoint = new Boolean[length];*/
         return segments.get(0);
     }
+
+    @Override
+    public String toString() {
+        return "OptimizedRandomHeuristic";
+    }
 }

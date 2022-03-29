@@ -23,7 +23,7 @@ public class Point {
         if (o == null || getClass() != o.getClass()) return false;
 
         Point point = (Point) o;
-        double epsilon = 0.000001d;
+        double epsilon = 0.0001;
 
         if (Math.abs(point.x - x) > epsilon) return false;
         return Math.abs(point.y - y) < epsilon;

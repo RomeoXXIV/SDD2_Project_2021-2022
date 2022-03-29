@@ -10,4 +10,9 @@ public class RandomHeuristic implements HeuristicSelector{
     public Segment selectSegment(ArrayList<Segment> segments) {
         return segments.get(new Random().nextInt(segments.size()));
     }
+
+    @Override
+    public String toString() {
+        return "RandomHeuristic";
+    }
 }

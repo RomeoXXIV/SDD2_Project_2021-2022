@@ -73,7 +73,7 @@ public class Vector {
         if (o == null || getClass() != o.getClass()) return false;
 
         Vector vector = (Vector) o;
-        double epsilon = 0.000001d;
+        double epsilon = 0.0001;
 
         if (Math.abs(vector.x - x) > epsilon) return false;
         return Math.abs(vector.y - y) < epsilon;

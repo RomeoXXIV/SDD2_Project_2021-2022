@@ -12,4 +12,9 @@ public class TWNBHeuristic implements HeuristicSelector{
     }
     /*d éterminer la droite d qui supporte le segment s;
     evaluer la “qualit ́e” de d selon les crit`eres de l’heuristique.*/
+
+    @Override
+    public String toString() {
+        return "TWNBHeuristic";
+    }
 }

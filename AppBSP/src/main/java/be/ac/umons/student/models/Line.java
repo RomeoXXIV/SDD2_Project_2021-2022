@@ -119,7 +119,7 @@ public class Line {
      * @return true si le point appartient à la droite, false sinon.
      */
     public Boolean contains(Point point) {
-        double epsilon = 0.000001d;
+        double epsilon = 0.0001;
         return Math.abs(this.alpha * point.getX() + this.beta * point.getY() + this.gamma) < epsilon;
     }
 
@@ -168,7 +168,7 @@ public class Line {
         if (o == null || getClass() != o.getClass()) return false;
 
         Line line = (Line) o;
-        double epsilon = 0.000001d;
+        double epsilon = 0.0001;
 
         if(Math.abs(gamma - 0) < epsilon && Math.abs(line.gamma - 0) < epsilon) {
             return ((Math.abs(line.alpha - alpha) < epsilon) && (Math.abs(line.beta - beta) < epsilon))

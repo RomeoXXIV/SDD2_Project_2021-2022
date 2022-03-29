@@ -9,4 +9,9 @@ public class StandardHeuristic implements HeuristicSelector{
     public Segment selectSegment(ArrayList<Segment> segments) {
         return segments.get(0);
     }
+
+    @Override
+    public String toString() {
+        return "StandardHeuristic";
+    }
 }

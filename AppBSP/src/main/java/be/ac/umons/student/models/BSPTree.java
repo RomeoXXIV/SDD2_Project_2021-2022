@@ -6,6 +6,8 @@ import java.util.ArrayList;
 
 public class BSPTree {
 
+    private static int cpt = 0;
+
     private final ArrayList<Segment> segments;
     private Line split;
     private BSPTree left, right;
@@ -18,7 +20,12 @@ public class BSPTree {
     }
 
     public BSPTree(ArrayList<Segment> segmentArrayList, HeuristicSelector heuristic) {
-        if (segmentArrayList.size() <= 1) this.segments = segmentArrayList;
+        System.out.println(segmentArrayList.size());
+        if (segmentArrayList.size() <= 1) {
+            cpt++;
+            System.out.println("compteur cdb : " + cpt);
+            this.segments = segmentArrayList;
+        }
         else {
             this.segments = new ArrayList<>();
             Segment selectSegment = heuristic.selectSegment(segmentArrayList);
@@ -29,6 +36,11 @@ public class BSPTree {
             SegmentDistribution segmentDistribution = new SegmentDistribution(segmentArrayList, split);
             ArrayList<Segment> segmentsForLeft = segmentDistribution.getSegmentsInOpenNegativeHalfSpace();
             ArrayList<Segment> segmentsForRight = segmentDistribution.getSegmentsInOpenPositiveHalfSpace();
+            cpt++;
+            System.out.println("compteur : " + cpt);
+            System.out.println("segments : " + segments.size());
+            System.out.println("segmentsForRight : " + segmentsForRight.size());
+            System.out.println("segmentsForLeft : " + segmentsForLeft.size());
             this.left = new BSPTree(segmentsForLeft, heuristic);
             this.right = new BSPTree(segmentsForRight, heuristic);
         }
