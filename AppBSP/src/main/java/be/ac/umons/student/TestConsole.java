@@ -2,6 +2,9 @@ package be.ac.umons.student;
 
 import be.ac.umons.student.models.*;
 import be.ac.umons.student.models.heuristics.*;
+import be.ac.umons.student.models.painter.Paintable;
+import be.ac.umons.student.models.painter.Painter;
+import be.ac.umons.student.models.painter.PainterConsole;
 import be.ac.umons.student.utils.SceneReader;
 
 import java.time.Duration;
@@ -14,6 +17,8 @@ public class TestConsole {
     private final static HeuristicSelector standardHeuristic = new StandardHeuristic();
     private final static HeuristicSelector twnbHeuristic = new TWNBHeuristic();
     private final static HeuristicSelector optimizedRandomHeuristic = new OptimizedRandomHeuristic();
+
+    private final static Paintable painterConsole = new PainterConsole();
 
     private final static String pathEllipsesLarge = "../Scenes/ellipses/ellipsesLarge.txt";
     private final static String pathEllipsesMedium = "../Scenes/ellipses/ellipsesMedium.txt";
@@ -33,14 +38,19 @@ public class TestConsole {
     private final static String pathRectangleSmall = "../Scenes/rectangles/rectanglesSmall.txt";
 
     public static void printDetails(ArrayList<Segment> segmentList, HeuristicSelector heuristic) {
-        Instant start = Instant.now();
-        BSPTree tree = new BSPTree(segmentList, heuristic);
-        Instant stop = Instant.now();
-        Duration randomTimeElapsed = Duration.between(start, stop);
+        Instant buildStart = Instant.now();
+        BSPTree bspTree = new BSPTree(segmentList, heuristic);
+        Instant buildStop = Instant.now();
+        Duration randomElapsedTimeForBuilding = Duration.between(buildStart, buildStop);
+        Instant painterStart = Instant.now();
+        new Painter(bspTree, painterConsole);
+        Instant painterStop = Instant.now();
+        Duration randomElapsedTimeForPainter = Duration.between(painterStart, painterStop);
         System.out.println("+----------------------+----------+--------+----------------+------------------+");
         System.out.printf("| %-20s | %8s | %6s | %14s | %15s |\n","Heuristic","Size","Height","Build CPU Time","Painter CPU Time");
         System.out.println("+----------------------+----------+--------+----------------+------------------+");
-        System.out.printf("| %-20s | %8d | %6d | %11d ms | %13s ms |\n",heuristic.toString(), tree.size(), tree.height(), randomTimeElapsed.toMillis(),"CPU Time");
+        System.out.printf("| %-20s | %8d | %6d | %11d ms | %13s ms |\n",heuristic.toString(), bspTree.size(),
+                bspTree.height(), randomElapsedTimeForBuilding.toMillis(), randomElapsedTimeForPainter.toMillis());
         System.out.println("+----------------------+----------+--------+----------------+------------------+");
     }
 
