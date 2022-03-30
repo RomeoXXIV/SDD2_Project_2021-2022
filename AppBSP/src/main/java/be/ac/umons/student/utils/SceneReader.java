@@ -13,6 +13,7 @@ public class SceneReader {
     public static final Color BROWN = new Color(102,51,0);
 
     private final ArrayList<Segment> segments;
+    private String fileName;
     private int xAxisLimit;
     private int yAxisLimit;
     private int segmentsSize;
@@ -25,6 +26,7 @@ public class SceneReader {
     public void readSceneFile(String pathFile) {
         try {
             File sceneFile = new File(pathFile);
+            this.fileName = sceneFile.getName();
             try (Scanner sc = new Scanner(sceneFile)) {
                 sc.next();
                 this.xAxisLimit = sc.nextInt();
@@ -72,6 +74,10 @@ public class SceneReader {
         return segments;
     }
 
+    public String getFileName() {
+        return fileName;
+    }
+
     public int getxAxisLimit() {
         return xAxisLimit;
     }
@@ -82,5 +88,15 @@ public class SceneReader {
 
     public int getSegmentsSize() {
         return segmentsSize;
+    }
+
+    @Override
+    public String toString() {
+        return "SceneReader{" +
+                "fileName='" + fileName + '\'' +
+                ", xAxisLimit=" + xAxisLimit +
+                ", yAxisLimit=" + yAxisLimit +
+                ", segmentsSize=" + segmentsSize +
+                '}';
     }
 }

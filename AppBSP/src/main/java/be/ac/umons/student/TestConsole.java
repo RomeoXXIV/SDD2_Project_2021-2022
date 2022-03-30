@@ -1,18 +1,12 @@
 package be.ac.umons.student;
 
-
 import be.ac.umons.student.models.*;
 import be.ac.umons.student.models.heuristics.*;
 import be.ac.umons.student.utils.SceneReader;
 
-import javax.naming.directory.InvalidAttributesException;
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.lang.reflect.Array;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
-
 
 public class TestConsole {
 
@@ -38,9 +32,7 @@ public class TestConsole {
     private final static String pathRectangleMedium = "../Scenes/rectangles/rectanglesMedium.txt";
     private final static String pathRectangleSmall = "../Scenes/rectangles/rectanglesSmall.txt";
 
-
-    public static void printDetails(ArrayList<Segment> segmentList, HeuristicSelector heuristic)
-    {
+    public static void printDetails(ArrayList<Segment> segmentList, HeuristicSelector heuristic) {
         Instant start = Instant.now();
         BSPTree tree = new BSPTree(segmentList, heuristic);
         Instant stop = Instant.now();
@@ -50,13 +42,15 @@ public class TestConsole {
         System.out.println("+----------------------+----------+--------+----------------+------------------+");
         System.out.printf("| %-20s | %8d | %6d | %11d ms | %13s ms |\n",heuristic.toString(), tree.size(), tree.height(), randomTimeElapsed.toMillis(),"CPU Time");
         System.out.println("+----------------------+----------+--------+----------------+------------------+");
-
     }
 
     public static void main(String[] args) {
         SceneReader sceneReader = new SceneReader(pathRandomHuge);
+        System.out.println(sceneReader);
         ArrayList<Segment> segmentArrayList = sceneReader.getSegments();
         printDetails(segmentArrayList, randomHeuristic);
         printDetails(segmentArrayList, standardHeuristic);
+        //printDetails(segmentArrayList, twnbHeuristic);
+        //printDetails(segmentArrayList, optimizedRandomHeuristic);
     }
 }
