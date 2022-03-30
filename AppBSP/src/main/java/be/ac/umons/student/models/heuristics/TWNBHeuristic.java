@@ -4,7 +4,7 @@ import be.ac.umons.student.models.Segment;
 
 import java.util.ArrayList;
 
-public class TWNBHeuristic implements HeuristicSelector{
+public class TWNBHeuristic implements HeuristicSelector {
     @Override
     public Segment selectSegment(ArrayList<Segment> segments) {
         //TODO à implémenter
