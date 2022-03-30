@@ -4,26 +4,29 @@ import java.util.ArrayList;
 
 public class Painter {
 
+    private final ArrayList<Segment> segments;
+
     public Painter(BSPTree bspTree, Point viewPoint) {
+        segments = new ArrayList<>();
         if (bspTree.isLeaf())
-            scanConvert(bspTree.getSegments());
+            segments.addAll(bspTree.getSegments());
         else if (bspTree.getSplit().containsInOpenPositiveHalfSpace(viewPoint)) {
-            new Painter(bspTree.getLeft(), viewPoint);
-            scanConvert(bspTree.getSegments());
-            new Painter(bspTree.getRight(), viewPoint);
+            segments.addAll(new Painter(bspTree.getLeft(), viewPoint).getSegments());
+            segments.addAll(bspTree.getSegments());
+            segments.addAll(new Painter(bspTree.getRight(), viewPoint).getSegments());
         }
         else if (bspTree.getSplit().containsInOpenNegativeHalfSpace(viewPoint)) {
-            new Painter(bspTree.getRight(), viewPoint);
-            scanConvert(bspTree.getSegments());
-            new Painter(bspTree.getLeft(), viewPoint);
+            segments.addAll(new Painter(bspTree.getRight(), viewPoint).getSegments());
+            segments.addAll(bspTree.getSegments());
+            segments.addAll(new Painter(bspTree.getLeft(), viewPoint).getSegments());
         }
         else {
-            new Painter(bspTree.getRight(), viewPoint);
-            new Painter(bspTree.getLeft(), viewPoint);
+            segments.addAll(new Painter(bspTree.getRight(), viewPoint).getSegments());
+            segments.addAll(new Painter(bspTree.getLeft(), viewPoint).getSegments());
         }
     }
 
-    public void scanConvert(ArrayList<Segment> segmentArrayList) {
-        //TODO
+    public ArrayList<Segment> getSegments() {
+        return segments;
     }
 }
