@@ -24,25 +24,74 @@ public class SceneReader {
     }
 
     public void readSceneFile(String pathFile) {
-        try {
-            File sceneFile = new File(pathFile);
-            this.fileName = sceneFile.getName();
-            try (Scanner sc = new Scanner(sceneFile)) {
-                sc.next();
-                this.xAxisLimit = sc.nextInt();
-                this.yAxisLimit = sc.nextInt();
-                this.segmentsSize = sc.nextInt();
-                while (sc.hasNext()) {
-                    Point x = new Point(Double.parseDouble(sc.next()), Double.parseDouble(sc.next()));
-                    Point y = new Point(Double.parseDouble(sc.next()), Double.parseDouble(sc.next()));
-                    Color color = stringToColor(sc.next());
-                    this.segments.add(new Segment(x, y, color));
+        if (checkFileConform(pathFile)) {
+            try {
+                File sceneFile = new File(pathFile);
+                this.fileName = sceneFile.getName();
+                try (Scanner sc = new Scanner(sceneFile)) {
+                    sc.next();
+                    this.xAxisLimit = sc.nextInt();
+                    this.yAxisLimit = sc.nextInt();
+                    this.segmentsSize = sc.nextInt();
+                    while (sc.hasNext()) {
+                        Point x = new Point(Double.parseDouble(sc.next()), Double.parseDouble(sc.next()));
+                        Point y = new Point(Double.parseDouble(sc.next()), Double.parseDouble(sc.next()));
+                        Color color = stringToColor(sc.next());
+                        this.segments.add(new Segment(x, y, color));
+                    }
                 }
+            } catch (FileNotFoundException e) {
+                System.out.println("Exception : \"" + e.getMessage() + "\"");
             }
         }
-        catch (FileNotFoundException e) {
+        else{
+            System.out.println("Le Format du Fichier ne correspond pas");
+        }
+    }
+
+
+    public boolean checkFileConform(String pathFile){
+        File file = new File(pathFile);
+        fileName = file.getName();
+        try(Scanner sc = new Scanner(file))
+        {
+            sc.next();
+            try{
+                int xAxis = Integer.parseInt(sc.next());
+                int yAxis = Integer.parseInt(sc.next());
+                int numbOfSegment = Integer.parseInt(sc.next());
+                int count = 0;
+                while(sc.hasNext()){
+                    count++;
+                    for(int i = 0; i < 4; i++){
+                        try{
+                            Double a = Double.parseDouble(sc.next());
+                        }
+                        catch (NumberFormatException e)
+                        {
+                            return false;
+                        }
+                    }
+                    String color = sc.next();
+                    if(!color.equals("Noir") && stringToColor(color) == Color.BLACK)
+                    {
+                        return false;
+                    }
+
+                }
+                if(count != numbOfSegment){
+                    return false;
+                }
+
+            } catch (NumberFormatException e) {
+                return false;
+            }
+        }
+        catch (FileNotFoundException e)
+        {
             System.out.println("Exception : \"" + e.getMessage() + "\"");
         }
+        return true;
     }
 
     public Color stringToColor(String color){
