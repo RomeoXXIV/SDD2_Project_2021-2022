@@ -163,7 +163,7 @@ public class TestConsole {
         ArrayList<Segment> segmentArrayList = sceneReader.getSegments();
         printDetails(segmentArrayList, randomHeuristic);
         printDetails(segmentArrayList, standardHeuristic);
-        //printDetails(segmentArrayList, twnbHeuristic);
+        printDetails(segmentArrayList, twnbHeuristic);
         //printDetails(segmentArrayList, optimizedRandomHeuristic);
         System.out.println("Voulez-vous recommencer?\n1.Oui\n2.Non\nEn cas d'input invalide, l'application s'arretera.");
         Scanner userChoice = new Scanner(System.in);
