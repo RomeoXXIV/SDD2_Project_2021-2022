@@ -69,21 +69,25 @@ public class SceneReader {
                         }
                         catch (NumberFormatException e)
                         {
+                            System.out.println("Ligne " + count + ": Un des 4 'doubles' n'en est pas un.\n");
                             return false;
                         }
                     }
                     String color = sc.next();
                     if(!color.equals("Noir") && stringToColor(color) == Color.BLACK)
                     {
+                        System.out.println("Ligne " + count + ": Presence d'une couleur inconnue.\n");
                         return false;
                     }
 
                 }
                 if(count != numbOfSegment){
+                    System.out.println("Le fichier annonce " + numbOfSegment + " lignes mais n'en contient que " + count + ".\n");
                     return false;
                 }
 
             } catch (NumberFormatException e) {
+                System.out.println("La première ligne contient des elements qui ne sont pas des entiers.\n");
                 return false;
             }
         }
