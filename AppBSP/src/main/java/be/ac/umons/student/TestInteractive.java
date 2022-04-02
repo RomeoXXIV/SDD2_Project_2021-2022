@@ -11,9 +11,9 @@ import java.io.File;
 public class TestInteractive extends Application {
 
     public void start(Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(new File("src/main/resources/fxml/View.fxml").toURI().toURL());
+        Parent layout = FXMLLoader.load(new File("src/main/resources/fxml/View.fxml").toURI().toURL());
 
-        Scene scene = new Scene(root, 640, 480);
+        Scene scene = new Scene(layout);
 
         primaryStage.setTitle("BSP Application");
         primaryStage.setScene(scene);
