@@ -19,6 +19,7 @@ public class TestConsole {
     private final static HeuristicSelector standardHeuristic = new StandardHeuristic();
     private final static HeuristicSelector twnbHeuristic = new TWNBHeuristic();
     private final static HeuristicSelector optimizedRandomHeuristic = new OptimizedRandomHeuristic();
+    private final static HeuristicSelector bonusHeuristic = new BonusHeuristic();
 
     private final static Paintable painterConsole = new PainterConsole();
 
@@ -165,6 +166,7 @@ public class TestConsole {
         printDetails(segmentArrayList, standardHeuristic);
         printDetails(segmentArrayList, twnbHeuristic);
         //printDetails(segmentArrayList, optimizedRandomHeuristic);
+        //printDetails(segmentArrayList, bonusHeuristic);
         System.out.println("Voulez-vous recommencer?\n1.Oui\n2.Non\nEn cas d'input invalide, l'application s'arretera.");
         Scanner userChoice = new Scanner(System.in);
         if (Objects.equals(userChoice.nextLine(), "1")){

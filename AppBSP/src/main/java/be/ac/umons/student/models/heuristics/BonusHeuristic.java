@@ -4,11 +4,10 @@ import be.ac.umons.student.models.Segment;
 import be.ac.umons.student.models.Line;
 import be.ac.umons.student.models.SegmentDistribution;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Random;
 
-public class TWNBHeuristic implements HeuristicSelector {
+public class BonusHeuristic implements HeuristicSelector {
 
 
     @Override
@@ -16,18 +15,20 @@ public class TWNBHeuristic implements HeuristicSelector {
         //TODO à implémenter
         ArrayList<Segment> usedSegments = new ArrayList<>();
         Segment currentSegment = segments.get(new Random().nextInt(segments.size()));
+        ArrayList<Segment> contentCurrentSegment = new ArrayList<>();
+        contentCurrentSegment.addAll(currentSegment.toLine().getContentSegments(segments));
         int currentRatio = leftAndRightRatio(currentSegment, segments);
         usedSegments.add(currentSegment);
-        usedSegments.addAll(currentSegment.toLine().getContentSegments(segments));
-        ArrayList<Segment> currentIntersectedList = intersectionList(currentSegment, segments);
+        usedSegments.addAll(contentCurrentSegment);
         int functionResult = functionToMaximize(currentSegment, segments);
         for(int i = 0; i < segments.size(); i++) {
             Segment newSegment = segments.get(new Random().nextInt(segments.size()));
-            if (!usedSegments.contains(newSegment)) {
-                ArrayList<Segment> newIntersectedList = intersectionList(newSegment, segments);
-                int newRatio = leftAndRightRatio(newSegment, segments);
-                if (newRatio < currentRatio) {
-                    if (newIntersectedList.size() < currentIntersectedList.size()) {
+            ArrayList<Segment> contentNewSegment = new ArrayList<>();
+            contentNewSegment.addAll(newSegment.toLine().getContentSegments(segments));
+            int newRatio = leftAndRightRatio(newSegment, segments);
+            if (newRatio < currentRatio) {
+                if (contentNewSegment.size() < contentCurrentSegment.size()) {
+                    if (!usedSegments.contains(newSegment)) {
                         int newResult = functionToMaximize(newSegment, segments);
                         if (newResult > functionResult) {
                             currentSegment = newSegment;
@@ -40,39 +41,22 @@ public class TWNBHeuristic implements HeuristicSelector {
                 }
             }
         }
-        return currentSegment;
-    }
 
-    public ArrayList<Segment> intersectionList(Segment segment, ArrayList<Segment> segments)
-    {
-        ArrayList<Segment> copiedSegments = new ArrayList<>(segments);
-        ArrayList<Segment> intersectedSegments = new ArrayList<>();
-        copiedSegments.removeAll(segment.toLine().getContentSegments(segments));
-        Line line = segment.toLine();
-        for(int i = 0; i < segments.size(); i++)
-        {
-            if(!line.containsInOpenNegativeHalfSpace(segments.get(i))){
-                if(!line.containsInOpenPositiveHalfSpace(segments.get(i)))
-                {
-                    intersectedSegments.add(segments.get(i));
-                }
-            }
-        }
-        return intersectedSegments;
+        return currentSegment;
     }
 
     public int functionToMaximize(Segment segment, ArrayList<Segment> segments){
         ArrayList<Segment> copiedSegments = new ArrayList<>(segments);
         Line currentLine = segment.toLine();
-        copiedSegments.removeAll(currentLine.getContentSegments(segments));
-        ArrayList<Segment> intersectionList = intersectionList(segment, segments);
+        ArrayList<Segment> contentSegment = currentLine.getContentSegments(segments);
+        copiedSegments.removeAll(contentSegment);
         SegmentDistribution segmentDistribution = new SegmentDistribution(copiedSegments, currentLine);
         ArrayList<Segment> segmentsForLeft = segmentDistribution.getSegmentsInOpenNegativeHalfSpace();
         ArrayList<Segment> segmentsForRight = segmentDistribution.getSegmentsInOpenPositiveHalfSpace();
-        return segmentsForLeft.size() * segmentsForRight.size() - intersectionList.size();
+        return segmentsForLeft.size() * segmentsForRight.size() - contentSegment.size();
     }
 
-    public int leftAndRightRatio(Segment segment, ArrayList<Segment> segments){
+    public int leftAndRightRatio(Segment segment, ArrayList<Segment> segments) {
         Line segmentLine = segment.toLine();
         SegmentDistribution segmentDistribution = new SegmentDistribution(segments, segmentLine);
         ArrayList<Segment> segmentsForLeft = segmentDistribution.getSegmentsInOpenNegativeHalfSpace();
@@ -93,6 +77,6 @@ public class TWNBHeuristic implements HeuristicSelector {
 
     @Override
     public String toString() {
-        return "TWNBHeuristic";
+        return "BonusHeuristic";
     }
 }
