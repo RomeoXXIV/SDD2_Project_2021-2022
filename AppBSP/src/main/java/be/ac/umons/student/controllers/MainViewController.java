@@ -32,6 +32,8 @@ public class MainViewController implements Initializable {
 
     private Stage stage;
     private GraphicsContext graphicsContext;
+    private int translateX;
+    private int translateY;
 
     @FXML public Canvas mainCanvas;
 
@@ -45,6 +47,8 @@ public class MainViewController implements Initializable {
         FileChooser fileChooser = new FileChooser();
         this.sceneFile = fileChooser.showOpenDialog(stage);
         this.sceneReader = new SceneReader(this.sceneFile);
+        this.translateX = this.sceneReader.getxAxisLimit();
+        this.translateY = this.sceneReader.getyAxisLimit();
         drawSegmentsOnMainCanvas(this.sceneReader.getSegments());
         /*this.bspTree = new BSPTree(this.sceneReader.getSegments(), this.heuristicSelector);
         new Painter(bspTree, painterInteractive);*/
@@ -54,6 +58,8 @@ public class MainViewController implements Initializable {
     public void handleClickOnOpenEllipsesLarge() {
         this.sceneFile = new File("src/main/resources/scenes/ellipses/ellipsesLarge.txt");
         this.sceneReader = new SceneReader(this.sceneFile);
+        this.translateX = this.sceneReader.getxAxisLimit();
+        this.translateY = this.sceneReader.getyAxisLimit();
         drawSegmentsOnMainCanvas(this.sceneReader.getSegments());
     }
 
@@ -61,6 +67,8 @@ public class MainViewController implements Initializable {
     public void handleClickOnOpenEllipsesMedium() {
         this.sceneFile = new File("src/main/resources/scenes/ellipses/ellipsesMedium.txt");
         this.sceneReader = new SceneReader(this.sceneFile);
+        this.translateX = this.sceneReader.getxAxisLimit();
+        this.translateY = this.sceneReader.getyAxisLimit();
         drawSegmentsOnMainCanvas(this.sceneReader.getSegments());
     }
 
@@ -68,6 +76,8 @@ public class MainViewController implements Initializable {
     public void handleClickOnOpenEllipsesSmall() {
         this.sceneFile = new File("src/main/resources/scenes/ellipses/ellipsesSmall.txt");
         this.sceneReader = new SceneReader(this.sceneFile);
+        this.translateX = this.sceneReader.getxAxisLimit();
+        this.translateY = this.sceneReader.getyAxisLimit();
         drawSegmentsOnMainCanvas(this.sceneReader.getSegments());
     }
 
@@ -75,6 +85,8 @@ public class MainViewController implements Initializable {
     public void handleClickOnOpenFirstOctangle() {
         this.sceneFile = new File("src/main/resources/scenes/first/octangle.txt");
         this.sceneReader = new SceneReader(this.sceneFile);
+        this.translateX = this.sceneReader.getxAxisLimit();
+        this.translateY = this.sceneReader.getyAxisLimit();
         drawSegmentsOnMainCanvas(this.sceneReader.getSegments());
     }
 
@@ -82,6 +94,8 @@ public class MainViewController implements Initializable {
     public void handleClickOnOpenFirstOctogone() {
         this.sceneFile = new File("src/main/resources/scenes/first/octogone.txt");
         this.sceneReader = new SceneReader(this.sceneFile);
+        this.translateX = this.sceneReader.getxAxisLimit();
+        this.translateY = this.sceneReader.getyAxisLimit();
         drawSegmentsOnMainCanvas(this.sceneReader.getSegments());
     }
 
@@ -89,6 +103,8 @@ public class MainViewController implements Initializable {
     public void handleClickOnOpenRandomHuge() {
         this.sceneFile = new File("src/main/resources/scenes/random/randomHuge.txt");
         this.sceneReader = new SceneReader(this.sceneFile);
+        this.translateX = this.sceneReader.getxAxisLimit();
+        this.translateY = this.sceneReader.getyAxisLimit();
         drawSegmentsOnMainCanvas(this.sceneReader.getSegments());
     }
 
@@ -96,6 +112,8 @@ public class MainViewController implements Initializable {
     public void handleClickOnOpenRandomLarge() {
         this.sceneFile = new File("src/main/resources/scenes/random/randomLarge.txt");
         this.sceneReader = new SceneReader(this.sceneFile);
+        this.translateX = this.sceneReader.getxAxisLimit();
+        this.translateY = this.sceneReader.getyAxisLimit();
         drawSegmentsOnMainCanvas(this.sceneReader.getSegments());
     }
 
@@ -103,6 +121,8 @@ public class MainViewController implements Initializable {
     public void handleClickOnOpenRandomMedium() {
         this.sceneFile = new File("src/main/resources/scenes/random/randomMedium.txt");
         this.sceneReader = new SceneReader(this.sceneFile);
+        this.translateX = this.sceneReader.getxAxisLimit();
+        this.translateY = this.sceneReader.getyAxisLimit();
         drawSegmentsOnMainCanvas(this.sceneReader.getSegments());
     }
 
@@ -110,6 +130,8 @@ public class MainViewController implements Initializable {
     public void handleClickOnOpenRandomSmall() {
         this.sceneFile = new File("src/main/resources/scenes/random/randomSmall.txt");
         this.sceneReader = new SceneReader(this.sceneFile);
+        this.translateX = this.sceneReader.getxAxisLimit();
+        this.translateY = this.sceneReader.getyAxisLimit();
         drawSegmentsOnMainCanvas(this.sceneReader.getSegments());
     }
 
@@ -117,6 +139,8 @@ public class MainViewController implements Initializable {
     public void handleClickOnOpenRectanglesHuge() {
         this.sceneFile = new File("src/main/resources/scenes/rectangles/rectanglesHuge.txt");
         this.sceneReader = new SceneReader(this.sceneFile);
+        this.translateX = this.sceneReader.getxAxisLimit();
+        this.translateY = this.sceneReader.getyAxisLimit();
         drawSegmentsOnMainCanvas(this.sceneReader.getSegments());
     }
 
@@ -124,6 +148,8 @@ public class MainViewController implements Initializable {
     public void handleClickOnOpenRectanglesLarge() {
         this.sceneFile = new File("src/main/resources/scenes/rectangles/rectanglesLarge.txt");
         this.sceneReader = new SceneReader(this.sceneFile);
+        this.translateX = this.sceneReader.getxAxisLimit();
+        this.translateY = this.sceneReader.getyAxisLimit();
         drawSegmentsOnMainCanvas(this.sceneReader.getSegments());
     }
 
@@ -131,6 +157,8 @@ public class MainViewController implements Initializable {
     public void handleClickOnOpenRectanglesMedium() {
         this.sceneFile = new File("src/main/resources/scenes/rectangles/rectanglesMedium.txt");
         this.sceneReader = new SceneReader(this.sceneFile);
+        this.translateX = this.sceneReader.getxAxisLimit();
+        this.translateY = this.sceneReader.getyAxisLimit();
         drawSegmentsOnMainCanvas(this.sceneReader.getSegments());
     }
 
@@ -138,6 +166,8 @@ public class MainViewController implements Initializable {
     public void handleClickOnOpenRectanglesSmall() {
         this.sceneFile = new File("src/main/resources/scenes/rectangles/rectanglesSmall.txt");
         this.sceneReader = new SceneReader(this.sceneFile);
+        this.translateX = this.sceneReader.getxAxisLimit();
+        this.translateY = this.sceneReader.getyAxisLimit();
         drawSegmentsOnMainCanvas(this.sceneReader.getSegments());
     }
 
@@ -175,7 +205,7 @@ public class MainViewController implements Initializable {
         double x2 = segment.getB().getX();
         double y2 = segment.getB().getY();
         this.graphicsContext.setStroke(color);
-        this.graphicsContext.strokeLine(x1, y1, x2, y2);
+        this.graphicsContext.strokeLine(x1+translateX, y1+translateY, x2+translateX, y2+translateY);
     }
 
     public static Color awtColorToPaintColor(java.awt.Color color) {
@@ -197,6 +227,8 @@ public class MainViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.graphicsContext = mainCanvas.getGraphicsContext2D();
+        /*this.mainCanvas.setTranslateX(this.sceneReader.getxAxisLimit());
+        this.mainCanvas.setTranslateY(this.sceneReader.getxAxisLimit());*/
     }
 
     public void setStage(Stage stage){
