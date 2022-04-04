@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.canvas.Canvas?>
+<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Menu?>
+<?import javafx.scene.control.MenuBar?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox id="rootVBox" fx:id="rootVBox" prefHeight="400.0" prefWidth="640.0" stylesheets="@../css/StyleSheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.ac.umons.student.controllers.MainViewController">
+   <children>
+      <MenuBar id="MenuBar" fx:id="MenuBar" VBox.vgrow="NEVER">
+         <menus>
+            <Menu mnemonicParsing="false" text="MaySee">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="About MaySee" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Preferences..." />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleClickOnQuitMaySee" text="Quit MaySee" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="File">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Open..." />
+                  <Menu mnemonicParsing="false" text="Open Recent" />
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <Menu mnemonicParsing="false" text="Open Ellipses">
+                     <items>
+                        <MenuItem mnemonicParsing="false" text="Large" />
+                        <MenuItem mnemonicParsing="false" text="Medium" />
+                        <MenuItem mnemonicParsing="false" text="Small" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Open First">
+                     <items>
+                        <MenuItem mnemonicParsing="false" text="Octangle" />
+                        <MenuItem mnemonicParsing="false" text="Octogone" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Open Random">
+                     <items>
+                        <MenuItem mnemonicParsing="false" text="Huge" />
+                        <MenuItem mnemonicParsing="false" text="Large" />
+                        <MenuItem mnemonicParsing="false" text="Medium" />
+                        <MenuItem mnemonicParsing="false" text="Small" />
+                     </items>
+                  </Menu>
+                  <Menu mnemonicParsing="false" text="Open Rectangles">
+                     <items>
+                        <MenuItem mnemonicParsing="false" text="Huge" />
+                        <MenuItem mnemonicParsing="false" text="Large" />
+                        <MenuItem mnemonicParsing="false" text="Medium" />
+                        <MenuItem mnemonicParsing="false" text="Small" />
+                     </items>
+                  </Menu>
+                  <SeparatorMenuItem mnemonicParsing="false" />
+                  <MenuItem mnemonicParsing="false" text="Close" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Heuristic">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Standard" />
+                  <MenuItem mnemonicParsing="false" text="Random" />
+                  <MenuItem mnemonicParsing="false" text="TWNB" />
+                  <MenuItem mnemonicParsing="false" text="OptimizedRandom" />
+               </items>
+            </Menu>
+            <Menu mnemonicParsing="false" text="Help" />
+         </menus>
+      </MenuBar>
+      <SplitPane id="splitPane" fx:id="splitPane" dividerPositions="0.75" prefHeight="324.0" prefWidth="640.0">
+        <items>
+            <ScrollPane id="scrollPane" fx:id="scrollPane" prefHeight="158.0" prefWidth="313.0">
+               <content>
+                  <Canvas id="mainCanvas" fx:id="mainCanvas" height="323.0" width="475.0" />
+               </content>
+            </ScrollPane>
+            <Accordion id="MenuAccordion" fx:id="MenuAccordion">
+              <panes>
+                <TitledPane animated="false" text="Required to view">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  </content>
+                </TitledPane>
+                <TitledPane animated="false" text="Point of view">
+                  <content>
+                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  </content>
+                </TitledPane>
+              </panes>
+            </Accordion>
+        </items>
+      </SplitPane>
+      <Separator prefHeight="3.0" prefWidth="640.0" />
+      <Canvas height="45.0" width="640.0" />
+   </children>
+</VBox>

@@ -5,12 +5,14 @@ import javafx.fxml.FXML;
 import javafx.event.ActionEvent;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.layout.AnchorPane;
 
 import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
 
+    public AnchorPane MainAnchorPane;
     private double progress = 0;
 
     @FXML
