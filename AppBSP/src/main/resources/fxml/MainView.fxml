@@ -12,6 +12,8 @@
 <?import javafx.scene.control.TitledPane?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.control.RadioMenuItem?>
 
 <VBox id="rootVBox" fx:id="rootVBox" prefHeight="400.0" prefWidth="640.0" stylesheets="@../css/StyleSheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.ac.umons.student.controllers.MainViewController">
    <children>
@@ -28,36 +30,36 @@
             </Menu>
             <Menu mnemonicParsing="false" text="File">
                <items>
-                  <MenuItem mnemonicParsing="false" text="Open..." />
+                  <MenuItem mnemonicParsing="false" onAction="#handleClickOnOpen" text="Open..." />
                   <Menu mnemonicParsing="false" text="Open Recent" />
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <Menu mnemonicParsing="false" text="Open Ellipses">
                      <items>
-                        <MenuItem mnemonicParsing="false" text="Large" />
-                        <MenuItem mnemonicParsing="false" text="Medium" />
-                        <MenuItem mnemonicParsing="false" text="Small" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleClickOnOpenEllipsesLarge" text="Large" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleClickOnOpenEllipsesMedium" text="Medium" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleClickOnOpenEllipsesSmall" text="Small" />
                      </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Open First">
                      <items>
-                        <MenuItem mnemonicParsing="false" text="Octangle" />
-                        <MenuItem mnemonicParsing="false" text="Octogone" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleClickOnOpenFirstOctangle" text="Octangle" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleClickOnOpenFirstOctogone" text="Octogone" />
                      </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Open Random">
                      <items>
-                        <MenuItem mnemonicParsing="false" text="Huge" />
-                        <MenuItem mnemonicParsing="false" text="Large" />
-                        <MenuItem mnemonicParsing="false" text="Medium" />
-                        <MenuItem mnemonicParsing="false" text="Small" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleClickOnOpenRandomHuge" text="Huge" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleClickOnOpenRandomLarge" text="Large" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleClickOnOpenRandomMedium" text="Medium" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleClickOnOpenRandomSmall" text="Small" />
                      </items>
                   </Menu>
                   <Menu mnemonicParsing="false" text="Open Rectangles">
                      <items>
-                        <MenuItem mnemonicParsing="false" text="Huge" />
-                        <MenuItem mnemonicParsing="false" text="Large" />
-                        <MenuItem mnemonicParsing="false" text="Medium" />
-                        <MenuItem mnemonicParsing="false" text="Small" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleClickOnOpenRectanglesHuge" text="Huge" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleClickOnOpenRectanglesLarge" text="Large" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleClickOnOpenRectanglesMedium" text="Medium" />
+                        <MenuItem mnemonicParsing="false" onAction="#handleClickOnOpenRectanglesSmall" text="Small" />
                      </items>
                   </Menu>
                   <SeparatorMenuItem mnemonicParsing="false" />
@@ -65,11 +67,14 @@
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Heuristic">
+                <fx:define>
+                    <ToggleGroup fx:id="heuristicToggleGroup" />
+                </fx:define>
                <items>
-                  <MenuItem mnemonicParsing="false" text="Standard" />
-                  <MenuItem mnemonicParsing="false" text="Random" />
-                  <MenuItem mnemonicParsing="false" text="TWNB" />
-                  <MenuItem mnemonicParsing="false" text="OptimizedRandom" />
+                  <RadioMenuItem mnemonicParsing="false" text="Standard" onAction="#handleClickOnStandard" toggleGroup="$heuristicToggleGroup" selected="true" />
+                  <RadioMenuItem mnemonicParsing="false" text="Random" onAction="#handleClickOnRandom" toggleGroup="$heuristicToggleGroup"/>
+                  <RadioMenuItem mnemonicParsing="false" text="TWNB" onAction="#handleClickOnTWBN" toggleGroup="$heuristicToggleGroup" />
+                  <RadioMenuItem mnemonicParsing="false" text="OptimizedRandom" onAction="#handleClickOnOptimizedRandom" toggleGroup="$heuristicToggleGroup" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Help" />

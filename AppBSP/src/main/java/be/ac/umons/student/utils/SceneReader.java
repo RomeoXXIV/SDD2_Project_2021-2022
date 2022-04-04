@@ -23,6 +23,11 @@ public class SceneReader {
         this.readSceneFile(pathFile);
     }
 
+    public SceneReader(File file) {
+        this.segments = new ArrayList<>();
+        this.readSceneFile(file.getPath());
+    }
+
     public void readSceneFile(String pathFile) {
         if (checkFileConform(pathFile)) {
             try {
