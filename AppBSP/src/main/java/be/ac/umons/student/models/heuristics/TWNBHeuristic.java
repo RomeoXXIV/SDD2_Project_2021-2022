@@ -13,22 +13,22 @@ public class TWNBHeuristic implements HeuristicSelector {
 
     @Override
     public Segment selectSegment(ArrayList<Segment> segments) {
-        //TODO à implémenter
+        //TODO à optimiser
         ArrayList<Segment> usedSegments = new ArrayList<>();
-        Segment currentSegment = segments.get(new Random().nextInt(segments.size()));
+        Segment currentSegment = segments.get(0);
         int currentRatio = leftAndRightRatio(currentSegment, segments);
         usedSegments.add(currentSegment);
         usedSegments.addAll(currentSegment.toLine().getContentSegments(segments));
         ArrayList<Segment> currentIntersectedList = intersectionList(currentSegment, segments);
-        int functionResult = functionToMaximize(currentSegment, segments);
+        int functionResult = functionToMaximize(currentSegment, segments, currentIntersectedList.size());
         for(int i = 0; i < segments.size(); i++) {
-            Segment newSegment = segments.get(new Random().nextInt(segments.size()));
+            Segment newSegment = segments.get(0);
             if (!usedSegments.contains(newSegment)) {
                 ArrayList<Segment> newIntersectedList = intersectionList(newSegment, segments);
                 int newRatio = leftAndRightRatio(newSegment, segments);
                 if (newRatio < currentRatio) {
                     if (newIntersectedList.size() < currentIntersectedList.size()) {
-                        int newResult = functionToMaximize(newSegment, segments);
+                        int newResult = functionToMaximize(newSegment, segments, newIntersectedList.size());
                         if (newResult > functionResult) {
                             currentSegment = newSegment;
                             functionResult = newResult;
@@ -61,15 +61,14 @@ public class TWNBHeuristic implements HeuristicSelector {
         return intersectedSegments;
     }
 
-    public int functionToMaximize(Segment segment, ArrayList<Segment> segments){
+    public int functionToMaximize(Segment segment, ArrayList<Segment> segments, int intersectionListSize){
         ArrayList<Segment> copiedSegments = new ArrayList<>(segments);
         Line currentLine = segment.toLine();
         copiedSegments.removeAll(currentLine.getContentSegments(segments));
-        ArrayList<Segment> intersectionList = intersectionList(segment, segments);
         SegmentDistribution segmentDistribution = new SegmentDistribution(copiedSegments, currentLine);
         ArrayList<Segment> segmentsForLeft = segmentDistribution.getSegmentsInOpenNegativeHalfSpace();
         ArrayList<Segment> segmentsForRight = segmentDistribution.getSegmentsInOpenPositiveHalfSpace();
-        return segmentsForLeft.size() * segmentsForRight.size() - intersectionList.size();
+        return segmentsForLeft.size() * segmentsForRight.size() - intersectionListSize;
     }
 
     public int leftAndRightRatio(Segment segment, ArrayList<Segment> segments){
