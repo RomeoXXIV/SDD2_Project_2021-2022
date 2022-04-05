@@ -32,8 +32,8 @@ public class MainViewController implements Initializable {
 
     private Stage stage;
     private GraphicsContext graphicsContext;
-    private int translateX;
-    private int translateY;
+    private double widthMainCanvas;
+    private double heightMainCanvas;
 
     @FXML public Canvas mainCanvas;
 
@@ -47,9 +47,7 @@ public class MainViewController implements Initializable {
         FileChooser fileChooser = new FileChooser();
         this.sceneFile = fileChooser.showOpenDialog(stage);
         this.sceneReader = new SceneReader(this.sceneFile);
-        this.translateX = this.sceneReader.getxAxisLimit();
-        this.translateY = this.sceneReader.getyAxisLimit();
-        drawSegmentsOnMainCanvas(this.sceneReader.getSegments());
+        drawSceneOnMainCanvas();
         /*this.bspTree = new BSPTree(this.sceneReader.getSegments(), this.heuristicSelector);
         new Painter(bspTree, painterInteractive);*/
     }
@@ -58,117 +56,91 @@ public class MainViewController implements Initializable {
     public void handleClickOnOpenEllipsesLarge() {
         this.sceneFile = new File("src/main/resources/scenes/ellipses/ellipsesLarge.txt");
         this.sceneReader = new SceneReader(this.sceneFile);
-        this.translateX = this.sceneReader.getxAxisLimit();
-        this.translateY = this.sceneReader.getyAxisLimit();
-        drawSegmentsOnMainCanvas(this.sceneReader.getSegments());
+        drawSceneOnMainCanvas();
     }
 
     @FXML
     public void handleClickOnOpenEllipsesMedium() {
         this.sceneFile = new File("src/main/resources/scenes/ellipses/ellipsesMedium.txt");
         this.sceneReader = new SceneReader(this.sceneFile);
-        this.translateX = this.sceneReader.getxAxisLimit();
-        this.translateY = this.sceneReader.getyAxisLimit();
-        drawSegmentsOnMainCanvas(this.sceneReader.getSegments());
+        drawSceneOnMainCanvas();
     }
 
     @FXML
     public void handleClickOnOpenEllipsesSmall() {
         this.sceneFile = new File("src/main/resources/scenes/ellipses/ellipsesSmall.txt");
         this.sceneReader = new SceneReader(this.sceneFile);
-        this.translateX = this.sceneReader.getxAxisLimit();
-        this.translateY = this.sceneReader.getyAxisLimit();
-        drawSegmentsOnMainCanvas(this.sceneReader.getSegments());
+        drawSceneOnMainCanvas();
     }
 
     @FXML
     public void handleClickOnOpenFirstOctangle() {
         this.sceneFile = new File("src/main/resources/scenes/first/octangle.txt");
         this.sceneReader = new SceneReader(this.sceneFile);
-        this.translateX = this.sceneReader.getxAxisLimit();
-        this.translateY = this.sceneReader.getyAxisLimit();
-        drawSegmentsOnMainCanvas(this.sceneReader.getSegments());
+        drawSceneOnMainCanvas();
     }
 
     @FXML
     public void handleClickOnOpenFirstOctogone() {
         this.sceneFile = new File("src/main/resources/scenes/first/octogone.txt");
         this.sceneReader = new SceneReader(this.sceneFile);
-        this.translateX = this.sceneReader.getxAxisLimit();
-        this.translateY = this.sceneReader.getyAxisLimit();
-        drawSegmentsOnMainCanvas(this.sceneReader.getSegments());
+        drawSceneOnMainCanvas();
     }
 
     @FXML
     public void handleClickOnOpenRandomHuge() {
         this.sceneFile = new File("src/main/resources/scenes/random/randomHuge.txt");
         this.sceneReader = new SceneReader(this.sceneFile);
-        this.translateX = this.sceneReader.getxAxisLimit();
-        this.translateY = this.sceneReader.getyAxisLimit();
-        drawSegmentsOnMainCanvas(this.sceneReader.getSegments());
+        drawSceneOnMainCanvas();
     }
 
     @FXML
     public void handleClickOnOpenRandomLarge() {
         this.sceneFile = new File("src/main/resources/scenes/random/randomLarge.txt");
         this.sceneReader = new SceneReader(this.sceneFile);
-        this.translateX = this.sceneReader.getxAxisLimit();
-        this.translateY = this.sceneReader.getyAxisLimit();
-        drawSegmentsOnMainCanvas(this.sceneReader.getSegments());
+        drawSceneOnMainCanvas();
     }
 
     @FXML
     public void handleClickOnOpenRandomMedium() {
         this.sceneFile = new File("src/main/resources/scenes/random/randomMedium.txt");
         this.sceneReader = new SceneReader(this.sceneFile);
-        this.translateX = this.sceneReader.getxAxisLimit();
-        this.translateY = this.sceneReader.getyAxisLimit();
-        drawSegmentsOnMainCanvas(this.sceneReader.getSegments());
+        drawSceneOnMainCanvas();
     }
 
     @FXML
     public void handleClickOnOpenRandomSmall() {
         this.sceneFile = new File("src/main/resources/scenes/random/randomSmall.txt");
         this.sceneReader = new SceneReader(this.sceneFile);
-        this.translateX = this.sceneReader.getxAxisLimit();
-        this.translateY = this.sceneReader.getyAxisLimit();
-        drawSegmentsOnMainCanvas(this.sceneReader.getSegments());
+        drawSceneOnMainCanvas();
     }
 
     @FXML
     public void handleClickOnOpenRectanglesHuge() {
         this.sceneFile = new File("src/main/resources/scenes/rectangles/rectanglesHuge.txt");
         this.sceneReader = new SceneReader(this.sceneFile);
-        this.translateX = this.sceneReader.getxAxisLimit();
-        this.translateY = this.sceneReader.getyAxisLimit();
-        drawSegmentsOnMainCanvas(this.sceneReader.getSegments());
+        drawSceneOnMainCanvas();
     }
 
     @FXML
     public void handleClickOnOpenRectanglesLarge() {
         this.sceneFile = new File("src/main/resources/scenes/rectangles/rectanglesLarge.txt");
         this.sceneReader = new SceneReader(this.sceneFile);
-        this.translateX = this.sceneReader.getxAxisLimit();
-        this.translateY = this.sceneReader.getyAxisLimit();
-        drawSegmentsOnMainCanvas(this.sceneReader.getSegments());
+        drawSceneOnMainCanvas();
     }
 
     @FXML
     public void handleClickOnOpenRectanglesMedium() {
         this.sceneFile = new File("src/main/resources/scenes/rectangles/rectanglesMedium.txt");
         this.sceneReader = new SceneReader(this.sceneFile);
-        this.translateX = this.sceneReader.getxAxisLimit();
-        this.translateY = this.sceneReader.getyAxisLimit();
-        drawSegmentsOnMainCanvas(this.sceneReader.getSegments());
+        drawSceneOnMainCanvas();
     }
 
     @FXML
     public void handleClickOnOpenRectanglesSmall() {
         this.sceneFile = new File("src/main/resources/scenes/rectangles/rectanglesSmall.txt");
         this.sceneReader = new SceneReader(this.sceneFile);
-        this.translateX = this.sceneReader.getxAxisLimit();
-        this.translateY = this.sceneReader.getyAxisLimit();
-        drawSegmentsOnMainCanvas(this.sceneReader.getSegments());
+        drawSceneOnMainCanvas();
     }
 
     @FXML
@@ -191,8 +163,16 @@ public class MainViewController implements Initializable {
         this.heuristicSelector = new OptimizedRandomHeuristic();
     }
 
-    public void drawSegmentsOnMainCanvas(ArrayList<Segment> segments) {
+    public void drawSceneOnMainCanvas() {
         this.graphicsContext.clearRect(0, 0, mainCanvas.getWidth(), mainCanvas.getHeight());
+        this.widthMainCanvas = this.sceneReader.getxAxisLimit() * 2.5;
+        this.heightMainCanvas = this.sceneReader.getyAxisLimit() * 2.5;
+        mainCanvas.setWidth(widthMainCanvas);
+        mainCanvas.setHeight(heightMainCanvas);
+        drawSegmentsOnMainCanvas(this.sceneReader.getSegments());
+    }
+
+    public void drawSegmentsOnMainCanvas(ArrayList<Segment> segments) {
         for (Segment segment : segments) {
             drawSegmentOnMainCanvas(segment);
         }
@@ -200,12 +180,12 @@ public class MainViewController implements Initializable {
 
     public void drawSegmentOnMainCanvas(Segment segment) {
         Color color = awtColorToPaintColor(segment.getColor());
-        double x1 = segment.getA().getX();
-        double y1 = segment.getA().getY();
-        double x2 = segment.getB().getX();
-        double y2 = segment.getB().getY();
+        double x1 = segment.getA().getX() + this.widthMainCanvas / 2.;
+        double y1 = segment.getA().getY() + this.heightMainCanvas / 2.;
+        double x2 = segment.getB().getX() + this.widthMainCanvas / 2.;
+        double y2 = segment.getB().getY() + this.heightMainCanvas / 2.;
         this.graphicsContext.setStroke(color);
-        this.graphicsContext.strokeLine(x1+translateX, y1+translateY, x2+translateX, y2+translateY);
+        this.graphicsContext.strokeLine(x1, y1, x2, y2);
     }
 
     public static Color awtColorToPaintColor(java.awt.Color color) {

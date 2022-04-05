@@ -84,7 +84,7 @@
         <items>
             <ScrollPane id="scrollPane" fx:id="scrollPane" prefHeight="316.0" prefWidth="626.0">
                <content>
-                  <Canvas id="mainCanvas" fx:id="mainCanvas" height="626.0" width="950.0"/>
+                  <Canvas id="mainCanvas" fx:id="mainCanvas" height="626.0" width="950.0" />
                </content>
             </ScrollPane>
             <Accordion id="MenuAccordion" fx:id="MenuAccordion">
