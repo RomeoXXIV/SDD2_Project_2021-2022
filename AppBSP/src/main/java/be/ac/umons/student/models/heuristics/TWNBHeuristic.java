@@ -91,9 +91,9 @@ public class TWNBHeuristic implements HeuristicSelector {
 
     /** Notre fonction maximiser pour l'heuristique
      *
-     * @param segment
-     * @param segments
-     * @param intersectionListSize
+     * @param segment le segment actuel
+     * @param segments la liste des segments
+     * @param intersectionListSize le nombre d'intersections qu'a le segment avec d'autres
      * @return
      */
     public int functionToMaximize(Segment segment, ArrayList<Segment> segments, int intersectionListSize){

@@ -7,6 +7,11 @@ import be.ac.umons.student.models.SegmentDistribution;
 import java.util.ArrayList;
 import java.util.Random;
 
+/**
+ * Heuristique bonus issue d'une erreur de lecture de l'énoncé. Pour l'Heuristique H3, on devait minimiser la multiplication du nombre de segments
+ * à droite et à gauche a laquelle on soustrayait le nombre de segments intersectés. Ici, on ne soustrait pas le nombre de segments intersectés
+ * mais le nombre de segments confondus.
+ */
 public class BonusHeuristic implements HeuristicSelector {
 
 
@@ -44,6 +49,12 @@ public class BonusHeuristic implements HeuristicSelector {
         return currentSegment;
     }
 
+    /** Fonction qui retourne le résultat du calcul
+     *
+     * @param segment le segment actuel
+     * @param segments la liste de segments
+     * @return le résultat
+     */
     public int functionToMaximize(Segment segment, ArrayList<Segment> segments){
         ArrayList<Segment> copiedSegments = new ArrayList<>(segments);
         Line currentLine = segment.toLine();
@@ -71,8 +82,7 @@ public class BonusHeuristic implements HeuristicSelector {
             return segmentsForRight.size();
         }
     }
-    /*d éterminer la droite d qui supporte le segment s;
-    evaluer la “qualit ́e” de d selon les crit`eres de l’heuristique.*/
+
 
     @Override
     public String toString() {
