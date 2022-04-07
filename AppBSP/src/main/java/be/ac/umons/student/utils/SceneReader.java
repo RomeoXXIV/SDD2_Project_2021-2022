@@ -28,6 +28,10 @@ public class SceneReader {
         this.readSceneFile(file.getPath());
     }
 
+    /** Lis le fichier et donne la limite de l'axe X, de l'axe Y, le nombre et la liste de segments.
+     *
+     * @param pathFile
+     */
     public void readSceneFile(String pathFile) {
         if (checkFileConform(pathFile)) {
             try {
@@ -54,7 +58,11 @@ public class SceneReader {
         }
     }
 
-
+    /**
+     * Retourne vrai si le fichier est au bon format, faux sinon
+     * @param pathFile le path du fichier
+     * @return vrai ou faux
+     */
     public boolean checkFileConform(String pathFile){
         File file = new File(pathFile);
         fileName = file.getName();
@@ -150,11 +158,10 @@ public class SceneReader {
 
     @Override
     public String toString() {
-        return "SceneReader{" +
-                "fileName='" + fileName + '\'' +
-                ", xAxisLimit=" + xAxisLimit +
-                ", yAxisLimit=" + yAxisLimit +
-                ", segmentsSize=" + segmentsSize +
-                '}';
+        return "Fichier " + fileName +
+                ", a une limite en X de " + xAxisLimit +
+                ", a une limite en Y de " + yAxisLimit +
+                ", contient " + segmentsSize +
+                " segments";
     }
 }

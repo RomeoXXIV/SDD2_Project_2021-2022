@@ -12,7 +12,6 @@ public class BonusHeuristic implements HeuristicSelector {
 
     @Override
     public Segment selectSegment(ArrayList<Segment> segments) {
-        //TODO à implémenter
         ArrayList<Segment> usedSegments = new ArrayList<>();
         Segment currentSegment = segments.get(new Random().nextInt(segments.size()));
         ArrayList<Segment> contentCurrentSegment = new ArrayList<>();

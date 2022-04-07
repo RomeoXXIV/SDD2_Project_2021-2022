@@ -13,7 +13,6 @@ public class TWNBHeuristic implements HeuristicSelector {
 
     @Override
     public Segment selectSegment(ArrayList<Segment> segments) {
-        //TODO à optimiser
         ArrayList<Segment> usedSegments = new ArrayList<>();
         Segment currentSegment = segments.get(0);
         int currentRatio = leftAndRightRatio(currentSegment, segments);
@@ -43,6 +42,12 @@ public class TWNBHeuristic implements HeuristicSelector {
         return currentSegment;
     }
 
+    /** Fonction qui retourne la liste de tous les segments intersectés par un segment donné
+     *
+     * @param segment le segment actuel
+     * @param segments la liste des segments de l'arbre
+     * @return une ArrayList contenant tous les segments intersecté par le segment actuel
+     */
     public ArrayList<Segment> intersectionList(Segment segment, ArrayList<Segment> segments)
     {
         ArrayList<Segment> copiedSegments = new ArrayList<>(segments);
@@ -61,16 +66,12 @@ public class TWNBHeuristic implements HeuristicSelector {
         return intersectedSegments;
     }
 
-    public int functionToMaximize(Segment segment, ArrayList<Segment> segments, int intersectionListSize){
-        ArrayList<Segment> copiedSegments = new ArrayList<>(segments);
-        Line currentLine = segment.toLine();
-        copiedSegments.removeAll(currentLine.getContentSegments(segments));
-        SegmentDistribution segmentDistribution = new SegmentDistribution(copiedSegments, currentLine);
-        ArrayList<Segment> segmentsForLeft = segmentDistribution.getSegmentsInOpenNegativeHalfSpace();
-        ArrayList<Segment> segmentsForRight = segmentDistribution.getSegmentsInOpenPositiveHalfSpace();
-        return segmentsForLeft.size() * segmentsForRight.size() - intersectionListSize;
-    }
-
+    /** Fonction donnant le ratio entre les segments dans le demi-plan gauche et droit crée par notre segment
+     *
+     * @param segment le segment donné
+     * @param segments la liste des segments
+     * @return la valeur absolue de la division du nombre de segments à gauche par celui à droite.
+     */
     public int leftAndRightRatio(Segment segment, ArrayList<Segment> segments){
         Line segmentLine = segment.toLine();
         SegmentDistribution segmentDistribution = new SegmentDistribution(segments, segmentLine);
@@ -87,8 +88,23 @@ public class TWNBHeuristic implements HeuristicSelector {
             return segmentsForRight.size();
         }
     }
-    /*d éterminer la droite d qui supporte le segment s;
-    evaluer la “qualit ́e” de d selon les crit`eres de l’heuristique.*/
+
+    /** Notre fonction maximiser pour l'heuristique
+     *
+     * @param segment
+     * @param segments
+     * @param intersectionListSize
+     * @return
+     */
+    public int functionToMaximize(Segment segment, ArrayList<Segment> segments, int intersectionListSize){
+        ArrayList<Segment> copiedSegments = new ArrayList<>(segments);
+        Line currentLine = segment.toLine();
+        copiedSegments.removeAll(currentLine.getContentSegments(segments));
+        SegmentDistribution segmentDistribution = new SegmentDistribution(copiedSegments, currentLine);
+        ArrayList<Segment> segmentsForLeft = segmentDistribution.getSegmentsInOpenNegativeHalfSpace();
+        ArrayList<Segment> segmentsForRight = segmentDistribution.getSegmentsInOpenPositiveHalfSpace();
+        return segmentsForLeft.size() * segmentsForRight.size() - intersectionListSize;
+    }
 
     @Override
     public String toString() {
