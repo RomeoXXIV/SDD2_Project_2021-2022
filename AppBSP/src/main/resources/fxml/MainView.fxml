@@ -20,6 +20,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import com.oracle.javafx.scenebuilder.kit.util.control.paintpicker.rotator.RotatorControl?>
 
+<?import javafx.scene.layout.GridPane?>
 <VBox id="rootVBox" fx:id="rootVBox" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../css/StyleSheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.ac.umons.student.controllers.MainViewController">
    <children>
       <MenuBar id="MenuBar" fx:id="MenuBar" VBox.vgrow="NEVER">
@@ -152,7 +153,6 @@
                      <children>
                         <Label text="Rotate" />
                         <TextField />
-                        <Button mnemonicParsing="false" text="Button" />
                      </children>
                   </HBox>
                </children>

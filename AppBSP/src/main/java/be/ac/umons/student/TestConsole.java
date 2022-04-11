@@ -65,9 +65,9 @@ public class TestConsole {
      *
      */
     public static String scenesInfos(){
-        System.out.println("+----------------------+----------+--------+----------------+------------------+");
-        System.out.println("| Etape du choix du type de scene                                              |");
-        System.out.println("+----------------------+----------+--------+----------------+------------------+");
+        System.out.println("+-------------------------------------------------+" );
+        System.out.println("|              Choix du type de scene             |");
+        System.out.println("+-------------------------------------------------+" );
         System.out.println("Voici les types de scènes que vous pouvez choisir:");
         System.out.println("Veuillez entrer le chiffre du type de scène qui vous intéresse.\n");
         System.out.println("En cas d'input invalide, le fichier randomHuge sera utilisé.\n");
@@ -85,9 +85,9 @@ public class TestConsole {
     public static String sceneSizes(String choice){
         Scanner userInput = new Scanner(System.in);
         if(choice.equals("1")||choice.equals("2")||choice.equals("3")||choice.equals("4")) {
-            System.out.println("+----------------------+----------+--------+----------------+------------------+");
-            System.out.println("| Etape du choix de la taille de la scene                                      |");
-            System.out.println("+----------------------+----------+--------+----------------+------------------+\n");
+            System.out.println("+-------------------------------------------------+" );
+            System.out.println("|          Choix de la taille de la scene         |");
+            System.out.println("+-------------------------------------------------+" );
         }
         switch (choice){
             case "1":
@@ -227,8 +227,13 @@ public class TestConsole {
     }
 
     public static void main(String[] args){
-        System.out.println("+----------------------+----------+--------+----------------+------------------+" );
-        System.out.println("| Bienvenue dans le mode console de l'application.                             |\n +----------------------+----------+--------+----------------+------------------+ Ici, vous pourrez choisir un fichier à utiliser pour créer un Arbre BSP et voir ses informations.\n");
+        System.out.println(
+                "* * * * * * * * * * * * * * * * * * * * * * * * * *\n" +
+                "*                                                 *\n" +
+                "* Bienvenue dans le mode console de l'application *\n" +
+                "*                                                 *\n" +
+                "* * * * * * * * * * * * * * * * * * * * * * * * * *\n\n" +
+                "Vous pourrez comparer les différentes heuristiques de construction des arbres BSP.\n");
         consoleInterface();
     }
 }
