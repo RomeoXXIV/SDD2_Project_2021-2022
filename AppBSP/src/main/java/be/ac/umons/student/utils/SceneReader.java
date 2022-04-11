@@ -33,11 +33,13 @@ public class SceneReader {
      * @param pathFile
      */
     public void readSceneFile(String pathFile) {
+        boolean fileExist = false;
         if (checkFileConform(pathFile)) {
             try {
                 File sceneFile = new File(pathFile);
                 this.fileName = sceneFile.getName();
                 try (Scanner sc = new Scanner(sceneFile)) {
+                    fileExist = true;
                     sc.next();
                     this.xAxisLimit = sc.nextInt();
                     this.yAxisLimit = sc.nextInt();
@@ -50,11 +52,20 @@ public class SceneReader {
                     }
                 }
             } catch (FileNotFoundException e) {
-                System.out.println("Exception : \"" + e.getMessage() + "\"");
+                System.out.println("");
             }
         }
         else{
-            System.out.println("Le Format du Fichier ne correspond pas");
+            if(fileExist == true) {
+                System.out.println("Le Format du Fichier " + fileName  + " ne correspond pas\nL'application va être quittée.");
+            }
+            else{
+                System.out.println("Le Fichier " + fileName  + " n'existe pas\nL'application va être quittée.");
+
+            }
+            this.xAxisLimit = 0;
+            this.yAxisLimit = 0;
+            this.segmentsSize = 0;
         }
     }
 

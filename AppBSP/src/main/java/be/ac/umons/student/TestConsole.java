@@ -97,7 +97,7 @@ public class TestConsole {
                 return switchEllipse(chosen);
             case "2":
                 System.out.println("En cas d'input non valide, le fichier Small sera utilisé.\n");
-                System.out.println("1. Small\n2. Medium\n 3.Large\n 4.Huge\n");
+                System.out.println("1. Small\n2. Medium\n3 .Large\n4 .Huge\n");
                 String chosen2 = userInput.nextLine();
                 return switchRectangle(chosen2);
             case "3":
@@ -204,6 +204,10 @@ public class TestConsole {
      */
     public static void printScene(String scene){
         SceneReader sceneReader = new SceneReader(scene);
+        if(sceneReader.getSegmentsSize() == 0)
+        {
+            return;
+        }
         System.out.println(sceneReader);
         System.out.println("+----------------------+----------+--------+----------------+------------------+");
         System.out.printf("| %-20s | %8s | %6s | %14s | %15s |\n","Heuristic","Size","Height","Build CPU Time","Painter CPU Time");
