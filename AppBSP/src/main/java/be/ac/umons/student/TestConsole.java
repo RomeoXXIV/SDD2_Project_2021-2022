@@ -229,11 +229,11 @@ public class TestConsole {
     public static void main(String[] args){
         System.out.println(
                 "* * * * * * * * * * * * * * * * * * * * * * * * * *\n" +
-                "*                                                 *\n" +
-                "* Bienvenue dans le mode console de l'application *\n" +
-                "*                                                 *\n" +
-                "* * * * * * * * * * * * * * * * * * * * * * * * * *\n\n" +
-                "Vous pourrez comparer les différentes heuristiques de construction des arbres BSP.\n");
+                        "*                                                 *\n" +
+                        "* Bienvenue dans le mode console de l'application *\n" +
+                        "*                                                 *\n" +
+                        "* * * * * * * * * * * * * * * * * * * * * * * * * *\n\n" +
+                        "Vous pourrez comparer les différentes heuristiques de construction des arbres BSP.\n");
         consoleInterface();
     }
 }
