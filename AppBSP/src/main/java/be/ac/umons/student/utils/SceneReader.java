@@ -107,6 +107,7 @@ public class SceneReader {
         catch (FileNotFoundException e)
         {
             System.out.println("Exception : \"" + e.getMessage() + "\"");
+            return false;
         }
         return true;
     }
