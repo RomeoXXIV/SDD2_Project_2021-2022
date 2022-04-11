@@ -1,0 +1,27 @@
+Introduction:
+
+Dans le cadre des cours de "Structure de Données I" et "Structure de Données II" , nous avons vu les arbres binaires et
+d'autres structure de données étant des variantes de ces Arbres. Pour ce projet du cours de "Structure de Données II",
+nous avons du implémenter les "Binary Search Partition Tree", notés Arbres BSP pour le reste de ce rapport, structure de données
+modelée après les arbres binaires. Ces Arbres BSP sont utilisés en géométrie pour représenter les objets contenus dans un plan.
+Avec une droite, on coupe ce plan en 2 sous-plans (Si la droite coupe un objet, cet objet est divisé en 2 fragments: un par sous-plan.)
+et, nous répétons cette action dans chacun des sous-plan crée jusqu'à ce qu'il ne reste qu'un fragment d'objet par sous-plan.
+Les noeuds internes de l'arbre représentent les droites coupant le plan et les sous-plans, les feuilles sont les fragments d'objets.
+Pour notre projet, les objets sont des segments de droites et donc, en une dimension. Dans ce cas la, certains segments
+peuvent se retrouver contenu dans les droites de coupes. Si cela arrive, nous pouvons retrouver ces segments dans une liste
+associée au noeud de la droite.
+
+Ces arbres BSP servent à effectuer l'algorithme du peintre, qui permet d'afficher graphiquement ce que voit une personne d'un certain point de vue par
+rapport au plan.
+
+Géométrie:
+
+Arbre BSP:
+
+Algorithme du Peintre:
+
+Mode Interactif:
+
+Mode Console:
+
+Conclusion:
