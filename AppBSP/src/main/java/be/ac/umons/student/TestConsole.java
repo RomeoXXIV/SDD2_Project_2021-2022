@@ -228,7 +228,7 @@ public class TestConsole {
 
     public static void main(String[] args){
         System.out.println("+----------------------+----------+--------+----------------+------------------+" );
-        System.out.println("| Bienvenue dans le mode console de l'application.                             |\n +----------------------+----------+--------+----------------+------------------+ Ici, vous pourrez choisir un fichier à utiliser pour créer un Arbre BSP et voir ses informations.\n");
+        System.out.println("| Bienvenue dans le mode console de l'application.                             |\n+----------------------+----------+--------+----------------+------------------+\nIci, vous pourrez choisir un fichier à utiliser pour créer un Arbre BSP et voir ses informations.\n");
         consoleInterface();
     }
 }
