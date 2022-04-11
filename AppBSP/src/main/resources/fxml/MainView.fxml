@@ -1,21 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.canvas.Canvas?>
-<?import javafx.scene.control.Accordion?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.RadioMenuItem?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SeparatorMenuItem?>
+<?import javafx.scene.control.Slider?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TitledPane?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
-<?import javafx.scene.control.RadioMenuItem?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.layout.VBox?>
+<?import com.oracle.javafx.scenebuilder.kit.util.control.paintpicker.rotator.RotatorControl?>
 
-<VBox id="rootVBox" fx:id="rootVBox" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../css/StyleSheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.ac.umons.student.controllers.MainViewController">
+<VBox id="rootVBox" fx:id="rootVBox" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../css/StyleSheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.ac.umons.student.controllers.MainViewController">
    <children>
       <MenuBar id="MenuBar" fx:id="MenuBar" VBox.vgrow="NEVER">
          <menus>
@@ -71,36 +76,87 @@
                     <ToggleGroup fx:id="heuristicToggleGroup" />
                 </fx:define>
                <items>
-                  <RadioMenuItem mnemonicParsing="false" text="Standard" onAction="#handleClickOnStandard" toggleGroup="$heuristicToggleGroup" selected="true" />
-                  <RadioMenuItem mnemonicParsing="false" text="Random" onAction="#handleClickOnRandom" toggleGroup="$heuristicToggleGroup"/>
-                  <RadioMenuItem mnemonicParsing="false" text="TWNB" onAction="#handleClickOnTWBN" toggleGroup="$heuristicToggleGroup" />
-                  <RadioMenuItem mnemonicParsing="false" text="OptimizedRandom" onAction="#handleClickOnOptimizedRandom" toggleGroup="$heuristicToggleGroup" />
+                  <RadioMenuItem mnemonicParsing="false" onAction="#handleClickOnStandard" text="Standard" toggleGroup="$heuristicToggleGroup" selected="true" />
+                  <RadioMenuItem mnemonicParsing="false" onAction="#handleClickOnRandom" text="Random" toggleGroup="$heuristicToggleGroup" />
+                  <RadioMenuItem mnemonicParsing="false" onAction="#handleClickOnTWBN" text="TWNB" toggleGroup="$heuristicToggleGroup" />
+                  <RadioMenuItem mnemonicParsing="false" onAction="#handleClickOnOptimizedRandom" text="OptimizedRandom" toggleGroup="$heuristicToggleGroup" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Help" />
          </menus>
       </MenuBar>
-      <SplitPane id="splitPane" fx:id="splitPane" dividerPositions="0.80" prefHeight="648.0" prefWidth="1280.0">
+      <SplitPane id="splitPane" fx:id="splitPane" dividerPositions="0.8" prefHeight="648.0" prefWidth="1280.0">
         <items>
             <ScrollPane id="scrollPane" fx:id="scrollPane" prefHeight="316.0" prefWidth="626.0">
                <content>
-                  <Canvas id="mainCanvas" fx:id="mainCanvas" height="626.0" width="950.0" />
+                  <Canvas id="mainCanvas" fx:id="mainCanvas" height="647.0" onScroll="#handleScrollOnMainCanvas" width="1019.0" />
                </content>
             </ScrollPane>
-            <Accordion id="MenuAccordion" fx:id="MenuAccordion">
-              <panes>
-                <TitledPane animated="false" text="Required to view">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="360.0" prefWidth="400.0" />
-                  </content>
-                </TitledPane>
-                <TitledPane animated="false" text="Point of view">
-                  <content>
-                    <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="360.0" prefWidth="400.0" />
-                  </content>
-                </TitledPane>
-              </panes>
-            </Accordion>
+            <VBox prefHeight="200.0" prefWidth="100.0">
+               <children>
+                  <Region prefHeight="5.0" prefWidth="253.0" />
+                  <Separator prefWidth="200.0" />
+                  <HBox layoutX="10.0" layoutY="10.0" prefHeight="27.0" prefWidth="253.0">
+                     <children>
+                        <Region prefHeight="27.0" prefWidth="200.0" />
+                        <Label text="Based  on" />
+                     </children>
+                  </HBox>
+                  <Separator prefWidth="200.0" />
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Scene file" />
+                        <TextField />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Heuristic" />
+                        <TextField />
+                     </children>
+                  </HBox>
+                  <Separator prefWidth="200.0" />
+                  <HBox prefHeight="27.0" prefWidth="253.0">
+                     <children>
+                        <Region prefHeight="27.0" prefWidth="181.0" />
+                        <Label text="Point of view" />
+                     </children>
+                  </HBox>
+                  <Separator prefWidth="200.0" />
+                  <HBox prefHeight="43.0" prefWidth="253.0">
+                     <children>
+                        <Label text="Disable" />
+                        <CheckBox mnemonicParsing="false" />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="148.0" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Position X" />
+                        <TextField />
+                        <Slider />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="281.0" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label text="Position Y" />
+                        <TextField />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="381.0" prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <Label text="View angle" />
+                        <TextField />
+                     </children>
+                  </HBox>
+                  <HBox layoutX="10.0" layoutY="481.0" prefHeight="49.0" prefWidth="253.0">
+                     <children>
+                        <Label text="Rotate" />
+                        <TextField />
+                        <Button mnemonicParsing="false" text="Button" />
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
         </items>
       </SplitPane>
       <Separator prefHeight="3.0" prefWidth="1280.0" />
