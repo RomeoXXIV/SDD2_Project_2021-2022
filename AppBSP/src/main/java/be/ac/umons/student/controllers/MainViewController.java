@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.input.ScrollEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -161,6 +162,20 @@ public class MainViewController implements Initializable {
     @FXML
     public void handleClickOnOptimizedRandom() {
         this.heuristicSelector = new OptimizedRandomHeuristic();
+    }
+
+    @FXML
+    public void handleScrollOnMainCanvas(ScrollEvent scrollEvent) {
+        if (scrollEvent.isControlDown()) {
+            scrollEvent.consume();
+            double zoomFactor = 1.1;
+            double deltaY = scrollEvent.getDeltaY();
+            if (deltaY < 0) {
+                zoomFactor = 2. - zoomFactor;
+            }
+            mainCanvas.setScaleX(mainCanvas.getScaleX() * zoomFactor);
+            mainCanvas.setScaleY(mainCanvas.getScaleY() * zoomFactor);
+        }
     }
 
     public void drawSceneOnMainCanvas() {
