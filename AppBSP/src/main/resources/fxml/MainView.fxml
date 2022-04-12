@@ -18,10 +18,10 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
-<?import com.oracle.javafx.scenebuilder.kit.util.control.paintpicker.rotator.RotatorControl?>
+<?import com.oracle.javafx.scenebuilder.kit.util.control.paintpicker.DoubleTextField?>
+<?import javafx.scene.layout.StackPane?>
 
-<?import javafx.scene.layout.GridPane?>
-<VBox id="rootVBox" fx:id="rootVBox" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../css/StyleSheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.ac.umons.student.controllers.MainViewController">
+<VBox id="rootVBox" fx:id="rootVBox" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../css/StyleSheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.ac.umons.student.controllers.MainViewController">
    <children>
       <MenuBar id="MenuBar" fx:id="MenuBar" VBox.vgrow="NEVER">
          <menus>
@@ -150,10 +150,16 @@
                      </children>
                   </HBox>
                   <HBox layoutX="10.0" layoutY="481.0" prefHeight="49.0" prefWidth="253.0">
-                     <children>
-                        <Label text="Rotate" />
-                        <TextField />
-                     </children>
+                        <children>
+                           <Label text="Rotate" />
+                           <DoubleTextField fx:id="rotatorTextfield" onAction="#rotatorAction" prefColumnCount="4" prefWidth="-1.0" styleClass="LF3-textfield1" text="0"/>
+                           <StackPane id="StackPane">
+                              <children>
+                                 <Button fx:id="rotatorDial" mnemonicParsing="false" onMouseDragged="#rotatorMouseDragged" onMousePressed="#rotatorMousePressed" styleClass="rotation-dial" text="" />
+                                 <Button fx:id="rotatorHandle" disable="true" mnemonicParsing="false" opacity="1.0" rotate="0.0" styleClass="rotation-handle" text="" />
+                              </children>
+                           </StackPane>
+                        </children>
                   </HBox>
                </children>
             </VBox>

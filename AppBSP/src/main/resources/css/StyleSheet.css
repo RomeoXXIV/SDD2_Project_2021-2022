@@ -1,0 +1,15 @@
+.rotation-dial, .rotation-handle {
+    -fx-min-width: 30;
+    -fx-max-width: 30;
+    -fx-min-height: 30;
+}
+
+.rotation-dial {
+    -fx-background-radius: 100;
+}
+.rotation-handle {
+    -fx-background-color: null;
+    -fx-background-image: url("/images/rotate-handle.png");
+    -fx-background-repeat: no-repeat;
+    -fx-background-position: right;
+}
