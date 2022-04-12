@@ -7,6 +7,7 @@
 .rotation-dial {
     -fx-background-radius: 100;
 }
+
 .rotation-handle {
     -fx-background-color: null;
     -fx-background-image: url("/images/rotate-handle.png");

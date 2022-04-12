@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.oracle.javafx.scenebuilder.kit.util.control.paintpicker.DoubleTextField?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
@@ -12,16 +14,14 @@
 <?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.SeparatorMenuItem?>
 <?import javafx.scene.control.Slider?>
-<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.control.ToggleGroup?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Region?>
-<?import javafx.scene.layout.VBox?>
-<?import com.oracle.javafx.scenebuilder.kit.util.control.paintpicker.DoubleTextField?>
 <?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 
-<VBox id="rootVBox" fx:id="rootVBox" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../css/StyleSheet.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.ac.umons.student.controllers.MainViewController">
+<VBox id="rootVBox" fx:id="rootVBox" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../css/StyleSheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.ac.umons.student.controllers.MainViewController">
    <children>
       <MenuBar id="MenuBar" fx:id="MenuBar" VBox.vgrow="NEVER">
          <menus>
@@ -77,7 +77,10 @@
                     <ToggleGroup fx:id="heuristicToggleGroup" />
                 </fx:define>
                <items>
-                  <RadioMenuItem mnemonicParsing="false" onAction="#handleClickOnStandard" text="Standard" toggleGroup="$heuristicToggleGroup" selected="true" />
+                  <RadioMenuItem mnemonicParsing="false" onAction="#handleClickOnStandard" selected="true" text="Standard">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="heuristicToggleGroup" />
+                     </toggleGroup></RadioMenuItem>
                   <RadioMenuItem mnemonicParsing="false" onAction="#handleClickOnRandom" text="Random" toggleGroup="$heuristicToggleGroup" />
                   <RadioMenuItem mnemonicParsing="false" onAction="#handleClickOnTWBN" text="TWNB" toggleGroup="$heuristicToggleGroup" />
                   <RadioMenuItem mnemonicParsing="false" onAction="#handleClickOnOptimizedRandom" text="OptimizedRandom" toggleGroup="$heuristicToggleGroup" />
@@ -86,73 +89,138 @@
             <Menu mnemonicParsing="false" text="Help" />
          </menus>
       </MenuBar>
-      <SplitPane id="splitPane" fx:id="splitPane" dividerPositions="0.8" prefHeight="648.0" prefWidth="1280.0">
-        <items>
-            <ScrollPane id="scrollPane" fx:id="scrollPane" prefHeight="316.0" prefWidth="626.0">
+      <HBox>
+         <children>
+            <ScrollPane id="scrollPane" fx:id="scrollPane" minHeight="650.0" minWidth="1020.0">
                <content>
-                  <Canvas id="mainCanvas" fx:id="mainCanvas" height="647.0" onScroll="#handleScrollOnMainCanvas" width="1019.0" />
+                  <Canvas id="mainCanvas" fx:id="mainCanvas" height="645.0" onScroll="#handleScrollOnMainCanvas" width="1018.0" />
                </content>
+               <HBox.margin>
+                  <Insets bottom="-1.0" top="-1.0" />
+               </HBox.margin>
             </ScrollPane>
-            <VBox prefHeight="200.0" prefWidth="100.0">
+            <Separator id="separator" minWidth="7.0" orientation="VERTICAL" prefHeight="200.0">
+               <HBox.margin>
+                  <Insets />
+               </HBox.margin>
+               <padding>
+                  <Insets right="-9.0" />
+               </padding></Separator>
+            <VBox id="vboxInSplitPane" fx:id="vboxInSplitPane" minWidth="252.0">
                <children>
                   <Region prefHeight="5.0" prefWidth="253.0" />
-                  <Separator prefWidth="200.0" />
+                  <Separator maxWidth="252.0" />
                   <HBox layoutX="10.0" layoutY="10.0" prefHeight="27.0" prefWidth="253.0">
                      <children>
                         <Region prefHeight="27.0" prefWidth="200.0" />
-                        <Label text="Based  on" />
+                        <Label prefHeight="30.0" prefWidth="65.0" text="Based  on" />
                      </children>
+                     <VBox.margin>
+                        <Insets />
+                     </VBox.margin>
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding>
                   </HBox>
-                  <Separator prefWidth="200.0" />
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  <Separator maxWidth="252.0" />
+                  <HBox spacing="30.0">
                      <children>
-                        <Label text="Scene file" />
-                        <TextField />
+                        <Label minHeight="30.0" minWidth="78.0" text="Scene file" />
+                        <TextField minHeight="30.0" />
                      </children>
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
                   </HBox>
-                  <HBox layoutX="10.0" layoutY="10.0" prefHeight="100.0" prefWidth="200.0">
+                  <HBox layoutX="10.0" layoutY="10.0" minHeight="30.0" spacing="30.0">
                      <children>
-                        <Label text="Heuristic" />
-                        <TextField />
+                        <Label minHeight="30.0" minWidth="78.0" text="Heuristic" />
+                        <TextField minHeight="30.0" />
                      </children>
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
                   </HBox>
-                  <Separator prefWidth="200.0" />
+                  <Separator maxWidth="252.0" />
                   <HBox prefHeight="27.0" prefWidth="253.0">
                      <children>
-                        <Region prefHeight="27.0" prefWidth="181.0" />
-                        <Label text="Point of view" />
+                        <Region prefHeight="27.0" prefWidth="174.0" />
+                        <Label prefHeight="27.0" prefWidth="69.0" text="Point of view" />
                      </children>
+                     <padding>
+                        <Insets right="10.0" />
+                     </padding>
                   </HBox>
-                  <Separator prefWidth="200.0" />
-                  <HBox prefHeight="43.0" prefWidth="253.0">
+                  <Separator maxWidth="252.0" />
+                  <HBox minHeight="30.0" spacing="30.0">
                      <children>
-                        <Label text="Disable" />
-                        <CheckBox mnemonicParsing="false" />
+                        <Label minHeight="30.0" minWidth="78.0" text="Disable" />
+                        <CheckBox minHeight="18.0" mnemonicParsing="false">
+                           <padding>
+                              <Insets bottom="6.0" top="6.0" />
+                           </padding></CheckBox>
                      </children>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin>
                   </HBox>
-                  <HBox layoutX="10.0" layoutY="148.0" prefHeight="100.0" prefWidth="200.0">
+                  <HBox layoutX="10.0" layoutY="148.0" minHeight="30.0" spacing="30.0">
                      <children>
-                        <Label text="Position X" />
-                        <TextField />
-                        <Slider />
+                        <Label minHeight="30.0" minWidth="78.0" text="Position X" />
+                        <TextField minHeight="30.0" />
                      </children>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin>
                   </HBox>
-                  <HBox layoutX="10.0" layoutY="281.0" prefHeight="100.0" prefWidth="200.0">
+                  <HBox layoutX="10.0" layoutY="281.0" minHeight="30.0" spacing="30.0">
                      <children>
-                        <Label text="Position Y" />
-                        <TextField />
+                        <Label minHeight="30.0" minWidth="78.0" text="Position Y" />
+                        <TextField minHeight="30.0" />
                      </children>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin>
                   </HBox>
-                  <HBox layoutX="10.0" layoutY="381.0" prefHeight="100.0" prefWidth="200.0">
+                  <HBox layoutX="10.0" layoutY="381.0" minHeight="30.0" spacing="30.0">
                      <children>
-                        <Label text="View angle" />
-                        <TextField />
+                        <Label minHeight="30.0" minWidth="78.0" text="View angle" />
+                        <TextField minHeight="30.0" minWidth="50.0" />
+                        <Slider blockIncrement="1.0" max="124.0" minHeight="30.0" minWidth="75.0">
+                           <HBox.margin>
+                              <Insets left="-25.0" />
+                           </HBox.margin>
+                        </Slider>
                      </children>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin>
                   </HBox>
-                  <HBox layoutX="10.0" layoutY="481.0" prefHeight="49.0" prefWidth="253.0">
+                  <HBox layoutX="10.0" layoutY="481.0" minHeight="30.0" spacing="30.0">
                         <children>
-                           <Label text="Rotate" />
-                           <DoubleTextField fx:id="rotatorTextfield" onAction="#rotatorAction" prefColumnCount="4" prefWidth="-1.0" styleClass="LF3-textfield1" text="0"/>
+                           <Label minHeight="30.0" minWidth="78.0" text="Rotate" />
+                           <DoubleTextField fx:id="rotatorTextfield" minHeight="30.0" minWidth="90.0" onAction="#rotatorAction" prefColumnCount="4" prefHeight="30.0" prefWidth="102.0" styleClass="LF3-textfield1" text="0">
+                           <HBox.margin>
+                              <Insets right="-25.0" />
+                           </HBox.margin></DoubleTextField>
                            <StackPane id="StackPane">
                               <children>
                                  <Button fx:id="rotatorDial" mnemonicParsing="false" onMouseDragged="#rotatorMouseDragged" onMousePressed="#rotatorMousePressed" styleClass="rotation-dial" text="" />
@@ -160,12 +228,18 @@
                               </children>
                            </StackPane>
                         </children>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                     <VBox.margin>
+                        <Insets bottom="10.0" top="10.0" />
+                     </VBox.margin>
                   </HBox>
                </children>
             </VBox>
-        </items>
-      </SplitPane>
+         </children>
+      </HBox>
       <Separator prefHeight="3.0" prefWidth="1280.0" />
-      <Canvas height="90.0" width="1280.0" />
+      <Canvas height="121.0" width="1280.0" />
    </children>
 </VBox>

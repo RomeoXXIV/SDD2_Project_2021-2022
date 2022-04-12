@@ -30,6 +30,7 @@ public class TestInteractive extends Application {
 
         this.primaryStage.setTitle("MaySee Application");
         this.primaryStage.setScene(scene);
+        this.primaryStage.setResizable(false);
         this.primaryStage.show();
     }
 }

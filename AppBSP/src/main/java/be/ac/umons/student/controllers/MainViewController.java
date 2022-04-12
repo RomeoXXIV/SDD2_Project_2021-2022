@@ -8,7 +8,6 @@ import be.ac.umons.student.models.painter.Painter;
 import be.ac.umons.student.models.painter.PainterInteractive;
 import be.ac.umons.student.utils.SceneReader;
 import com.oracle.javafx.scenebuilder.kit.util.control.paintpicker.DoubleTextField;
-import com.sun.javafx.collections.ElementObservableListDecorator;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.event.ActionEvent;
@@ -20,9 +19,11 @@ import javafx.scene.Parent;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.SplitPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -48,7 +49,11 @@ public class MainViewController implements Initializable {
     private double widthMainCanvas;
     private double heightMainCanvas;
 
+    @FXML public VBox rootVBox;
     @FXML public Canvas mainCanvas;
+    @FXML public SplitPane splitPane;
+    @FXML public ScrollPane scrollPane;
+    @FXML public VBox vboxInSplitPane;
 
     @FXML public DoubleTextField rotatorTextfield;
     @FXML public Button rotatorDial;
