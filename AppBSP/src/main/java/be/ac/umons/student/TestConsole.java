@@ -97,7 +97,7 @@ public class TestConsole {
                 return switchEllipse(chosen);
             case "2":
                 System.out.println("En cas d'input non valide, le fichier Small sera utilisé.\n");
-                System.out.println("1. Small\n2. Medium\n 3.Large\n 4.Huge\n");
+                System.out.println("1. Small\n2. Medium\n3 .Large\n4 .Huge\n");
                 String chosen2 = userInput.nextLine();
                 return switchRectangle(chosen2);
             case "3":
