@@ -204,6 +204,10 @@ public class TestConsole {
      */
     public static void printScene(String scene){
         SceneReader sceneReader = new SceneReader(scene);
+        if(sceneReader.getSegmentsSize() == 0)
+        {
+            return;
+        }
         System.out.println(sceneReader);
         System.out.println("+----------------------+----------+--------+----------------+------------------+");
         System.out.printf("| %-20s | %8s | %6s | %14s | %15s |\n","Heuristic","Size","Height","Build CPU Time","Painter CPU Time");
