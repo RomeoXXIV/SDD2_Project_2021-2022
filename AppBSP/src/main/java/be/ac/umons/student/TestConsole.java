@@ -220,13 +220,14 @@ public class TestConsole {
         //printDetails(segmentArrayList, bonusHeuristic);
         System.out.println("Voulez-vous recommencer?\n1. Oui avec le même fichier\n2. Oui avec un fichier différent.\n3. Non\n\nEn cas d'input invalide, l'application s'arrêtera.");
         Scanner userChoice = new Scanner(System.in);
-        switch (userChoice.nextLine()){
+        String choice = userChoice.nextLine();
+        switch (choice){
             case "1":
                 printScene(scene);
             case "2":
                 consoleInterface();
             default:
-                return;
+                break;
         }
     }
 

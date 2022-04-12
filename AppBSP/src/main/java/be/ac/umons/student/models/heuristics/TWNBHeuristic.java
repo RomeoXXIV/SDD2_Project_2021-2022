@@ -103,7 +103,7 @@ public class TWNBHeuristic implements HeuristicSelector {
         SegmentDistribution segmentDistribution = new SegmentDistribution(copiedSegments, currentLine);
         ArrayList<Segment> segmentsForLeft = segmentDistribution.getSegmentsInOpenNegativeHalfSpace();
         ArrayList<Segment> segmentsForRight = segmentDistribution.getSegmentsInOpenPositiveHalfSpace();
-        return segmentsForLeft.size() * segmentsForRight.size() - intersectionListSize;
+        return segmentsForLeft.size() * segmentsForRight.size() - intersectionListSize*7;
     }
 
     @Override

@@ -4,7 +4,8 @@ Dans le cadre des cours de "Structure de Données I" et "Structure de Données I
 d'autres structure de données étant des variantes de ces Arbres. Pour ce projet du cours de "Structure de Données II",
 nous avons du implémenter les "Binary Search Partition Tree", notés Arbres BSP pour le reste de ce rapport, structure de données
 modelée après les arbres binaires. Ces Arbres BSP sont utilisés en géométrie pour représenter les objets contenus dans un plan.
-Avec une droite, on coupe ce plan en 2 sous-plans (Si la droite coupe un objet, cet objet est divisé en 2 fragments: un par sous-plan.)
+Avec une droite, on coupe ce plan en 2 sous-plans, aussi appelés demi-espace ouvert positif ou négatif (Si la droite coupe un objet,
+cet objet est divisé en 2 fragments: un par sous-plan.)
 et, nous répétons cette action dans chacun des sous-plan crée jusqu'à ce qu'il ne reste qu'un fragment d'objet par sous-plan.
 Les noeuds internes de l'arbre représentent les droites coupant le plan et les sous-plans, les feuilles sont les fragments d'objets.
 Pour notre projet, les objets sont des segments de droites et donc, en une dimension. Dans ce cas la, certains segments
@@ -14,9 +15,53 @@ associée au noeud de la droite.
 Ces arbres BSP servent à effectuer l'algorithme du peintre, qui permet d'afficher graphiquement ce que voit une personne d'un certain point de vue par
 rapport au plan.
 
-Géométrie:
+1) Géométrie:
+Nous avons tout d'abord commencé par implémenter l'aspect géométrique de l'application.
 
-Arbre BSP:
+- 1.1) Les Points (Classe Point)
+Base de tous les objets géométrique que l'on a besoin, un point est composé de 2 doubles x et y représentant ses coordonnées.
+
+- 1.2) Les Segments (Classe Segment)
+Les Segments sont composés de 2 points, les extrémités, et de la couleur du segment. On peut en calculer la longueur, on peut le diviser en deux,
+et on peut le transformer en droite.
+
+- 1.3) Les Vecteurs (Classe Vector)
+Les Vecteurs sont composé de deux doubles x et y. On peut le construire soit avec un couple de double, soit avec un couple de points.
+On peut calculer leur norme, leur opposer, en additionner, en soustraire et en multiplier par des scalaires.
+
+- 1.4)  Les Droites (Classe Line)
+Une droite dans le plan d'équation αx² + βx + γ = 0. α, β et γ étant des doubles. On peut calculer son intersection avec une autre droite, savoir si un
+segment se trouve à droite ou à gauche de cette droite, et avoir la liste des segments confondus à cette droite.
+
+2) Les Arbres BSP (Classe BSPtree)
+Pour construire un arbre BSP, on a besoin d'une liste de segments , d'une droite de coupe et de deux sous-arbres gauche et droite. La droite de coupe
+est choisie selon l'heuristique utilisée. On peut calculer sa hauteur et le nombre de noeud contenu dans l'arbre.
+
+- 2.1) La Distribution des Segments (Classe SegmentDistribution)
+Quand on a la liste des segments et la droite de coupe, nous pouvons grace aux méthodes dans la classe Line récupérer deux ArrayList de segments,
+ceux contenus dans le demi-espace positif et ceux contenus dans le demi-espace négatif.
+
+- 2.2) La Construction des sous-arbres gauche et droite
+Grace aux ArrayList obtenues, on construit récursivement les sous-arbres.
+
+3) Les Heuristiques
+Pour choisir la droite de coupe utilisée pour construire notre arbre, nous devons utliser une heuristique. Dans le cadre du projet,
+nous avons du implémenter 3 heuristiques. Pour ce faire, nous avons utilisé les Interfaces de Java
+
+- 3.1) L'Heuristique aléatoire
+Cette heuristique prend un segments aléatoire parmis la liste des segments et l'utilise.
+
+- 3.2) L'Heuristique standard
+Cette heuristique prend le premier segment de la liste et l'utilise.
+
+- 3.3) L'Heurisitique TWNB (Abréviation des auteurs de cette heuristique)
+Cette heuristique choisit le segment qui maximise la fonction suivante:
+(fd+)*(fd-) - w*(fd)
+fd+ correspond au nombre de segments dans le demi-espace ouvert positif, fd- au nombre de segments dans le demi-espace ouvert négatif,
+fd au nombre de segments intersectés par la droite et w par un poids à fixer. Après uné série de tests, nous avons choisi un poid de 7.
+
+
+
 
 Algorithme du Peintre:
 
