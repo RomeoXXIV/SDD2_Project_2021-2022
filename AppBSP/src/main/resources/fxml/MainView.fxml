@@ -183,10 +183,13 @@
                         <HBox minHeight="30.0" spacing="30.0">
                            <children>
                               <Label minHeight="30.0" minWidth="78.0" text="View angle" />
-                              <TextField fx:id="viewAngleTextfield" onAction="#handleViewAngleAction" minHeight="30.0" minWidth="50.0" text="100"/>
-                              <Slider fx:id="viewAngleSlider" onMouseDragged="#handleViewAngleSliderMouseDragged" onMousePressed="#handleViewAngleSliderMousePressed" blockIncrement="1.0" max="200.0" minHeight="30.0" minWidth="75.0">
+                              <TextField fx:id="viewAngleTextfield" minHeight="30.0" minWidth="50.0" onAction="#handleViewAngleTextfieldAction" text="100">
                                  <HBox.margin>
-                                    <Insets left="-25.0" />
+                                    <Insets right="-5.0" />
+                                 </HBox.margin></TextField>
+                              <Slider fx:id="viewAngleSlider" blockIncrement="1.0" max="200.0" minHeight="30.0" minWidth="75.0" onMouseDragged="#handleViewAngleSliderMouseDragged" onMousePressed="#handleViewAngleSliderMousePressed" value="100">
+                                 <HBox.margin>
+                                    <Insets left="-25.0" right="-5.0" />
                                  </HBox.margin>
                               </Slider>
                            </children>

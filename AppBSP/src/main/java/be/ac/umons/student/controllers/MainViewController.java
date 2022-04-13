@@ -280,7 +280,7 @@ public class MainViewController implements Initializable {
     // Menu Point Of View Handler
     //View Angle Section
     @FXML
-    public void handleViewAngleAction(ActionEvent actionEvent) {
+    public void handleViewAngleTextfieldAction(ActionEvent actionEvent) {
         double value = Double.parseDouble(this.viewAngleTextfield.getText());
         double rounded = this.round(value, 100);
         this.translate(rounded);
@@ -289,29 +289,19 @@ public class MainViewController implements Initializable {
     }
 
     @FXML
-    public void handleViewAngleSliderMouseDragged(MouseEvent mouseEvent) {
-        // todo handleViewAngleSliderMouseDragged
-        /*Parent p = this.viewAngleSlider.getParent();
-        Bounds b = this.viewAngleSlider.getLayoutBounds();
-        double centerX = b.getMinX() + b.getWidth() / 2.0D;
-        double centerY = b.getMinY() + b.getHeight() / 2.0D;
-        Point2D center = p.localToParent(centerX, centerY);
-        Point2D mouse = p.localToParent(mouseEvent.getX(), mouseEvent.getY());
-        double deltaX = mouse.getX() - center.getX();
-        double deltaY = mouse.getY() - center.getY();*/
-        this.translate(1);
-    }
-
-    @FXML
     public void handleViewAngleSliderMousePressed(MouseEvent mouseEvent) {
         this.handleViewAngleSliderMouseDragged(mouseEvent);
     }
 
+    @FXML
+    public void handleViewAngleSliderMouseDragged(MouseEvent mouseEvent) {
+        this.viewAngleTextfield.setText(Double.toString(this.viewAngleSlider.getValue()));
+    }
+
     private void translate(double value) {
         double rounded = this.round(value, 100);
-        this.translation.set(rounded);
-        this.viewAngleSlider.setTranslateX(rounded);
-        this.viewAngleTextfield.setText(Double.toString(rounded));
+        this.viewAngleSlider.setValue(rounded);
+        this.viewAngleTextfield.setText(Double.toString(this.round(rounded, 100)));
     }
 
     // Rotator Section
