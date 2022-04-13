@@ -23,6 +23,8 @@ public class TWNBHeuristic implements HeuristicSelector {
         for(int i = 0; i < segments.size(); i++) {
             Segment newSegment = segments.get(0);
             if (!usedSegments.contains(newSegment)) {
+                usedSegments.add(newSegment);
+                usedSegments.addAll(newSegment.toLine().getContentSegments(segments));
                 ArrayList<Segment> newIntersectedList = intersectionList(newSegment, segments);
                 int newRatio = leftAndRightRatio(newSegment, segments);
                 if (newRatio < currentRatio) {
@@ -33,8 +35,6 @@ public class TWNBHeuristic implements HeuristicSelector {
                             functionResult = newResult;
                             currentRatio = newRatio;
                         }
-                        usedSegments.add(newSegment);
-                        usedSegments.addAll(newSegment.toLine().getContentSegments(segments));
                     }
                 }
             }
