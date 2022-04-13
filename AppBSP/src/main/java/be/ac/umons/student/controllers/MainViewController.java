@@ -278,11 +278,18 @@ public class MainViewController implements Initializable {
     }
 
     // Menu Point Of View Handler
+    public double boundingValue(double value, double min, double max) {
+        if (value < min) return min;
+        if (value > max) return max;
+        return value;
+    }
+
     //View Angle Section
     @FXML
     public void handleViewAngleTextfieldAction(ActionEvent actionEvent) {
         double value = Double.parseDouble(this.viewAngleTextfield.getText());
         double rounded = this.round(value, 100);
+        rounded = this.boundingValue(rounded, 0, 200);
         this.translate(rounded);
         this.viewAngleTextfield.selectAll();
         actionEvent.consume();
@@ -309,6 +316,7 @@ public class MainViewController implements Initializable {
     public void handleRotatorTextfieldAction(ActionEvent actionEvent) {
         double value = Double.parseDouble(this.rotatorTextfield.getText());
         double rounded = this.round(value, 100);
+        rounded = this.boundingValue(rounded, 0, 359);
         this.rotate(rounded);
         this.rotatorTextfield.selectAll();
         actionEvent.consume();
