@@ -4,12 +4,13 @@ import be.ac.umons.student.models.BSPTree;
 import be.ac.umons.student.models.Segment;
 import be.ac.umons.student.models.heuristics.*;
 import be.ac.umons.student.models.painter.Paintable;
-import be.ac.umons.student.models.painter.Painter;
 import be.ac.umons.student.models.painter.PainterInteractive;
 import be.ac.umons.student.utils.SceneReader;
 import com.oracle.javafx.scenebuilder.kit.util.control.paintpicker.DoubleTextField;
 import javafx.beans.property.DoubleProperty;
 import javafx.beans.property.SimpleDoubleProperty;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -18,9 +19,7 @@ import javafx.geometry.Point2D;
 import javafx.scene.Parent;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.control.Button;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.SplitPane;
+import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.VBox;
@@ -35,30 +34,43 @@ import java.util.ResourceBundle;
 
 public class MainViewController implements Initializable {
 
+    @FXML public VBox rootVBox;
+    @FXML public VBox inSplitPaneVBox;
+    private Stage stage;
+
+    // Not Yet Used
     private final Paintable painterInteractive = new PainterInteractive();
-    private final DoubleProperty rotation = new SimpleDoubleProperty();
-
-    private HeuristicSelector heuristicSelector = new StandardHeuristic();;
-
-    private File sceneFile;
-    private SceneReader sceneReader;
+    private HeuristicSelector heuristicSelector = new StandardHeuristic();
     private BSPTree bspTree;
 
-    private Stage stage;
+    // MenuBar Variables
+    private File sceneFile;
+    private SceneReader sceneReader;
+
+    // Canvas Variables
+    @FXML public ScrollPane scrollPane;
+    @FXML public Canvas mainCanvas;
     private GraphicsContext graphicsContext;
     private double widthMainCanvas;
     private double heightMainCanvas;
 
-    @FXML public VBox rootVBox;
-    @FXML public Canvas mainCanvas;
-    @FXML public SplitPane splitPane;
-    @FXML public ScrollPane scrollPane;
-    @FXML public VBox vboxInSplitPane;
-
+    // Menu Point Of View Variables
+    @FXML public TextField sceneFileTextField;
+    @FXML public TextField heuristicTextField;
+    @FXML public VBox pointOfViewVBox;
+    @FXML public TextField viewAngleTextfield;
+    @FXML public Slider viewAngleSlider;
+    @FXML public Button buttonShowView;
     @FXML public DoubleTextField rotatorTextfield;
     @FXML public Button rotatorDial;
     @FXML public Button rotatorHandle;
+    private final StringProperty sceneFileSelected = new SimpleStringProperty();
+    private final StringProperty heuristicSelected = new SimpleStringProperty("Standard");
+    private final DoubleProperty translation = new SimpleDoubleProperty();
+    private final DoubleProperty rotation = new SimpleDoubleProperty();
 
+
+    // MenuBar Handler
     @FXML
     public void handleClickOnQuitMaySee() {
         stage.close();
@@ -68,6 +80,8 @@ public class MainViewController implements Initializable {
     public void handleClickOnOpen() {
         FileChooser fileChooser = new FileChooser();
         this.sceneFile = fileChooser.showOpenDialog(stage);
+        this.sceneFileSelected.set(sceneFile.getName());
+        this.pointOfViewVBox.setDisable(false);
         this.sceneReader = new SceneReader(this.sceneFile);
         this.drawSceneOnMainCanvas();
         /*this.bspTree = new BSPTree(this.sceneReader.getSegments(), this.heuristicSelector);
@@ -77,6 +91,8 @@ public class MainViewController implements Initializable {
     @FXML
     public void handleClickOnOpenEllipsesLarge() {
         this.sceneFile = new File("src/main/resources/scenes/ellipses/ellipsesLarge.txt");
+        this.sceneFileSelected.set(sceneFile.getName());
+        this.pointOfViewVBox.setDisable(false);
         this.sceneReader = new SceneReader(this.sceneFile);
         this.drawSceneOnMainCanvas();
     }
@@ -84,6 +100,8 @@ public class MainViewController implements Initializable {
     @FXML
     public void handleClickOnOpenEllipsesMedium() {
         this.sceneFile = new File("src/main/resources/scenes/ellipses/ellipsesMedium.txt");
+        this.sceneFileSelected.set(sceneFile.getName());
+        this.pointOfViewVBox.setDisable(false);
         this.sceneReader = new SceneReader(this.sceneFile);
         this.drawSceneOnMainCanvas();
     }
@@ -91,6 +109,8 @@ public class MainViewController implements Initializable {
     @FXML
     public void handleClickOnOpenEllipsesSmall() {
         this.sceneFile = new File("src/main/resources/scenes/ellipses/ellipsesSmall.txt");
+        this.sceneFileSelected.set(sceneFile.getName());
+        this.pointOfViewVBox.setDisable(false);
         this.sceneReader = new SceneReader(this.sceneFile);
         this.drawSceneOnMainCanvas();
     }
@@ -98,6 +118,8 @@ public class MainViewController implements Initializable {
     @FXML
     public void handleClickOnOpenFirstOctangle() {
         this.sceneFile = new File("src/main/resources/scenes/first/octangle.txt");
+        this.sceneFileSelected.set(sceneFile.getName());
+        this.pointOfViewVBox.setDisable(false);
         this.sceneReader = new SceneReader(this.sceneFile);
         this.drawSceneOnMainCanvas();
     }
@@ -105,6 +127,8 @@ public class MainViewController implements Initializable {
     @FXML
     public void handleClickOnOpenFirstOctogone() {
         this.sceneFile = new File("src/main/resources/scenes/first/octogone.txt");
+        this.sceneFileSelected.set(sceneFile.getName());
+        this.pointOfViewVBox.setDisable(false);
         this.sceneReader = new SceneReader(this.sceneFile);
         this.drawSceneOnMainCanvas();
     }
@@ -112,6 +136,8 @@ public class MainViewController implements Initializable {
     @FXML
     public void handleClickOnOpenRandomHuge() {
         this.sceneFile = new File("src/main/resources/scenes/random/randomHuge.txt");
+        this.sceneFileSelected.set(sceneFile.getName());
+        this.pointOfViewVBox.setDisable(false);
         this.sceneReader = new SceneReader(this.sceneFile);
         this.drawSceneOnMainCanvas();
     }
@@ -119,6 +145,8 @@ public class MainViewController implements Initializable {
     @FXML
     public void handleClickOnOpenRandomLarge() {
         this.sceneFile = new File("src/main/resources/scenes/random/randomLarge.txt");
+        this.sceneFileSelected.set(sceneFile.getName());
+        this.pointOfViewVBox.setDisable(false);
         this.sceneReader = new SceneReader(this.sceneFile);
         this.drawSceneOnMainCanvas();
     }
@@ -126,6 +154,8 @@ public class MainViewController implements Initializable {
     @FXML
     public void handleClickOnOpenRandomMedium() {
         this.sceneFile = new File("src/main/resources/scenes/random/randomMedium.txt");
+        this.sceneFileSelected.set(sceneFile.getName());
+        this.pointOfViewVBox.setDisable(false);
         this.sceneReader = new SceneReader(this.sceneFile);
         this.drawSceneOnMainCanvas();
     }
@@ -133,6 +163,8 @@ public class MainViewController implements Initializable {
     @FXML
     public void handleClickOnOpenRandomSmall() {
         this.sceneFile = new File("src/main/resources/scenes/random/randomSmall.txt");
+        this.sceneFileSelected.set(sceneFile.getName());
+        this.pointOfViewVBox.setDisable(false);
         this.sceneReader = new SceneReader(this.sceneFile);
         this.drawSceneOnMainCanvas();
     }
@@ -140,6 +172,8 @@ public class MainViewController implements Initializable {
     @FXML
     public void handleClickOnOpenRectanglesHuge() {
         this.sceneFile = new File("src/main/resources/scenes/rectangles/rectanglesHuge.txt");
+        this.sceneFileSelected.set(sceneFile.getName());
+        this.pointOfViewVBox.setDisable(false);
         this.sceneReader = new SceneReader(this.sceneFile);
         this.drawSceneOnMainCanvas();
     }
@@ -147,6 +181,8 @@ public class MainViewController implements Initializable {
     @FXML
     public void handleClickOnOpenRectanglesLarge() {
         this.sceneFile = new File("src/main/resources/scenes/rectangles/rectanglesLarge.txt");
+        this.sceneFileSelected.set(sceneFile.getName());
+        this.pointOfViewVBox.setDisable(false);
         this.sceneReader = new SceneReader(this.sceneFile);
         this.drawSceneOnMainCanvas();
     }
@@ -154,6 +190,8 @@ public class MainViewController implements Initializable {
     @FXML
     public void handleClickOnOpenRectanglesMedium() {
         this.sceneFile = new File("src/main/resources/scenes/rectangles/rectanglesMedium.txt");
+        this.sceneFileSelected.set(sceneFile.getName());
+        this.pointOfViewVBox.setDisable(false);
         this.sceneReader = new SceneReader(this.sceneFile);
         this.drawSceneOnMainCanvas();
     }
@@ -161,6 +199,8 @@ public class MainViewController implements Initializable {
     @FXML
     public void handleClickOnOpenRectanglesSmall() {
         this.sceneFile = new File("src/main/resources/scenes/rectangles/rectanglesSmall.txt");
+        this.sceneFileSelected.set(sceneFile.getName());
+        this.pointOfViewVBox.setDisable(false);
         this.sceneReader = new SceneReader(this.sceneFile);
         this.drawSceneOnMainCanvas();
     }
@@ -168,23 +208,28 @@ public class MainViewController implements Initializable {
     @FXML
     public void handleClickOnStandard() {
         this.heuristicSelector = new StandardHeuristic();
+        this.heuristicSelected.set("Standard");
     }
 
     @FXML
     public void handleClickOnRandom() {
         this.heuristicSelector = new RandomHeuristic();
+        this.heuristicSelected.set("Random");
     }
 
     @FXML
     public void handleClickOnTWBN() {
         this.heuristicSelector = new TWNBHeuristic();
+        this.heuristicSelected.set("TWBH");
     }
 
     @FXML
     public void handleClickOnOptimizedRandom() {
         this.heuristicSelector = new OptimizedRandomHeuristic();
+        this.heuristicSelected.set("Optimized Random");
     }
 
+    // Canvas handler
     @FXML
     public void handleScrollOnMainCanvas(ScrollEvent scrollEvent) {
         if (scrollEvent.isControlDown()) {
@@ -197,46 +242,6 @@ public class MainViewController implements Initializable {
             mainCanvas.setScaleX(mainCanvas.getScaleX() * zoomFactor);
             mainCanvas.setScaleY(mainCanvas.getScaleY() * zoomFactor);
         }
-    }
-
-    @FXML
-    public void rotatorAction(ActionEvent actionEvent) {
-        double value = Double.parseDouble(this.rotatorTextfield.getText());
-        double rounded = this.round(value, 100);
-        this.rotate(rounded);
-        this.rotatorTextfield.selectAll();
-        actionEvent.consume();
-    }
-
-    @FXML
-    public void rotatorMousePressed(MouseEvent mouseEvent) {
-        this.rotatorMouseDragged(mouseEvent);
-    }
-
-    @FXML
-    public void rotatorMouseDragged(MouseEvent mouseEvent) {
-        Parent p = this.rotatorDial.getParent();
-        Bounds b = this.rotatorDial.getLayoutBounds();
-        double centerX = b.getMinX() + b.getWidth() / 2.0D;
-        double centerY = b.getMinY() + b.getHeight() / 2.0D;
-        Point2D center = p.localToParent(centerX, centerY);
-        Point2D mouse = p.localToParent(mouseEvent.getX(), mouseEvent.getY());
-        double deltaX = mouse.getX() - center.getX();
-        double deltaY = mouse.getY() - center.getY();
-        double radians = Math.atan2(deltaY, deltaX);
-        this.rotate(Math.toDegrees(radians));
-    }
-
-    private void rotate(Double value) {
-        double rounded = this.round(value, 100);
-        this.rotation.set(rounded);
-        this.rotatorHandle.setRotate(rounded);
-        this.rotatorTextfield.setText(Double.toString(rounded));
-    }
-
-    private double round(double value, int roundingFactor) {
-        double doubleRounded = (double)Math.round(value * (double)roundingFactor);
-        return doubleRounded / (double)roundingFactor;
     }
 
     private void drawSceneOnMainCanvas() {
@@ -272,6 +277,86 @@ public class MainViewController implements Initializable {
         return Color.rgb(red, green, blue, opacity);
     }
 
+    // Menu Point Of View Handler
+    //View Angle Section
+    @FXML
+    public void handleViewAngleAction(ActionEvent actionEvent) {
+        double value = Double.parseDouble(this.viewAngleTextfield.getText());
+        double rounded = this.round(value, 100);
+        this.translate(rounded);
+        this.viewAngleTextfield.selectAll();
+        actionEvent.consume();
+    }
+
+    @FXML
+    public void handleViewAngleSliderMouseDragged(MouseEvent mouseEvent) {
+        // todo handleViewAngleSliderMouseDragged
+        /*Parent p = this.viewAngleSlider.getParent();
+        Bounds b = this.viewAngleSlider.getLayoutBounds();
+        double centerX = b.getMinX() + b.getWidth() / 2.0D;
+        double centerY = b.getMinY() + b.getHeight() / 2.0D;
+        Point2D center = p.localToParent(centerX, centerY);
+        Point2D mouse = p.localToParent(mouseEvent.getX(), mouseEvent.getY());
+        double deltaX = mouse.getX() - center.getX();
+        double deltaY = mouse.getY() - center.getY();*/
+        this.translate(1);
+    }
+
+    @FXML
+    public void handleViewAngleSliderMousePressed(MouseEvent mouseEvent) {
+        this.handleViewAngleSliderMouseDragged(mouseEvent);
+    }
+
+    private void translate(double value) {
+        double rounded = this.round(value, 100);
+        this.translation.set(rounded);
+        this.viewAngleSlider.setTranslateX(rounded);
+        this.viewAngleTextfield.setText(Double.toString(rounded));
+    }
+
+    // Rotator Section
+    @FXML
+    public void handleRotatorTextfieldAction(ActionEvent actionEvent) {
+        double value = Double.parseDouble(this.rotatorTextfield.getText());
+        double rounded = this.round(value, 100);
+        this.rotate(rounded);
+        this.rotatorTextfield.selectAll();
+        actionEvent.consume();
+    }
+
+    @FXML
+    public void handleRotatorMousePressed(MouseEvent mouseEvent) {
+        this.handleRotatorMouseDragged(mouseEvent);
+    }
+
+    @FXML
+    public void handleRotatorMouseDragged(MouseEvent mouseEvent) {
+        Parent p = this.rotatorDial.getParent();
+        Bounds b = this.rotatorDial.getLayoutBounds();
+        double centerX = b.getMinX() + b.getWidth() / 2.0D;
+        double centerY = b.getMinY() + b.getHeight() / 2.0D;
+        Point2D center = p.localToParent(centerX, centerY);
+        Point2D mouse = p.localToParent(mouseEvent.getX(), mouseEvent.getY());
+        double deltaX = mouse.getX() - center.getX();
+        double deltaY = mouse.getY() - center.getY();
+        double radians = Math.atan2(deltaY, deltaX);
+        this.rotate(Math.toDegrees(radians));
+    }
+
+    private void rotate(Double value) {
+        double rounded = this.round(value, 100);
+        this.rotation.set(rounded);
+        this.rotatorHandle.setRotate(rounded);
+        if(rounded < 0) rounded += 360;
+        this.rotatorTextfield.setText(Double.toString(this.round(rounded, 100)));
+    }
+
+    private double round(double value, int roundingFactor) {
+        double doubleRounded = (double)Math.round(value * (double)roundingFactor);
+        return doubleRounded / (double)roundingFactor;
+    }
+
+    // initialize + setter
     /**
      * Called to initialize a controller after its root element has been
      * completely processed.
@@ -283,6 +368,10 @@ public class MainViewController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.graphicsContext = mainCanvas.getGraphicsContext2D();
+        this.sceneFileTextField.textProperty().bind(sceneFileSelected);
+        this.heuristicTextField.textProperty().bind(heuristicSelected);
+        this.pointOfViewVBox.setDisable(true);
+        this.buttonShowView.setDisable(true);
     }
 
     public void setStage(Stage stage){
