@@ -22,6 +22,7 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
@@ -35,7 +36,8 @@ import java.util.ResourceBundle;
 public class MainViewController implements Initializable {
 
     @FXML public VBox rootVBox;
-    @FXML public VBox inSplitPaneVBox;
+    @FXML public HBox appCenterHBox;
+    @FXML public VBox inAppCenterHBoxVBox;
     private Stage stage;
 
     // Not Yet Used
@@ -47,17 +49,22 @@ public class MainViewController implements Initializable {
     private File sceneFile;
     private SceneReader sceneReader;
 
-    // Canvas Variables
+    // Main Canvas Variables
     @FXML public ScrollPane scrollPane;
     @FXML public Canvas mainCanvas;
     private GraphicsContext graphicsContext;
     private double widthMainCanvas;
     private double heightMainCanvas;
 
+    // Sub Main Canvas Variables
+    @FXML public Canvas subMainCanvas;
+
     // Menu Point Of View Variables
     @FXML public TextField sceneFileTextField;
     @FXML public TextField heuristicTextField;
     @FXML public VBox pointOfViewVBox;
+    @FXML public TextField positionXTextField;
+    @FXML public TextField positionYTextField;
     @FXML public TextField viewAngleTextfield;
     @FXML public Slider viewAngleSlider;
     @FXML public Button buttonShowView;
@@ -66,7 +73,6 @@ public class MainViewController implements Initializable {
     @FXML public Button rotatorHandle;
     private final StringProperty sceneFileSelected = new SimpleStringProperty();
     private final StringProperty heuristicSelected = new SimpleStringProperty("Standard");
-    private final DoubleProperty translation = new SimpleDoubleProperty();
     private final DoubleProperty rotation = new SimpleDoubleProperty();
 
 
@@ -80,129 +86,85 @@ public class MainViewController implements Initializable {
     public void handleClickOnOpen() {
         FileChooser fileChooser = new FileChooser();
         this.sceneFile = fileChooser.showOpenDialog(stage);
-        this.sceneFileSelected.set(sceneFile.getName());
-        this.pointOfViewVBox.setDisable(false);
-        this.sceneReader = new SceneReader(this.sceneFile);
-        this.drawSceneOnMainCanvas();
-        /*this.bspTree = new BSPTree(this.sceneReader.getSegments(), this.heuristicSelector);
-        new Painter(bspTree, painterInteractive);*/
+        updateContentAppCenterHBox();
     }
 
     @FXML
     public void handleClickOnOpenEllipsesLarge() {
         this.sceneFile = new File("src/main/resources/scenes/ellipses/ellipsesLarge.txt");
-        this.sceneFileSelected.set(sceneFile.getName());
-        this.pointOfViewVBox.setDisable(false);
-        this.sceneReader = new SceneReader(this.sceneFile);
-        this.drawSceneOnMainCanvas();
+        updateContentAppCenterHBox();
     }
 
     @FXML
     public void handleClickOnOpenEllipsesMedium() {
         this.sceneFile = new File("src/main/resources/scenes/ellipses/ellipsesMedium.txt");
-        this.sceneFileSelected.set(sceneFile.getName());
-        this.pointOfViewVBox.setDisable(false);
-        this.sceneReader = new SceneReader(this.sceneFile);
-        this.drawSceneOnMainCanvas();
+        updateContentAppCenterHBox();
     }
 
     @FXML
     public void handleClickOnOpenEllipsesSmall() {
         this.sceneFile = new File("src/main/resources/scenes/ellipses/ellipsesSmall.txt");
-        this.sceneFileSelected.set(sceneFile.getName());
-        this.pointOfViewVBox.setDisable(false);
-        this.sceneReader = new SceneReader(this.sceneFile);
-        this.drawSceneOnMainCanvas();
+        updateContentAppCenterHBox();
     }
 
     @FXML
     public void handleClickOnOpenFirstOctangle() {
         this.sceneFile = new File("src/main/resources/scenes/first/octangle.txt");
-        this.sceneFileSelected.set(sceneFile.getName());
-        this.pointOfViewVBox.setDisable(false);
-        this.sceneReader = new SceneReader(this.sceneFile);
-        this.drawSceneOnMainCanvas();
+        updateContentAppCenterHBox();
     }
 
     @FXML
     public void handleClickOnOpenFirstOctogone() {
         this.sceneFile = new File("src/main/resources/scenes/first/octogone.txt");
-        this.sceneFileSelected.set(sceneFile.getName());
-        this.pointOfViewVBox.setDisable(false);
-        this.sceneReader = new SceneReader(this.sceneFile);
-        this.drawSceneOnMainCanvas();
+        updateContentAppCenterHBox();
     }
 
     @FXML
     public void handleClickOnOpenRandomHuge() {
         this.sceneFile = new File("src/main/resources/scenes/random/randomHuge.txt");
-        this.sceneFileSelected.set(sceneFile.getName());
-        this.pointOfViewVBox.setDisable(false);
-        this.sceneReader = new SceneReader(this.sceneFile);
-        this.drawSceneOnMainCanvas();
+        updateContentAppCenterHBox();
     }
 
     @FXML
     public void handleClickOnOpenRandomLarge() {
         this.sceneFile = new File("src/main/resources/scenes/random/randomLarge.txt");
-        this.sceneFileSelected.set(sceneFile.getName());
-        this.pointOfViewVBox.setDisable(false);
-        this.sceneReader = new SceneReader(this.sceneFile);
-        this.drawSceneOnMainCanvas();
+        updateContentAppCenterHBox();
     }
 
     @FXML
     public void handleClickOnOpenRandomMedium() {
         this.sceneFile = new File("src/main/resources/scenes/random/randomMedium.txt");
-        this.sceneFileSelected.set(sceneFile.getName());
-        this.pointOfViewVBox.setDisable(false);
-        this.sceneReader = new SceneReader(this.sceneFile);
-        this.drawSceneOnMainCanvas();
+        updateContentAppCenterHBox();
     }
 
     @FXML
     public void handleClickOnOpenRandomSmall() {
         this.sceneFile = new File("src/main/resources/scenes/random/randomSmall.txt");
-        this.sceneFileSelected.set(sceneFile.getName());
-        this.pointOfViewVBox.setDisable(false);
-        this.sceneReader = new SceneReader(this.sceneFile);
-        this.drawSceneOnMainCanvas();
+        updateContentAppCenterHBox();
     }
 
     @FXML
     public void handleClickOnOpenRectanglesHuge() {
         this.sceneFile = new File("src/main/resources/scenes/rectangles/rectanglesHuge.txt");
-        this.sceneFileSelected.set(sceneFile.getName());
-        this.pointOfViewVBox.setDisable(false);
-        this.sceneReader = new SceneReader(this.sceneFile);
-        this.drawSceneOnMainCanvas();
+        updateContentAppCenterHBox();
     }
 
     @FXML
     public void handleClickOnOpenRectanglesLarge() {
         this.sceneFile = new File("src/main/resources/scenes/rectangles/rectanglesLarge.txt");
-        this.sceneFileSelected.set(sceneFile.getName());
-        this.pointOfViewVBox.setDisable(false);
-        this.sceneReader = new SceneReader(this.sceneFile);
-        this.drawSceneOnMainCanvas();
+        updateContentAppCenterHBox();
     }
 
     @FXML
     public void handleClickOnOpenRectanglesMedium() {
         this.sceneFile = new File("src/main/resources/scenes/rectangles/rectanglesMedium.txt");
-        this.sceneFileSelected.set(sceneFile.getName());
-        this.pointOfViewVBox.setDisable(false);
-        this.sceneReader = new SceneReader(this.sceneFile);
-        this.drawSceneOnMainCanvas();
+        updateContentAppCenterHBox();
     }
 
     @FXML
     public void handleClickOnOpenRectanglesSmall() {
         this.sceneFile = new File("src/main/resources/scenes/rectangles/rectanglesSmall.txt");
-        this.sceneFileSelected.set(sceneFile.getName());
-        this.pointOfViewVBox.setDisable(false);
-        this.sceneReader = new SceneReader(this.sceneFile);
-        this.drawSceneOnMainCanvas();
+        updateContentAppCenterHBox();
     }
 
     @FXML
@@ -229,8 +191,21 @@ public class MainViewController implements Initializable {
         this.heuristicSelected.set("Optimized Random");
     }
 
+    private void updateContentAppCenterHBox() {
+        this.sceneFileSelected.set(sceneFile.getName());
+        this.pointOfViewVBox.setDisable(false);
+        this.sceneReader = new SceneReader(this.sceneFile);
+        String positionXPromptText = "-" + this.sceneReader.getxAxisLimit() + " to " + this.sceneReader.getxAxisLimit();
+        String positionYPromptText = "-" + this.sceneReader.getyAxisLimit() + " to " + this.sceneReader.getyAxisLimit();
+        this.positionXTextField.setPromptText(positionXPromptText);
+        this.positionYTextField.setPromptText(positionYPromptText);
+        this.drawSceneOnMainCanvas();
+        /*this.bspTree = new BSPTree(this.sceneReader.getSegments(), this.heuristicSelector);
+        new Painter(bspTree, painterInteractive);*/
+    }
 
-    // Canvas handler
+
+    // Main Canvas handler
     @FXML
     public void handleScrollOnMainCanvas(ScrollEvent scrollEvent) {
         if (scrollEvent.isControlDown()) {
@@ -278,6 +253,9 @@ public class MainViewController implements Initializable {
         return Color.rgb(red, green, blue, opacity);
     }
 
+    // Sub Main Canvas handler
+    // TODO Sub Main Canvas handler
+
 
     // Menu Point Of View Handler
     public double boundingValue(double value, double min, double max) {
@@ -290,7 +268,17 @@ public class MainViewController implements Initializable {
         return doubleRounded / (double)roundingFactor;
     }
 
-    //View Angle Section
+    // Postion XY Section
+    public void handlePositionXTextFieldAction(ActionEvent actionEvent) {
+        // TODO handlePositionXTextFieldAction
+        double value = Double.parseDouble(this.positionXTextField.getText());
+    }
+
+    public void handlePositionYTextFieldAction(ActionEvent actionEvent) {
+        // TODO handlePositionYTextFieldAction
+    }
+
+    // View Angle Section
     @FXML
     public void handleViewAngleTextfieldAction(ActionEvent actionEvent) {
         double value = Double.parseDouble(this.viewAngleTextfield.getText());
@@ -378,3 +366,4 @@ public class MainViewController implements Initializable {
         this.stage = stage;
     }
 }
+// TODO
