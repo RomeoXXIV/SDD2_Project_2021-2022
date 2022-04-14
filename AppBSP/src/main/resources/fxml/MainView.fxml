@@ -2,9 +2,9 @@
 
 <?import com.oracle.javafx.scenebuilder.kit.util.control.paintpicker.DoubleTextField?>
 <?import javafx.geometry.Insets?>
+<?import javafx.scene.Group?>
 <?import javafx.scene.canvas.Canvas?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
@@ -73,14 +73,12 @@
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Heuristic">
-                <fx:define>
-                    <ToggleGroup fx:id="heuristicToggleGroup" />
-                </fx:define>
                <items>
                   <RadioMenuItem mnemonicParsing="false" onAction="#handleClickOnStandard" selected="true" text="Standard">
                      <toggleGroup>
                         <ToggleGroup fx:id="heuristicToggleGroup" />
-                     </toggleGroup></RadioMenuItem>
+                     </toggleGroup>
+                  </RadioMenuItem>
                   <RadioMenuItem mnemonicParsing="false" onAction="#handleClickOnRandom" text="Random" toggleGroup="$heuristicToggleGroup" />
                   <RadioMenuItem mnemonicParsing="false" onAction="#handleClickOnTWBN" text="TWNB" toggleGroup="$heuristicToggleGroup" />
                   <RadioMenuItem mnemonicParsing="false" onAction="#handleClickOnOptimizedRandom" text="OptimizedRandom" toggleGroup="$heuristicToggleGroup" />
@@ -89,15 +87,20 @@
             <Menu mnemonicParsing="false" text="Help" />
          </menus>
       </MenuBar>
-      <HBox>
+      <HBox fx:id="appCenterHBox">
          <children>
             <ScrollPane id="scrollPane" fx:id="scrollPane" minHeight="650.0" minWidth="1020.0">
-               <content>
-                  <Canvas id="mainCanvas" fx:id="mainCanvas" height="645.0" onScroll="#handleScrollOnMainCanvas" width="1018.0" />
-               </content>
                <HBox.margin>
                   <Insets bottom="-1.0" top="-1.0" />
                </HBox.margin>
+               <content>
+                  <Group>
+                     <children>
+                        <Canvas id="mainCanvas" fx:id="mainCanvas" height="645.0" width="1018.0" onScroll="#handleScrollOnMainCanvas" />
+                        <Canvas id="subMainCanvas" fx:id="subMainCanvas" height="645.0" width="1018.0" onScroll="#handleScrollOnSubMainCanvas" />
+                     </children>
+                  </Group>
+               </content>
             </ScrollPane>
             <Separator id="separator" minWidth="7.0" orientation="VERTICAL" prefHeight="200.0">
                <HBox.margin>
@@ -106,7 +109,7 @@
                <padding>
                   <Insets right="-9.0" />
                </padding></Separator>
-            <VBox id="vboxInSplitPane" fx:id="vboxInSplitPane" minWidth="252.0">
+            <VBox id="inAppCenterHBoxVBox" fx:id="inAppCenterHBoxVBox" minWidth="252.0">
                <children>
                   <Region prefHeight="5.0" prefWidth="253.0" />
                   <Separator maxWidth="252.0" />
@@ -123,10 +126,10 @@
                      </padding>
                   </HBox>
                   <Separator maxWidth="252.0" />
-                  <HBox spacing="30.0">
+                  <HBox spacing="28.0">
                      <children>
                         <Label minHeight="30.0" minWidth="78.0" text="Scene file" />
-                        <TextField minHeight="30.0" />
+                        <TextField fx:id="sceneFileTextField" minHeight="30.0" promptText="Select a file" />
                      </children>
                      <VBox.margin>
                         <Insets bottom="10.0" top="10.0" />
@@ -135,10 +138,10 @@
                         <Insets left="10.0" right="10.0" />
                      </padding>
                   </HBox>
-                  <HBox layoutX="10.0" layoutY="10.0" minHeight="30.0" spacing="30.0">
+                  <HBox layoutX="10.0" layoutY="10.0" minHeight="30.0" spacing="28.0">
                      <children>
                         <Label minHeight="30.0" minWidth="78.0" text="Heuristic" />
-                        <TextField minHeight="30.0" />
+                        <TextField fx:id="heuristicTextField" minHeight="30.0" promptText="Select a heuristic" />
                      </children>
                      <VBox.margin>
                         <Insets bottom="10.0" top="10.0" />
@@ -158,83 +161,87 @@
                      </padding>
                   </HBox>
                   <Separator maxWidth="252.0" />
-                  <HBox minHeight="30.0" spacing="30.0">
+                  <VBox fx:id="pointOfViewVBox" prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <Label minHeight="30.0" minWidth="78.0" text="Disable" />
-                        <CheckBox minHeight="18.0" mnemonicParsing="false">
+                        <HBox minHeight="30.0" spacing="28.0">
+                           <children>
+                              <Label minHeight="30.0" minWidth="78.0" text="Position X" />
+                              <TextField fx:id="positionXTextField" minHeight="30.0" onAction="#handlePositionXTextFieldAction" />
+                           </children>
                            <padding>
-                              <Insets bottom="6.0" top="6.0" />
-                           </padding></CheckBox>
-                     </children>
-                     <padding>
-                        <Insets left="10.0" right="10.0" />
-                     </padding>
-                     <VBox.margin>
-                        <Insets bottom="10.0" top="10.0" />
-                     </VBox.margin>
-                  </HBox>
-                  <HBox layoutX="10.0" layoutY="148.0" minHeight="30.0" spacing="30.0">
-                     <children>
-                        <Label minHeight="30.0" minWidth="78.0" text="Position X" />
-                        <TextField minHeight="30.0" />
-                     </children>
-                     <padding>
-                        <Insets left="10.0" right="10.0" />
-                     </padding>
-                     <VBox.margin>
-                        <Insets bottom="10.0" top="10.0" />
-                     </VBox.margin>
-                  </HBox>
-                  <HBox layoutX="10.0" layoutY="281.0" minHeight="30.0" spacing="30.0">
-                     <children>
-                        <Label minHeight="30.0" minWidth="78.0" text="Position Y" />
-                        <TextField minHeight="30.0" />
-                     </children>
-                     <padding>
-                        <Insets left="10.0" right="10.0" />
-                     </padding>
-                     <VBox.margin>
-                        <Insets bottom="10.0" top="10.0" />
-                     </VBox.margin>
-                  </HBox>
-                  <HBox layoutX="10.0" layoutY="381.0" minHeight="30.0" spacing="30.0">
-                     <children>
-                        <Label minHeight="30.0" minWidth="78.0" text="View angle" />
-                        <TextField minHeight="30.0" minWidth="50.0" />
-                        <Slider blockIncrement="1.0" max="124.0" minHeight="30.0" minWidth="75.0">
-                           <HBox.margin>
-                              <Insets left="-25.0" />
-                           </HBox.margin>
-                        </Slider>
-                     </children>
-                     <padding>
-                        <Insets left="10.0" right="10.0" />
-                     </padding>
-                     <VBox.margin>
-                        <Insets bottom="10.0" top="10.0" />
-                     </VBox.margin>
-                  </HBox>
-                  <HBox layoutX="10.0" layoutY="481.0" minHeight="30.0" spacing="30.0">
-                        <children>
-                           <Label minHeight="30.0" minWidth="78.0" text="Rotate" />
-                           <DoubleTextField fx:id="rotatorTextfield" minHeight="30.0" minWidth="90.0" onAction="#rotatorAction" prefColumnCount="4" prefHeight="30.0" prefWidth="102.0" styleClass="LF3-textfield1" text="0">
-                           <HBox.margin>
-                              <Insets right="-25.0" />
-                           </HBox.margin></DoubleTextField>
-                           <StackPane id="StackPane">
+                              <Insets left="10.0" right="10.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets bottom="10.0" top="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox minHeight="30.0" spacing="28.0">
+                           <children>
+                              <Label minHeight="30.0" minWidth="78.0" text="Position Y" />
+                              <TextField fx:id="positionYTextField" minHeight="30.0" onAction="#handlePositionYTextFieldAction" />
+                           </children>
+                           <padding>
+                              <Insets left="10.0" right="10.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets bottom="10.0" top="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox minHeight="30.0" spacing="28.0">
+                           <children>
+                              <Label minHeight="30.0" minWidth="78.0" text="View angle" />
+                              <TextField fx:id="viewAngleTextfield" minHeight="30.0" minWidth="50.0" onAction="#handleViewAngleTextfieldAction" text="100.0">
+                                 <HBox.margin>
+                                    <Insets right="-5.0" />
+                                 </HBox.margin></TextField>
+                              <Slider fx:id="viewAngleSlider" blockIncrement="1.0" max="200.0" minHeight="30.0" minWidth="75.0" onMouseDragged="#handleViewAngleSliderMouseDragged" onMousePressed="#handleViewAngleSliderMousePressed" value="100.0">
+                                 <HBox.margin>
+                                    <Insets left="-25.0" right="-5.0" />
+                                 </HBox.margin>
+                              </Slider>
+                           </children>
+                           <padding>
+                              <Insets left="10.0" right="10.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets bottom="10.0" top="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox minHeight="30.0" spacing="28.0">
                               <children>
-                                 <Button fx:id="rotatorDial" mnemonicParsing="false" onMouseDragged="#rotatorMouseDragged" onMousePressed="#rotatorMousePressed" styleClass="rotation-dial" text="" />
-                                 <Button fx:id="rotatorHandle" disable="true" mnemonicParsing="false" opacity="1.0" rotate="0.0" styleClass="rotation-handle" text="" />
+                                 <Label minHeight="30.0" minWidth="78.0" text="Rotate" />
+                                 <DoubleTextField fx:id="rotatorTextfield" minHeight="30.0" minWidth="90.0" onAction="#handleRotatorTextfieldAction" prefHeight="30.0" prefWidth="102.0" text="0.0">
+                                 <HBox.margin>
+                                    <Insets right="-25.0" />
+                                 </HBox.margin>
+                              </DoubleTextField>
+                                 <StackPane id="StackPane">
+                                    <children>
+                                       <Button fx:id="rotatorDial" mnemonicParsing="false" onMouseDragged="#handleRotatorMouseDragged" onMousePressed="#handleRotatorMousePressed" styleClass="rotation-dial" text="" />
+                                       <Button fx:id="rotatorHandle" disable="true" mnemonicParsing="false" opacity="1.0" rotate="0.0" styleClass="rotation-handle" text="" />
+                                    </children>
+                                 </StackPane>
                               </children>
-                           </StackPane>
-                        </children>
-                     <padding>
-                        <Insets left="10.0" right="10.0" />
-                     </padding>
-                     <VBox.margin>
-                        <Insets bottom="10.0" top="10.0" />
-                     </VBox.margin>
-                  </HBox>
+                           <padding>
+                              <Insets left="10.0" right="10.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets bottom="10.0" top="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                        <HBox alignment="CENTER" minHeight="30.0" spacing="30.0">
+                           <children>
+                              <Button fx:id="buttonShowView" mnemonicParsing="false" text="Show view" />
+                           </children>
+                           <padding>
+                              <Insets left="10.0" right="10.0" />
+                           </padding>
+                           <VBox.margin>
+                              <Insets bottom="10.0" top="10.0" />
+                           </VBox.margin>
+                        </HBox>
+                     </children>
+                  </VBox>
                </children>
             </VBox>
          </children>
