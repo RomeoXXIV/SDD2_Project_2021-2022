@@ -97,7 +97,7 @@ public class TestConsole {
                 return switchEllipse(chosen);
             case "2":
                 System.out.println("En cas d'input non valide, le fichier Small sera utilisé.\n");
-                System.out.println("1. Small\n2. Medium\n3 .Large\n4 .Huge\n");
+                System.out.println("1. Small\n2. Medium\n3. Large\n4. Huge\n");
                 String chosen2 = userInput.nextLine();
                 return switchRectangle(chosen2);
             case "3":
@@ -221,14 +221,10 @@ public class TestConsole {
         System.out.println("Voulez-vous recommencer?\n1. Oui avec le même fichier\n2. Oui avec un fichier différent.\n3. Non\n\nEn cas d'input invalide, l'application s'arrêtera.");
         Scanner userChoice = new Scanner(System.in);
         String choice = userChoice.nextLine();
-        switch (choice){
-            case "1":
-                printScene(scene);
-            case "2":
-                consoleInterface();
-            default:
-                break;
-        }
+        if(choice.equals("1")){printScene(scene);}
+        else if(choice.equals("2")){consoleInterface();}
+        else{return;}
+
     }
 
     public static void main(String[] args){
