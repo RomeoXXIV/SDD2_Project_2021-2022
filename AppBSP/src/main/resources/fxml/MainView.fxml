@@ -72,11 +72,12 @@
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Heuristic">
-               <fx:define>
-                  <ToggleGroup fx:id="heuristicToggleGroup" />
-               </fx:define>
                <items>
-                  <RadioMenuItem mnemonicParsing="false" onAction="#handleClickOnStandard" selected="true" text="Standard" />
+                  <RadioMenuItem mnemonicParsing="false" onAction="#handleClickOnStandard" selected="true" text="Standard">
+                     <toggleGroup>
+                        <ToggleGroup fx:id="heuristicToggleGroup" />
+                     </toggleGroup>
+                  </RadioMenuItem>
                   <RadioMenuItem mnemonicParsing="false" onAction="#handleClickOnRandom" text="Random" toggleGroup="$heuristicToggleGroup" />
                   <RadioMenuItem mnemonicParsing="false" onAction="#handleClickOnTWBN" text="TWNB" toggleGroup="$heuristicToggleGroup" />
                   <RadioMenuItem mnemonicParsing="false" onAction="#handleClickOnOptimizedRandom" text="OptimizedRandom" toggleGroup="$heuristicToggleGroup" />
@@ -119,7 +120,7 @@
                      </padding>
                   </HBox>
                   <Separator maxWidth="252.0" />
-                  <HBox spacing="30.0">
+                  <HBox spacing="28.0">
                      <children>
                         <Label minHeight="30.0" minWidth="78.0" text="Scene file" />
                         <TextField fx:id="sceneFileTextField" minHeight="30.0" promptText="Select a file" />
@@ -131,10 +132,10 @@
                         <Insets left="10.0" right="10.0" />
                      </padding>
                   </HBox>
-                  <HBox layoutX="10.0" layoutY="10.0" minHeight="30.0" spacing="30.0">
+                  <HBox layoutX="10.0" layoutY="10.0" minHeight="30.0" spacing="28.0">
                      <children>
                         <Label minHeight="30.0" minWidth="78.0" text="Heuristic" />
-                        <TextField fx:id="heuristicTextField" minHeight="30.0" />
+                        <TextField fx:id="heuristicTextField" minHeight="30.0" promptText="Select a heuristic" />
                      </children>
                      <VBox.margin>
                         <Insets bottom="10.0" top="10.0" />
@@ -156,7 +157,7 @@
                   <Separator maxWidth="252.0" />
                   <VBox fx:id="pointOfViewVBox" prefHeight="200.0" prefWidth="100.0">
                      <children>
-                        <HBox minHeight="30.0" spacing="30.0">
+                        <HBox minHeight="30.0" spacing="28.0">
                            <children>
                               <Label minHeight="30.0" minWidth="78.0" text="Position X" />
                               <TextField minHeight="30.0" />
@@ -168,7 +169,7 @@
                               <Insets bottom="10.0" top="10.0" />
                            </VBox.margin>
                         </HBox>
-                        <HBox minHeight="30.0" spacing="30.0">
+                        <HBox minHeight="30.0" spacing="28.0">
                            <children>
                               <Label minHeight="30.0" minWidth="78.0" text="Position Y" />
                               <TextField minHeight="30.0" />
@@ -180,7 +181,7 @@
                               <Insets bottom="10.0" top="10.0" />
                            </VBox.margin>
                         </HBox>
-                        <HBox minHeight="30.0" spacing="30.0">
+                        <HBox minHeight="30.0" spacing="28.0">
                            <children>
                               <Label minHeight="30.0" minWidth="78.0" text="View angle" />
                               <TextField fx:id="viewAngleTextfield" minHeight="30.0" minWidth="50.0" onAction="#handleViewAngleTextfieldAction" text="100">
@@ -200,7 +201,7 @@
                               <Insets bottom="10.0" top="10.0" />
                            </VBox.margin>
                         </HBox>
-                        <HBox minHeight="30.0" spacing="30.0">
+                        <HBox minHeight="30.0" spacing="28.0">
                               <children>
                                  <Label minHeight="30.0" minWidth="78.0" text="Rotate" />
                                  <DoubleTextField fx:id="rotatorTextfield" minHeight="30.0" minWidth="90.0" onAction="#handleRotatorTextfieldAction" prefHeight="30.0" prefWidth="102.0" text="0">

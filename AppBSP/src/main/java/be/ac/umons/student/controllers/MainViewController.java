@@ -229,6 +229,7 @@ public class MainViewController implements Initializable {
         this.heuristicSelected.set("Optimized Random");
     }
 
+
     // Canvas handler
     @FXML
     public void handleScrollOnMainCanvas(ScrollEvent scrollEvent) {
@@ -277,11 +278,16 @@ public class MainViewController implements Initializable {
         return Color.rgb(red, green, blue, opacity);
     }
 
+
     // Menu Point Of View Handler
     public double boundingValue(double value, double min, double max) {
         if (value < min) return min;
-        if (value > max) return max;
-        return value;
+        return Math.min(value, max);
+    }
+
+    private double round(double value, int roundingFactor) {
+        double doubleRounded = (double)Math.round(value * (double)roundingFactor);
+        return doubleRounded / (double)roundingFactor;
     }
 
     //View Angle Section
@@ -302,7 +308,7 @@ public class MainViewController implements Initializable {
 
     @FXML
     public void handleViewAngleSliderMouseDragged(MouseEvent mouseEvent) {
-        this.viewAngleTextfield.setText(Double.toString(this.viewAngleSlider.getValue()));
+        this.translate(this.viewAngleSlider.getValue());
     }
 
     private void translate(double value) {
@@ -349,10 +355,6 @@ public class MainViewController implements Initializable {
         this.rotatorTextfield.setText(Double.toString(this.round(rounded, 100)));
     }
 
-    private double round(double value, int roundingFactor) {
-        double doubleRounded = (double)Math.round(value * (double)roundingFactor);
-        return doubleRounded / (double)roundingFactor;
-    }
 
     // initialize + setter
     /**
