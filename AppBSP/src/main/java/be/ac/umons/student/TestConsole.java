@@ -224,6 +224,7 @@ public class TestConsole {
         if(choice.equals("1")){printScene(scene);}
         else if(choice.equals("2")){consoleInterface();}
         else{return;}
+
     }
 
     public static void main(String[] args){
