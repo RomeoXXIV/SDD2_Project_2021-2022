@@ -196,8 +196,8 @@ public class MainViewController implements Initializable {
         this.sceneFileSelected.set(sceneFile.getName());
         this.pointOfViewVBox.setDisable(false);
         this.sceneReader = new SceneReader(this.sceneFile);
-        String positionXPromptText = "-" + this.sceneReader.getxAxisLimit() + " to " + this.sceneReader.getxAxisLimit();
-        String positionYPromptText = "-" + this.sceneReader.getyAxisLimit() + " to " + this.sceneReader.getyAxisLimit();
+        String positionXPromptText = "-" + (double) this.sceneReader.getxAxisLimit() + " to " + (double) this.sceneReader.getxAxisLimit();
+        String positionYPromptText = "-" + (double) this.sceneReader.getyAxisLimit() + " to " + (double) this.sceneReader.getyAxisLimit();
         this.positionXTextField.setPromptText(positionXPromptText);
         this.positionYTextField.setPromptText(positionYPromptText);
         this.drawSceneOnMainCanvas();
@@ -293,8 +293,11 @@ public class MainViewController implements Initializable {
 
     // Postion XY Section
     public void handlePositionXTextFieldAction(ActionEvent actionEvent) {
+        // TODO use boundingValue
         double value = Double.parseDouble(this.positionXTextField.getText());
         double rounded = this.round(value, 100);
+        rounded = this.boundingValue(rounded, - this.widthMainCanvas, this.widthMainCanvas);
+        this.positionXTextField.setText(String.valueOf(rounded));
         if (!this.positionYTextField.getText().equals(""))
             this.drawPointOfViewOnSubMainCanvas();
         /*this.viewAngleTextfield.selectAll();
@@ -302,8 +305,11 @@ public class MainViewController implements Initializable {
     }
 
     public void handlePositionYTextFieldAction(ActionEvent actionEvent) {
+        // TODO use boundingValue
         double value = Double.parseDouble(this.positionYTextField.getText());
         double rounded = this.round(value, 100);
+        rounded = this.boundingValue(rounded, - this.heightMainCanvas, this.heightMainCanvas);
+        this.positionYTextField.setText(String.valueOf(rounded));
         if (!this.positionXTextField.getText().equals(""))
             this.drawPointOfViewOnSubMainCanvas();
         /*this.viewAngleTextfield.selectAll();

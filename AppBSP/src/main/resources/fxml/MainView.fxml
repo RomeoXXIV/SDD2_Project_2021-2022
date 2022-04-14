@@ -190,11 +190,11 @@
                         <HBox minHeight="30.0" spacing="28.0">
                            <children>
                               <Label minHeight="30.0" minWidth="78.0" text="View angle" />
-                              <TextField fx:id="viewAngleTextfield" minHeight="30.0" minWidth="50.0" onAction="#handleViewAngleTextfieldAction" text="100">
+                              <TextField fx:id="viewAngleTextfield" minHeight="30.0" minWidth="50.0" onAction="#handleViewAngleTextfieldAction" text="100.0">
                                  <HBox.margin>
                                     <Insets right="-5.0" />
                                  </HBox.margin></TextField>
-                              <Slider fx:id="viewAngleSlider" blockIncrement="1.0" max="200.0" minHeight="30.0" minWidth="75.0" onMouseDragged="#handleViewAngleSliderMouseDragged" onMousePressed="#handleViewAngleSliderMousePressed" value="100">
+                              <Slider fx:id="viewAngleSlider" blockIncrement="1.0" max="200.0" minHeight="30.0" minWidth="75.0" onMouseDragged="#handleViewAngleSliderMouseDragged" onMousePressed="#handleViewAngleSliderMousePressed" value="100.0">
                                  <HBox.margin>
                                     <Insets left="-25.0" right="-5.0" />
                                  </HBox.margin>
@@ -210,7 +210,7 @@
                         <HBox minHeight="30.0" spacing="28.0">
                               <children>
                                  <Label minHeight="30.0" minWidth="78.0" text="Rotate" />
-                                 <DoubleTextField fx:id="rotatorTextfield" minHeight="30.0" minWidth="90.0" onAction="#handleRotatorTextfieldAction" prefHeight="30.0" prefWidth="102.0" text="0">
+                                 <DoubleTextField fx:id="rotatorTextfield" minHeight="30.0" minWidth="90.0" onAction="#handleRotatorTextfieldAction" prefHeight="30.0" prefWidth="102.0" text="0.0">
                                  <HBox.margin>
                                     <Insets right="-25.0" />
                                  </HBox.margin>
