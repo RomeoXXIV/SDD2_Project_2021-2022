@@ -265,18 +265,21 @@ public class MainViewController implements Initializable {
     }
 
     private void drawPointOfViewOnSubMainCanvas() {
-        // TODO to implement
-        this.graphicsContextSubMainCanvas.clearRect(0, 0, subMainCanvas.getWidth(), subMainCanvas.getHeight());
-        double x = Double.parseDouble(this.positionXTextField.getText()) + this.widthMainCanvas / 2.;
-        double y = Double.parseDouble(this.positionYTextField.getText()) + this.heightMainCanvas / 2.;
-        double length = 100.;
-        double angle = Double.parseDouble(this.viewAngleTextfield.getText());
-        graphicsContextSubMainCanvas.fillOval(x,y,10,10);
-        /*this.graphicsContextSubMainCanvas.strokeLine(
-                                                    x,
-                                                    y,
-                                                x + length * Math.cos(Math.toRadians(angle)),
-                                                y + length * Math.sin(Math.toRadians(angle)));*/
+        if (!this.positionXTextField.getText().equals("")
+            && !this.positionYTextField.getText().equals("")) {
+            this.graphicsContextSubMainCanvas.clearRect(0, 0, subMainCanvas.getWidth(), subMainCanvas.getHeight());
+            double x = Double.parseDouble(this.positionXTextField.getText()) + this.widthMainCanvas / 2.;
+            double y = Double.parseDouble(this.positionYTextField.getText()) + this.heightMainCanvas / 2.;
+            double length = 20.;
+            double angle = Double.parseDouble(this.viewAngleTextfield.getText());
+            this.graphicsContextSubMainCanvas.fillOval(x + 5, y - 5, 10, 10);
+            this.graphicsContextSubMainCanvas.strokeLine(x, y,
+                    x + length * Math.cos(Math.toRadians(-angle / 2)),
+                    y + length * Math.sin(Math.toRadians(-angle / 2)));
+            this.graphicsContextSubMainCanvas.strokeLine(x, y,
+                    x + length * Math.cos(Math.toRadians(angle / 2)),
+                    y + length * Math.sin(Math.toRadians(angle / 2)));
+        }
     }
 
 
@@ -298,10 +301,8 @@ public class MainViewController implements Initializable {
         double rounded = this.round(value, 100);
         rounded = this.boundingValue(rounded, - this.widthMainCanvas, this.widthMainCanvas);
         this.positionXTextField.setText(String.valueOf(rounded));
-        if (!this.positionYTextField.getText().equals(""))
-            this.drawPointOfViewOnSubMainCanvas();
-        /*this.viewAngleTextfield.selectAll();
-        actionEvent.consume();*/
+        this.drawPointOfViewOnSubMainCanvas();
+        actionEvent.consume();
     }
 
     public void handlePositionYTextFieldAction(ActionEvent actionEvent) {
@@ -310,10 +311,8 @@ public class MainViewController implements Initializable {
         double rounded = this.round(value, 100);
         rounded = this.boundingValue(rounded, - this.heightMainCanvas, this.heightMainCanvas);
         this.positionYTextField.setText(String.valueOf(rounded));
-        if (!this.positionXTextField.getText().equals(""))
-            this.drawPointOfViewOnSubMainCanvas();
-        /*this.viewAngleTextfield.selectAll();
-        actionEvent.consume();*/
+        this.drawPointOfViewOnSubMainCanvas();
+        actionEvent.consume();
     }
 
     // View Angle Section
@@ -341,6 +340,7 @@ public class MainViewController implements Initializable {
         double rounded = this.round(value, 100);
         this.viewAngleSlider.setValue(rounded);
         this.viewAngleTextfield.setText(Double.toString(this.round(rounded, 100)));
+        drawPointOfViewOnSubMainCanvas();
     }
 
     // Rotator Section
