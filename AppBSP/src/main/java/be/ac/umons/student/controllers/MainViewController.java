@@ -271,7 +271,7 @@ public class MainViewController implements Initializable {
     // Postion XY Section
     public void handlePositionXTextFieldAction(ActionEvent actionEvent) {
         // TODO handlePositionXTextFieldAction
-        double value = Double.parseDouble(this.positionXTextField.getText());
+        //double value = Double.parseDouble(this.positionXTextField.getText());
     }
 
     public void handlePositionYTextFieldAction(ActionEvent actionEvent) {

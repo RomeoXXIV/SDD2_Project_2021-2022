@@ -108,7 +108,7 @@
                </HBox.margin>
                <padding>
                   <Insets right="-9.0" />
-               </padding></Separator>au centre
+               </padding></Separator>
             <VBox id="inAppCenterHBoxVBox" fx:id="inAppCenterHBoxVBox" minWidth="252.0">
                <children>
                   <Region prefHeight="5.0" prefWidth="253.0" />
