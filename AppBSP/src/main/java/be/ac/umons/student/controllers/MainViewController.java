@@ -52,12 +52,13 @@ public class MainViewController implements Initializable {
     // Main Canvas Variables
     @FXML public ScrollPane scrollPane;
     @FXML public Canvas mainCanvas;
-    private GraphicsContext graphicsContext;
+    private GraphicsContext graphicsContextMainCanvas;
     private double widthMainCanvas;
     private double heightMainCanvas;
 
     // Sub Main Canvas Variables
     @FXML public Canvas subMainCanvas;
+    private GraphicsContext graphicsContextSubMainCanvas;
 
     // Menu Point Of View Variables
     @FXML public TextField sceneFileTextField;
@@ -216,16 +217,20 @@ public class MainViewController implements Initializable {
                 zoomFactor = 2. - zoomFactor;
             }
             mainCanvas.setScaleX(mainCanvas.getScaleX() * zoomFactor);
+            subMainCanvas.setScaleX(subMainCanvas.getScaleX() * zoomFactor);
             mainCanvas.setScaleY(mainCanvas.getScaleY() * zoomFactor);
+            subMainCanvas.setScaleY(subMainCanvas.getScaleY() * zoomFactor);
         }
     }
 
     private void drawSceneOnMainCanvas() {
-        this.graphicsContext.clearRect(0, 0, mainCanvas.getWidth(), mainCanvas.getHeight());
+        this.graphicsContextMainCanvas.clearRect(0, 0, mainCanvas.getWidth(), mainCanvas.getHeight());
         this.widthMainCanvas = this.sceneReader.getxAxisLimit() * 2.5;
         this.heightMainCanvas = this.sceneReader.getyAxisLimit() * 2.5;
-        mainCanvas.setWidth(widthMainCanvas);
-        mainCanvas.setHeight(heightMainCanvas);
+        this.mainCanvas.setWidth(widthMainCanvas);
+        this.mainCanvas.setHeight(heightMainCanvas);
+        this.subMainCanvas.setWidth(widthMainCanvas);
+        this.subMainCanvas.setHeight(heightMainCanvas);
         this.drawSegmentsOnMainCanvas(this.sceneReader.getSegments());
     }
 
@@ -241,8 +246,8 @@ public class MainViewController implements Initializable {
         double y1 = segment.getA().getY() + this.heightMainCanvas / 2.;
         double x2 = segment.getB().getX() + this.widthMainCanvas / 2.;
         double y2 = segment.getB().getY() + this.heightMainCanvas / 2.;
-        this.graphicsContext.setStroke(color);
-        this.graphicsContext.strokeLine(x1, y1, x2, y2);
+        this.graphicsContextMainCanvas.setStroke(color);
+        this.graphicsContextMainCanvas.strokeLine(x1, y1, x2, y2);
     }
 
     private static Color awtColorToPaintColor(java.awt.Color color) {
@@ -254,7 +259,25 @@ public class MainViewController implements Initializable {
     }
 
     // Sub Main Canvas handler
-    // TODO Sub Main Canvas handler
+    @FXML
+    public void handleScrollOnSubMainCanvas(ScrollEvent scrollEvent) {
+        this.handleScrollOnMainCanvas(scrollEvent);
+    }
+
+    private void drawPointOfViewOnSubMainCanvas() {
+        // TODO to implement
+        this.graphicsContextSubMainCanvas.clearRect(0, 0, subMainCanvas.getWidth(), subMainCanvas.getHeight());
+        double x = Double.parseDouble(this.positionXTextField.getText()) + this.widthMainCanvas / 2.;
+        double y = Double.parseDouble(this.positionYTextField.getText()) + this.heightMainCanvas / 2.;
+        double length = 100.;
+        double angle = Double.parseDouble(this.viewAngleTextfield.getText());
+        graphicsContextSubMainCanvas.fillOval(x,y,10,10);
+        /*this.graphicsContextSubMainCanvas.strokeLine(
+                                                    x,
+                                                    y,
+                                                x + length * Math.cos(Math.toRadians(angle)),
+                                                y + length * Math.sin(Math.toRadians(angle)));*/
+    }
 
 
     // Menu Point Of View Handler
@@ -270,12 +293,21 @@ public class MainViewController implements Initializable {
 
     // Postion XY Section
     public void handlePositionXTextFieldAction(ActionEvent actionEvent) {
-        // TODO handlePositionXTextFieldAction
-        //double value = Double.parseDouble(this.positionXTextField.getText());
+        double value = Double.parseDouble(this.positionXTextField.getText());
+        double rounded = this.round(value, 100);
+        if (!this.positionYTextField.getText().equals(""))
+            this.drawPointOfViewOnSubMainCanvas();
+        /*this.viewAngleTextfield.selectAll();
+        actionEvent.consume();*/
     }
 
     public void handlePositionYTextFieldAction(ActionEvent actionEvent) {
-        // TODO handlePositionYTextFieldAction
+        double value = Double.parseDouble(this.positionYTextField.getText());
+        double rounded = this.round(value, 100);
+        if (!this.positionXTextField.getText().equals(""))
+            this.drawPointOfViewOnSubMainCanvas();
+        /*this.viewAngleTextfield.selectAll();
+        actionEvent.consume();*/
     }
 
     // View Angle Section
@@ -355,7 +387,8 @@ public class MainViewController implements Initializable {
      */
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        this.graphicsContext = mainCanvas.getGraphicsContext2D();
+        this.graphicsContextMainCanvas = mainCanvas.getGraphicsContext2D();
+        this.graphicsContextSubMainCanvas = subMainCanvas.getGraphicsContext2D();
         this.sceneFileTextField.textProperty().bind(sceneFileSelected);
         this.heuristicTextField.textProperty().bind(heuristicSelected);
         this.pointOfViewVBox.setDisable(true);
@@ -366,4 +399,3 @@ public class MainViewController implements Initializable {
         this.stage = stage;
     }
 }
-// TODO
