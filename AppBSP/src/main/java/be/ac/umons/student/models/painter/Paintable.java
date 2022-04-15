@@ -4,5 +4,5 @@ import be.ac.umons.student.models.Segment;
 
 @FunctionalInterface
 public interface Paintable {
-    void drawSegment(Segment segment);
+    void drawSegment(Segment segment, ViewPoint viewPoint);
 }

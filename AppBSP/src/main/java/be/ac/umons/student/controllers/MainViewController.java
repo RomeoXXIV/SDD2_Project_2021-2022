@@ -1,11 +1,13 @@
 package be.ac.umons.student.controllers;
 
 import be.ac.umons.student.models.BSPTree;
+import be.ac.umons.student.models.Point;
 import be.ac.umons.student.models.Segment;
 import be.ac.umons.student.models.heuristics.*;
 import be.ac.umons.student.models.painter.Paintable;
 import be.ac.umons.student.models.painter.Painter;
 import be.ac.umons.student.models.painter.PainterInteractive;
+import be.ac.umons.student.models.painter.ViewPoint;
 import be.ac.umons.student.utils.SceneReader;
 import com.oracle.javafx.scenebuilder.kit.util.control.paintpicker.DoubleTextField;
 import javafx.beans.property.DoubleProperty;
@@ -44,9 +46,10 @@ public class MainViewController implements Initializable {
     // Not Yet Used
     @FXML public VBox rootVBox;
     @FXML public VBox inAppCenterHBoxVBox;
-    private final Paintable painterInteractive = new PainterInteractive();
+    private PainterInteractive painterInteractive;
     private HeuristicSelector heuristicSelector = new StandardHeuristic();
     private BSPTree bspTree;
+    private ViewPoint viewPoint;
 
     // MenuBar Variables
     private File sceneFile;
@@ -250,21 +253,13 @@ public class MainViewController implements Initializable {
     }
 
     private void drawSegmentOnMainCanvas(Segment segment) {
-        Color color = awtColorToPaintColor(segment.getColor());
+        Color color = PainterInteractive.awtColorToPaintColor(segment.getColor());
         double x1 = segment.getA().getX() + this.widthMainCanvas / 2.;
         double y1 = segment.getA().getY() + this.heightMainCanvas / 2.;
         double x2 = segment.getB().getX() + this.widthMainCanvas / 2.;
         double y2 = segment.getB().getY() + this.heightMainCanvas / 2.;
         this.graphicsContextMainCanvas.setStroke(color);
         this.graphicsContextMainCanvas.strokeLine(x1, y1, x2, y2);
-    }
-
-    private static Color awtColorToPaintColor(java.awt.Color color) {
-        int red = color.getRed();
-        int green = color.getGreen();
-        int blue = color.getBlue();
-        double opacity = color.getAlpha()/255.0;
-        return Color.rgb(red, green, blue, opacity);
     }
 
     // Sub Main Canvas handler
@@ -312,7 +307,7 @@ public class MainViewController implements Initializable {
         return doubleRounded / (double)roundingFactor;
     }
 
-    // Postion XY Section
+    // Position XY Section
     public void handlePositionXTextFieldAction(ActionEvent actionEvent) {
         double value = Double.parseDouble(this.positionXTextField.getText());
         double rounded = this.round(value, 100);
@@ -412,19 +407,25 @@ public class MainViewController implements Initializable {
     }
 
     private void drawPainterCanvas() {
-        // TODO implement drawPainterCanvas()
+        // TODO to verify
         this.widthPainterCanvas = painterCanvas.getWidth();
         this.heightMainCanvas = painterCanvas.getHeight();
         this.graphicsContextPainterCanvas.clearRect(0, 0, this.widthPainterCanvas, this.heightMainCanvas);
         //this.painterCanvas.setWidth(this.widthPainterCanvas); // Utilité ?
         //this.painterCanvas.setHeight(this.heightMainCanvas); // Utilité ?
-        this.bspTree = new BSPTree(this.sceneReader.getSegments(), heuristicSelector);
         this.drawSegmentsOnPainterCanvas();
     }
 
     private void drawSegmentsOnPainterCanvas() {
-        // TODO implement drawSegmentsOnPainterCanvas()
-        //new Painter();
+        // TODO to verify
+        this.bspTree = new BSPTree(this.sceneReader.getSegments(), heuristicSelector);
+        double x = Double.parseDouble(positionXTextField.getText());
+        double y = Double.parseDouble(positionYTextField.getText());
+        double viewAngle = Double.parseDouble(viewAngleTextfield.getText());
+        double rotatorAngle = Double.parseDouble(rotatorTextfield.getText());
+        this.viewPoint = new ViewPoint(new Point(x, y), viewAngle, rotatorAngle);
+        this.painterInteractive = new PainterInteractive(this.painterCanvas);
+        new Painter(this.bspTree, this.viewPoint, this.painterInteractive);
     }
 
 

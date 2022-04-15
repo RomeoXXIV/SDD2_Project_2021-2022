@@ -10,15 +10,15 @@ public class Painter {
 
     public Painter(BSPTree bspTree, ViewPoint viewPoint, Paintable paintable) {
         if (bspTree.isLeaf())
-            drawSegments(bspTree.getSegments(), paintable);
+            drawSegments(bspTree.getSegments(), viewPoint, paintable);
         else if (bspTree.getSplit().containsInOpenPositiveHalfSpace(viewPoint.getPoint())) {
             new Painter(bspTree.getLeft(), viewPoint, paintable);
-            drawSegments(bspTree.getSegments(), paintable);
+            drawSegments(bspTree.getSegments(), viewPoint, paintable);
             new Painter(bspTree.getRight(), viewPoint, paintable);
         }
         else if (bspTree.getSplit().containsInOpenNegativeHalfSpace(viewPoint.getPoint())) {
             new Painter(bspTree.getRight(), viewPoint, paintable);
-            drawSegments(bspTree.getSegments(), paintable);
+            drawSegments(bspTree.getSegments(), viewPoint, paintable);
             new Painter(bspTree.getLeft(), viewPoint, paintable);
         }
         else {
@@ -31,9 +31,9 @@ public class Painter {
         this(bspTree, new ViewPoint(), paintable);
     }
 
-    public void drawSegments(ArrayList<Segment> segments, Paintable paintable) {
+    public void drawSegments(ArrayList<Segment> segments, ViewPoint viewPoint, Paintable paintable) {
         for (Segment segment : segments) {
-            paintable.drawSegment(segment);
+            paintable.drawSegment(segment, viewPoint);
         }
     }
 }
