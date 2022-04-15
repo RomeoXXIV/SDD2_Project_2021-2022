@@ -4,6 +4,7 @@ import be.ac.umons.student.models.BSPTree;
 import be.ac.umons.student.models.Segment;
 import be.ac.umons.student.models.heuristics.*;
 import be.ac.umons.student.models.painter.Paintable;
+import be.ac.umons.student.models.painter.Painter;
 import be.ac.umons.student.models.painter.PainterInteractive;
 import be.ac.umons.student.utils.SceneReader;
 import com.oracle.javafx.scenebuilder.kit.util.control.paintpicker.DoubleTextField;
@@ -70,13 +71,19 @@ public class MainViewController implements Initializable {
     @FXML public TextField positionYTextField;
     @FXML public TextField viewAngleTextfield;
     @FXML public Slider viewAngleSlider;
-    @FXML public Button buttonShowView;
+    @FXML public Button showViewButton;
     @FXML public DoubleTextField rotatorTextfield;
     @FXML public Button rotatorDial;
     @FXML public Button rotatorHandle;
     private final StringProperty sceneFileSelected = new SimpleStringProperty();
     private final StringProperty heuristicSelected = new SimpleStringProperty("Standard");
     private final DoubleProperty rotation = new SimpleDoubleProperty();
+
+    // Painter Canvas Variables
+    @FXML public Canvas painterCanvas;
+    private GraphicsContext graphicsContextPainterCanvas;
+    private double widthPainterCanvas;
+    private double heightPainterCanvas;
 
 
     // MenuBar Handler
@@ -289,7 +296,7 @@ public class MainViewController implements Initializable {
 
             this.graphicsContextSubMainCanvas.setFill(Color.BLACK);
             this.graphicsContextSubMainCanvas.fillOval(x + 5, y - 5, 10, 10);
-            this.buttonShowView.setDisable(false);
+            this.showViewButton.setDisable(false);
         }
     }
 
@@ -391,6 +398,35 @@ public class MainViewController implements Initializable {
         drawPointOfViewOnSubMainCanvas();
     }
 
+    // Button Show View
+    @FXML
+    public void handleShowViewButtonAction(ActionEvent actionEvent) {
+        this.drawPainterCanvas();
+    }
+
+
+    // Painter Canvas handler
+    @FXML
+    public void handleScrollOnPainterCanvas(ScrollEvent scrollEvent) {
+        // TODO implement handleScrollOnPainterCanvas()
+    }
+
+    private void drawPainterCanvas() {
+        // TODO implement drawPainterCanvas()
+        this.widthPainterCanvas = painterCanvas.getWidth();
+        this.heightMainCanvas = painterCanvas.getHeight();
+        this.graphicsContextPainterCanvas.clearRect(0, 0, this.widthPainterCanvas, this.heightMainCanvas);
+        //this.painterCanvas.setWidth(this.widthPainterCanvas); // Utilité ?
+        //this.painterCanvas.setHeight(this.heightMainCanvas); // Utilité ?
+        this.bspTree = new BSPTree(this.sceneReader.getSegments(), heuristicSelector);
+        this.drawSegmentsOnPainterCanvas();
+    }
+
+    private void drawSegmentsOnPainterCanvas() {
+        // TODO implement drawSegmentsOnPainterCanvas()
+        //new Painter();
+    }
+
 
     // initialize + setter
     /**
@@ -405,10 +441,11 @@ public class MainViewController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         this.graphicsContextMainCanvas = mainCanvas.getGraphicsContext2D();
         this.graphicsContextSubMainCanvas = subMainCanvas.getGraphicsContext2D();
+        this.graphicsContextPainterCanvas = painterCanvas.getGraphicsContext2D();
         this.sceneFileTextField.textProperty().bind(sceneFileSelected);
         this.heuristicTextField.textProperty().bind(heuristicSelected);
         this.pointOfViewVBox.setDisable(true);
-        this.buttonShowView.setDisable(true);
+        this.showViewButton.setDisable(true);
     }
 
     public void setStage(Stage stage){

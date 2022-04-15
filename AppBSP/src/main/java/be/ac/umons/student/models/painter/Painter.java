@@ -8,15 +8,15 @@ import java.util.ArrayList;
 
 public class Painter {
 
-    public Painter(BSPTree bspTree, Point viewPoint, Paintable paintable) {
+    public Painter(BSPTree bspTree, ViewPoint viewPoint, Paintable paintable) {
         if (bspTree.isLeaf())
             drawSegments(bspTree.getSegments(), paintable);
-        else if (bspTree.getSplit().containsInOpenPositiveHalfSpace(viewPoint)) {
+        else if (bspTree.getSplit().containsInOpenPositiveHalfSpace(viewPoint.getPoint())) {
             new Painter(bspTree.getLeft(), viewPoint, paintable);
             drawSegments(bspTree.getSegments(), paintable);
             new Painter(bspTree.getRight(), viewPoint, paintable);
         }
-        else if (bspTree.getSplit().containsInOpenNegativeHalfSpace(viewPoint)) {
+        else if (bspTree.getSplit().containsInOpenNegativeHalfSpace(viewPoint.getPoint())) {
             new Painter(bspTree.getRight(), viewPoint, paintable);
             drawSegments(bspTree.getSegments(), paintable);
             new Painter(bspTree.getLeft(), viewPoint, paintable);
@@ -28,7 +28,7 @@ public class Painter {
     }
 
     public Painter(BSPTree bspTree, Paintable paintable) {
-        this(bspTree, new Point(0, 0), paintable);
+        this(bspTree, new ViewPoint(), paintable);
     }
 
     public void drawSegments(ArrayList<Segment> segments, Paintable paintable) {
