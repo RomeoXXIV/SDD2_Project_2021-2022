@@ -37,12 +37,12 @@ import java.util.ResourceBundle;
 
 public class MainViewController implements Initializable {
 
-    @FXML public VBox rootVBox;
     @FXML public HBox appCenterHBox;
-    @FXML public VBox inAppCenterHBoxVBox;
     private Stage stage;
 
     // Not Yet Used
+    @FXML public VBox rootVBox;
+    @FXML public VBox inAppCenterHBoxVBox;
     private final Paintable painterInteractive = new PainterInteractive();
     private HeuristicSelector heuristicSelector = new StandardHeuristic();
     private BSPTree bspTree;
@@ -289,6 +289,7 @@ public class MainViewController implements Initializable {
 
             this.graphicsContextSubMainCanvas.setFill(Color.BLACK);
             this.graphicsContextSubMainCanvas.fillOval(x + 5, y - 5, 10, 10);
+            this.buttonShowView.setDisable(false);
         }
     }
 
