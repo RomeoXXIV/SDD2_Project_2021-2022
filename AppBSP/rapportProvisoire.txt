@@ -4,8 +4,9 @@ Dans le cadre des cours de "Structure de Données I" et "Structure de Données I
 d'autres structure de données étant des variantes de ces Arbres. Pour ce projet du cours de "Structure de Données II",
 nous avons du implémenter les "Binary Search Partition Tree", notés Arbres BSP pour le reste de ce rapport, structure de données
 modelée après les arbres binaires. Ces Arbres BSP sont utilisés en géométrie pour représenter les objets contenus dans un plan.
-Avec une droite, on coupe ce plan en 2 sous-plans, aussi appelés demi-espace ouvert positif ou négatif (Si la droite coupe un objet,
-cet objet est divisé en 2 fragments: un par sous-plan.)
+Avec une droite, on coupe ce plan en 2 sous-plans, aussi appelés demi-espace ouvert positif ou négatif.
+Le demi-espace ouvert positif est le sous-plan ou lorsque les coordonnées d'un point sont remplacée dans l'équation de la droite, on
+a un résultat positif. Pareil pour le demi-espace ouvert négatif.
 et, nous répétons cette action dans chacun des sous-plan crée jusqu'à ce qu'il ne reste qu'un fragment d'objet par sous-plan.
 Les noeuds internes de l'arbre représentent les droites coupant le plan et les sous-plans, les feuilles sont les fragments d'objets.
 Pour notre projet, les objets sont des segments de droites et donc, en une dimension. Dans ce cas la, certains segments
@@ -19,7 +20,7 @@ rapport au plan.
     Nous avons tout d'abord commencé par implémenter l'aspect géométrique de l'application.
 
 - 1.1) Les Points (Classe Point)
-    Base de tous les objets géométrique que l'on a besoin, un point est composé de 2 doubles x et y représentant ses coordonnées.
+    Base de tous les objets géométrique dont on a besoin, un point est composé de 2 doubles x et y représentant ses coordonnées.
 
 - 1.2) Les Segments (Classe Segment)
     Les Segments sont composés de 2 points, les extrémités, et de la couleur du segment. On peut en calculer la longueur, on peut le diviser en deux,
@@ -32,21 +33,39 @@ rapport au plan.
 - 1.4)  Les Droites (Classe Line)
     Une droite dans le plan d'équation αx² + βx + γ = 0. α, β et γ étant des doubles. On peut calculer son intersection avec une autre droite, savoir si un
     segment se trouve à droite ou à gauche de cette droite, et avoir la liste des segments confondus à cette droite.
+    Pour savoir si un segment se trouve dans le demi-espace ouvert positif ou négatif, on regarde si les deux extrémités du segment s'y trouvent
+    en replaçant les coordonnées dans l'équation de la droite. Si les 2 extrémités ont un résultat positif, le segment est dans le demi-espace positif.
+    Si les deux extrémités ont un résultat négatif, le segment est dans le demi-espace négatif. Si les deux extrémités ont un résultat nul,
+    le segment est confondu à la droite, si une extrémité à un résultat positif et l'autre à un résultat négatif, alors le segment est intersecté par la
+    droite.
 
 2) Les Arbres BSP (Classe BSPtree)
-    Pour construire un arbre BSP, on a besoin d'une liste de segments , d'une droite de coupe et de deux sous-arbres gauche et droite. La droite de coupe
-    est choisie selon l'heuristique utilisée. On peut calculer sa hauteur et le nombre de noeud contenu dans l'arbre.
+    Un arbre BSP est, dans notre cas, une structure de donnée représentant un plan contenant des segments. Chaque noeud interne est une droite
+    coupant le plan en deux, séparant dans l'arbre droite et gauche les segments étant à droite et à gauche de la droite de coupe.
+    Chaque feuille contient un segment.
+    Pour construire cet arbre, il y a plusieurs étapes.
 
-- 2.1) La Distribution des Segments (Classe SegmentDistribution)
-    Quand on a la liste des segments et la droite de coupe, nous pouvons grace aux méthodes dans la classe Line récupérer deux ArrayList de segments,
-    ceux contenus dans le demi-espace positif et ceux contenus dans le demi-espace négatif.
+- 2.1) Choix de la droite de coupe
+    On commence par choisir une droite de coupe. On la choisit via une heuristique qui sera décrite dans la section 3 ci-dessous.
 
-- 2.2) La Construction des sous-arbres gauche et droite
-    Grace aux ArrayList obtenues, on construit récursivement les sous-arbres.
+- 2.2) La Distribution des Segments (Classe SegmentDistribution)
+    On commence par créer 2 ArrayList de segments, toutes les deux vides. Une pour les segments dans le demi-espace ouvert positif, une pour
+    les segments dans le demi-espace ouvert négatif.
+    Pour chaque segment de la liste, on utilise la fonction de Line permettant de savoir dans quel demi-espace ouvert il est situé par rapport
+    à la droite de coupe et on l'ajoute à l'ArrayList correspondante.
+    Si le segment [A,B] est intersecté par la droite, on le divise en 2 segments [A,C] et [C,B], C étant le point d'intersection entre le segment
+    et la droite, et on ajoute les deux nouveaux segments ainsi créés à la bonne ArrayList.
+    Si le segment est confondu à la droite, on ne l'ajoute à aucune des deux ArrayLists.
+
+- 2.3) La Construction des sous-arbres gauche et droite
+    Grace aux ArrayList obtenues grâce à la Distribution des Segments, on peut dès à présent effectuer récursivement la construction des sous-arbres
+    droite et gauche.
+
+- 2.4) Complexité
 
 3) Les Heuristiques
     Pour choisir la droite de coupe utilisée pour construire notre arbre, nous devons utliser une heuristique. Dans le cadre du projet,
-    nous avons du implémenter 3 heuristiques. Pour ce faire, nous avons utilisé les Interfaces de Java
+    nous avons du implémenter 3 heuristiques. Pour ce faire, nous avons utilisé les Interfaces de Java.
 
 - 3.1) L'Heuristique aléatoire
     Cette heuristique prend un segments aléatoire parmis la liste des segments et l'utilise.
@@ -85,6 +104,34 @@ rapport au plan.
     de cet algorithhme est en O(n^3).
 
 - 3.4) Comparaison des différentes heuristiques:
+
+    - 3.4.1) Taille de l'Arbre:
+        Excepté pour les fichiers Random, l'heuristique aléatoire à toujours constamment un plus grand nombre de noeuds que les autres heuristiques.
+        Par exemple, pour rectangesSmall, un de nos essai nous a donné 500 noeuds pour l'heuristique aléatoire mais 75 et 73 pour les autres heuristiques.
+        On remarque aussi que, en terme de taille d'arbre, l'heuristique standard et l'heuristique TWNB sont toujours très proche.
+
+    - 3.4.2) Hauteur de l'arbre:
+        Ici, l'heuristique aléatoire est celle donnant les arbres avec la plus petite hauteur. Pour le fichier randomHuge, on a eu lors
+        d'un de nos tests une hauteur de 49 pour l'aléatoire et 323 pour la standard et la TWNB. Et, comme précédemment, l'heuristique Standard
+        et l'heuristique TWNB ont des hauteurs similaires. Par exemple, pour le fichier rectangleHuge, Standard nous a donné lors d'un essai
+        une hauteur de 50 et TWNB donne une hauteur de 49.
+
+    - 3.4.3) Temps CPU pour construire l'arbre BSP:
+        Dans tous les cas, l'heuristique aléatoire est celle qui construit les arbres le plus rapidement. Pour le fichier randomHuge de 47000
+        segments, on a constamment une construction en une seconde ou moins. Parfois même en dessous d'une demi-seconde. Pour l'heuristique
+        Standard, on a en moyenne une construction de l'arbre en 8 secondes et pour l'heuristique TWNB on a une moyenne de 17 secondes.
+
+    - 3.4.4) Temps CPU pour effectuer l'algorithme du Peintre:
+        Comme pour la construction de l'arbre, c'est l'heuristique aléatoire qui produit l'arbre sur lequel l'algorithme du peintre
+        est le plus rapide. Pour le fichier randomHuge , on a constemment une centaine de millisecondes. Pour l'heuristique standard,
+        l'algorithme est effectué en moyenne de 1.5 secondes et, pour l'heuristique TWNB on a une moyenne de 1 seconde.
+
+    - 3.4.5) Conclusion pour la comparaison des heuristiques:
+        L'heuristique aléatoire crée des arbres contenant beaucoup de noeuds mais une petite hauteur. L'heuristique Standard et l'heuristique
+        TWNB créent des arbres contenant un nombre similaire de noeuds et ayant une hauteur semblable.
+        L'echelle de grandeur pour le temps de création de l'arbre est Aléatoire => Standard => TWNB
+        Pour l'algorithme du peintre est Aléatoire => TWNB => Standard.
+        Avec, dans les deux cas, une plus grosse différence entre les heuristiques plus le fichier est grand.
 
 
 4) Algorithme du Peintre:
@@ -136,7 +183,6 @@ rapport au plan.
 
     - 5.3.2) Guide d'utilisation
 
-
-
+6)
 
 Conclusion:
