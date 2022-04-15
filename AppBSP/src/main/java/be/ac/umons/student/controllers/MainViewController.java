@@ -25,6 +25,8 @@ import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.ArcType;
+import javafx.scene.transform.Rotate;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
@@ -271,14 +273,22 @@ public class MainViewController implements Initializable {
             double x = Double.parseDouble(this.positionXTextField.getText()) + this.widthMainCanvas / 2.;
             double y = Double.parseDouble(this.positionYTextField.getText()) + this.heightMainCanvas / 2.;
             double length = 20.;
-            double angle = Double.parseDouble(this.viewAngleTextfield.getText());
+            double viewAngle = Double.parseDouble(this.viewAngleTextfield.getText());
+            double rotateAngle = Double.parseDouble(this.rotatorTextfield.getText());
+            Rotate r = new Rotate(rotateAngle, x, y);
+            this.graphicsContextSubMainCanvas.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
+            this.graphicsContextSubMainCanvas.strokeLine(x, y,
+                    x + length * Math.cos(Math.toRadians((-viewAngle / 2) + 0)),
+                    y + length * Math.sin(Math.toRadians((-viewAngle / 2) + 0)));
+            this.graphicsContextSubMainCanvas.strokeLine(x, y,
+                    x + length * Math.cos(Math.toRadians((viewAngle / 2) + 0)),
+                    y + length * Math.sin(Math.toRadians((viewAngle / 2) + 0)));
+
+            this.graphicsContextSubMainCanvas.setFill(Color.TRANSPARENT);
+            this.graphicsContextSubMainCanvas.fillArc(x - 20, y - 20, 40, 40, - viewAngle / 2, viewAngle, ArcType.ROUND);
+
+            this.graphicsContextSubMainCanvas.setFill(Color.BLACK);
             this.graphicsContextSubMainCanvas.fillOval(x + 5, y - 5, 10, 10);
-            this.graphicsContextSubMainCanvas.strokeLine(x, y,
-                    x + length * Math.cos(Math.toRadians(-angle / 2)),
-                    y + length * Math.sin(Math.toRadians(-angle / 2)));
-            this.graphicsContextSubMainCanvas.strokeLine(x, y,
-                    x + length * Math.cos(Math.toRadians(angle / 2)),
-                    y + length * Math.sin(Math.toRadians(angle / 2)));
         }
     }
 
@@ -296,20 +306,18 @@ public class MainViewController implements Initializable {
 
     // Postion XY Section
     public void handlePositionXTextFieldAction(ActionEvent actionEvent) {
-        // TODO use boundingValue
         double value = Double.parseDouble(this.positionXTextField.getText());
         double rounded = this.round(value, 100);
-        rounded = this.boundingValue(rounded, - this.widthMainCanvas, this.widthMainCanvas);
+        rounded = this.boundingValue(rounded, - this.sceneReader.getxAxisLimit(), this.sceneReader.getxAxisLimit());
         this.positionXTextField.setText(String.valueOf(rounded));
         this.drawPointOfViewOnSubMainCanvas();
         actionEvent.consume();
     }
 
     public void handlePositionYTextFieldAction(ActionEvent actionEvent) {
-        // TODO use boundingValue
         double value = Double.parseDouble(this.positionYTextField.getText());
         double rounded = this.round(value, 100);
-        rounded = this.boundingValue(rounded, - this.heightMainCanvas, this.heightMainCanvas);
+        rounded = this.boundingValue(rounded, - this.sceneReader.getyAxisLimit(), this.sceneReader.getyAxisLimit());
         this.positionYTextField.setText(String.valueOf(rounded));
         this.drawPointOfViewOnSubMainCanvas();
         actionEvent.consume();
@@ -379,6 +387,7 @@ public class MainViewController implements Initializable {
         this.rotatorHandle.setRotate(rounded);
         if(rounded < 0) rounded += 360;
         this.rotatorTextfield.setText(Double.toString(this.round(rounded, 100)));
+        drawPointOfViewOnSubMainCanvas();
     }
 
 
