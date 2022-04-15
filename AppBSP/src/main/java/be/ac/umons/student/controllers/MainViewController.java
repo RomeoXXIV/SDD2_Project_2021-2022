@@ -1,11 +1,13 @@
 package be.ac.umons.student.controllers;
 
 import be.ac.umons.student.models.BSPTree;
+import be.ac.umons.student.models.Point;
 import be.ac.umons.student.models.Segment;
 import be.ac.umons.student.models.heuristics.*;
 import be.ac.umons.student.models.painter.Paintable;
 import be.ac.umons.student.models.painter.Painter;
 import be.ac.umons.student.models.painter.PainterInteractive;
+import be.ac.umons.student.models.painter.ViewPoint;
 import be.ac.umons.student.utils.SceneReader;
 import com.oracle.javafx.scenebuilder.kit.util.control.paintpicker.DoubleTextField;
 import javafx.beans.property.DoubleProperty;
@@ -47,6 +49,7 @@ public class MainViewController implements Initializable {
     private final Paintable painterInteractive = new PainterInteractive();
     private HeuristicSelector heuristicSelector = new StandardHeuristic();
     private BSPTree bspTree;
+    private ViewPoint viewPoint;
 
     // MenuBar Variables
     private File sceneFile;
@@ -418,13 +421,18 @@ public class MainViewController implements Initializable {
         this.graphicsContextPainterCanvas.clearRect(0, 0, this.widthPainterCanvas, this.heightMainCanvas);
         //this.painterCanvas.setWidth(this.widthPainterCanvas); // Utilité ?
         //this.painterCanvas.setHeight(this.heightMainCanvas); // Utilité ?
-        this.bspTree = new BSPTree(this.sceneReader.getSegments(), heuristicSelector);
         this.drawSegmentsOnPainterCanvas();
     }
 
     private void drawSegmentsOnPainterCanvas() {
         // TODO implement drawSegmentsOnPainterCanvas()
-        //new Painter();
+        this.bspTree = new BSPTree(this.sceneReader.getSegments(), heuristicSelector);
+        double x = Double.parseDouble(positionXTextField.getText());
+        double y = Double.parseDouble(positionYTextField.getText());
+        double viewAngle = Double.parseDouble(viewAngleTextfield.getText());
+        double rotatorAngle = Double.parseDouble(rotatorTextfield.getText());
+        this.viewPoint = new ViewPoint(new Point(x, y), viewAngle, rotatorAngle);
+        new Painter(this.bspTree, this.viewPoint, painterInteractive);
     }
 
 
