@@ -280,11 +280,11 @@ public class MainViewController implements Initializable {
             Rotate r = new Rotate(rotateAngle, x, y);
             this.graphicsContextSubMainCanvas.setTransform(r.getMxx(), r.getMyx(), r.getMxy(), r.getMyy(), r.getTx(), r.getTy());
             this.graphicsContextSubMainCanvas.strokeLine(x, y,
-                    x + length * Math.cos(Math.toRadians((-viewAngle / 2) + 0)),
-                    y + length * Math.sin(Math.toRadians((-viewAngle / 2) + 0)));
+                    x + length * Math.cos(Math.toRadians(-viewAngle / 2)),
+                    y + length * Math.sin(Math.toRadians(-viewAngle / 2)));
             this.graphicsContextSubMainCanvas.strokeLine(x, y,
-                    x + length * Math.cos(Math.toRadians((viewAngle / 2) + 0)),
-                    y + length * Math.sin(Math.toRadians((viewAngle / 2) + 0)));
+                    x + length * Math.cos(Math.toRadians(viewAngle / 2)),
+                    y + length * Math.sin(Math.toRadians(viewAngle / 2)));
 
             this.graphicsContextSubMainCanvas.setFill(Color.TRANSPARENT);
             this.graphicsContextSubMainCanvas.fillArc(x - 20, y - 20, 40, 40, - viewAngle / 2, viewAngle, ArcType.ROUND);

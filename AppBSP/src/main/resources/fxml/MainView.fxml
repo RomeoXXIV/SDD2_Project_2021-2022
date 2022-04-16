@@ -29,8 +29,6 @@
                <items>
                   <MenuItem mnemonicParsing="false" text="About MaySee" />
                   <SeparatorMenuItem mnemonicParsing="false" />
-                  <MenuItem mnemonicParsing="false" text="Preferences..." />
-                  <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem mnemonicParsing="false" onAction="#handleClickOnQuitMaySee" text="Quit MaySee" />
                </items>
             </Menu>
@@ -96,8 +94,8 @@
                <content>
                   <Group>
                      <children>
-                        <Canvas id="mainCanvas" fx:id="mainCanvas" height="645.0" width="1018.0" onScroll="#handleScrollOnMainCanvas" />
-                        <Canvas id="subMainCanvas" fx:id="subMainCanvas" height="645.0" width="1018.0" onScroll="#handleScrollOnSubMainCanvas" />
+                        <Canvas id="mainCanvas" fx:id="mainCanvas" height="645.0" onScroll="#handleScrollOnMainCanvas" width="1018.0" />
+                        <Canvas id="subMainCanvas" fx:id="subMainCanvas" height="645.0" onScroll="#handleScrollOnSubMainCanvas" width="1018.0" />
                      </children>
                   </Group>
                </content>
