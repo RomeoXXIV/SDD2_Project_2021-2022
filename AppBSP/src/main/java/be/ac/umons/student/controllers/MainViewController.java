@@ -291,7 +291,7 @@ public class MainViewController implements Initializable {
 
             this.graphicsContextSubMainCanvas.setFill(Color.BLACK);
             this.graphicsContextSubMainCanvas.fillOval(x + 5, y - 5, 10, 10);
-            this.showViewButton.setDisable(false);
+            if (this.showViewButton.isDisable()) this.showViewButton.setDisable(false);
         }
     }
 
@@ -331,7 +331,7 @@ public class MainViewController implements Initializable {
     public void handleViewAngleTextfieldAction(ActionEvent actionEvent) {
         double value = Double.parseDouble(this.viewAngleTextfield.getText());
         double rounded = this.round(value, 100);
-        rounded = this.boundingValue(rounded, 0, 200);
+        rounded = this.boundingValue(rounded, 0, 180);
         this.translate(rounded);
         this.viewAngleTextfield.selectAll();
         actionEvent.consume();
@@ -396,7 +396,7 @@ public class MainViewController implements Initializable {
     // Button Show View
     @FXML
     public void handleShowViewButtonAction(ActionEvent actionEvent) {
-        this.drawPainterCanvas();
+        this.drawOnPainterCanvas();
     }
 
 
@@ -406,18 +406,19 @@ public class MainViewController implements Initializable {
         // TODO implement handleScrollOnPainterCanvas()
     }
 
-    private void drawPainterCanvas() {
+    private void drawOnPainterCanvas() {
+
+        this.drawingPreparation();
+        this.drawSegmentsPainterCanvas();
+    }
+
+    private void drawingPreparation() {
         // TODO to verify
         this.widthPainterCanvas = painterCanvas.getWidth();
         this.heightMainCanvas = painterCanvas.getHeight();
         this.graphicsContextPainterCanvas.clearRect(0, 0, this.widthPainterCanvas, this.heightMainCanvas);
-        //this.painterCanvas.setWidth(this.widthPainterCanvas); // Utilité ?
-        //this.painterCanvas.setHeight(this.heightMainCanvas); // Utilité ?
-        this.drawSegmentsOnPainterCanvas();
-    }
-
-    private void drawSegmentsOnPainterCanvas() {
-        // TODO to verify
+        this.painterCanvas.setWidth(this.widthPainterCanvas); // Utilité ?
+        this.painterCanvas.setHeight(this.heightMainCanvas); // Utilité ?
         this.bspTree = new BSPTree(this.sceneReader.getSegments(), heuristicSelector);
         double x = Double.parseDouble(positionXTextField.getText());
         double y = Double.parseDouble(positionYTextField.getText());
@@ -425,6 +426,9 @@ public class MainViewController implements Initializable {
         double rotatorAngle = Double.parseDouble(rotatorTextfield.getText());
         this.viewPoint = new ViewPoint(new Point(x, y), viewAngle, rotatorAngle);
         this.painterInteractive = new PainterInteractive(this.painterCanvas);
+    }
+
+    private void drawSegmentsPainterCanvas() {
         new Painter(this.bspTree, this.viewPoint, this.painterInteractive);
     }
 

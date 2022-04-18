@@ -1,5 +1,10 @@
 package be.ac.umons.student.models;
 
+/**
+ * Représente un vecteur (x, y) , vecteur directeur ou normal de droite dans le plan. x et y étant des doubles.
+ * @author Romeo Ibraimovski
+ * @author Maxime Nabli
+ */
 public class Vector {
 
     private final double x, y;

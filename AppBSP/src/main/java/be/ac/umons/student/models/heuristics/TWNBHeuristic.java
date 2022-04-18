@@ -4,10 +4,16 @@ import be.ac.umons.student.models.Segment;
 import be.ac.umons.student.models.Line;
 import be.ac.umons.student.models.SegmentDistribution;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Random;
 
+/**
+ * Implémentation de l'Heuristique H3: l'Heuristique TWNB (Thibault William & Naylor Bruce), cherchant à minimiser la fonction suivante:
+ * (fd+)*(fd-) - w*fd
+ * Fd+ étant le nombre de segments dans le demi-espace ouvert positif, Fd- étant le nombre de segments ans le demi-espace ouvert négatif,
+ * w un poid ici fixé à 7 et fd le nombre de segment que la droite de coupe intersecte.
+ * @author Romeo Ibraimovski
+ * @author Maxime Nabli
+ */
 public class TWNBHeuristic implements HeuristicSelector {
 
 
@@ -42,7 +48,8 @@ public class TWNBHeuristic implements HeuristicSelector {
         return currentSegment;
     }
 
-    /** Fonction qui retourne la liste de tous les segments intersectés par un segment donné
+    /**
+     * Fonction qui retourne la liste de tous les segments intersectés par un segment donné
      *
      * @param segment le segment actuel
      * @param segments la liste des segments de l'arbre
@@ -52,8 +59,8 @@ public class TWNBHeuristic implements HeuristicSelector {
     {
         ArrayList<Segment> copiedSegments = new ArrayList<>(segments);
         ArrayList<Segment> intersectedSegments = new ArrayList<>();
-        copiedSegments.removeAll(segment.toLine().getContentSegments(segments));
         Line line = segment.toLine();
+        copiedSegments.removeAll(line.getContentSegments(segments));
         for(int i = 0; i < segments.size(); i++)
         {
             if(!line.containsInOpenNegativeHalfSpace(segments.get(i))){
@@ -66,7 +73,8 @@ public class TWNBHeuristic implements HeuristicSelector {
         return intersectedSegments;
     }
 
-    /** Fonction donnant le ratio entre les segments dans le demi-plan gauche et droit crée par notre segment
+    /**
+     * Fonction donnant le ratio entre les segments dans le demi-plan gauche et droit crée par notre segment
      *
      * @param segment le segment donné
      * @param segments la liste des segments
@@ -84,12 +92,14 @@ public class TWNBHeuristic implements HeuristicSelector {
         {
             return segmentsForLeft.size();
         }
-        else{
+        else if(segmentsForRight.size() != 0 && segmentsForLeft.size() == 0){
             return segmentsForRight.size();
         }
+        else{return 1;}
     }
 
-    /** Notre fonction maximiser pour l'heuristique
+    /**
+     * Notre fonction maximiser pour l'heuristique
      *
      * @param segment le segment actuel
      * @param segments la liste des segments

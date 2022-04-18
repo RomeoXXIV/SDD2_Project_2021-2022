@@ -1,5 +1,9 @@
 package be.ac.umons.student.models;
 
+/** Représente un emplacement dans le plan par une coordonnée X et une coordonnée Y permettant de le situer.
+ * @author Romeo Ibraimovski
+ * @author Maxime Nabli
+ */
 public class Point {
 
     private final double x, y;

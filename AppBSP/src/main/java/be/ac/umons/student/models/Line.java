@@ -2,6 +2,11 @@ package be.ac.umons.student.models;
 
 import java.util.ArrayList;
 
+/**
+ * Représente une droite alpha*x + beta*y + c dans un espace coordonné.
+ * @author Romeo Ibraimovski
+ * @author Maxime Nabli
+ */
 public class Line {
 
     private final double alpha, beta, gamma;
@@ -46,6 +51,23 @@ public class Line {
      */
     public Point intersection(Segment segment) {
         return this.intersection(segment.toLine());
+    }
+
+    public boolean isSecantTo(Line line) {
+        // TODO JavaDoc + Testing
+        double epsilon = 0.0001;
+        if (Math.abs(this.beta - line.getBeta()) < epsilon)
+            return false;
+        else if (Math.abs(this.beta) < epsilon && line.getBeta() != 0 || this.beta != 0 && Math.abs(line.getBeta()) < epsilon)
+            return true;
+        double thisSlope = - this.alpha / this.beta;
+        double otherSlope = - line.getAlpha() / line.getBeta();
+        return !(Math.abs(thisSlope - otherSlope) < epsilon);
+    }
+
+    public boolean isSecantToLineOf(Segment segment) {
+        // TODO JavaDoc + Testing + utile?
+        return this.isSecantTo(segment.toLine());
     }
 
     /**

@@ -1,7 +1,14 @@
 package be.ac.umons.student.models;
 
 import java.awt.Color;
+import java.lang.Math;
 
+/**
+ * Représente un segment dans un espace coordonné. Un segment possède une couleur et deux point étant ses extrémités. On peut transformer ce segment
+ * en droite.
+ * @author Romeo Ibraimovski
+ * @author Maxime Nabli
+ */
 public class Segment {
 
     private static final Color DEFAULT_COLOR = Color.BLACK;
@@ -19,6 +26,27 @@ public class Segment {
         this.a = a;
         this.b = b;
         this.color = DEFAULT_COLOR;
+    }
+
+    /**
+     * Retourne vrai si le segment contient le point
+     *
+     * @param point
+     * @return vrai si le segment contient le point, faux sinon
+     */
+    public boolean contains(Point point){
+        // TODO JavaDoc + Testing
+        this.toLine();
+        Vector segDirector = Line.getDirectorVector(this.getA(), this.getB());
+        Segment newSeg = new Segment(this.getA(), point);
+        Vector newSegDirector = Line.getDirectorVector(newSeg.getA(), newSeg.getB());
+        if(newSeg.isPoint())
+            return true;
+        if(Math.signum(segDirector.getX()) == Math.signum(1) && Math.signum(newSegDirector.getX()) == Math.signum(1))
+            return  segDirector.getX() % newSegDirector.getX() == 0 && segDirector.getY() % newSegDirector.getY() == 0;
+        if(Math.signum(segDirector.getX()) == Math.signum(-1) && Math.signum(newSegDirector.getX()) == Math.signum(-1))
+            return  segDirector.getX() % newSegDirector.getX() == 0 && segDirector.getY() % newSegDirector.getY() == 0;
+        return false;
     }
 
     /**

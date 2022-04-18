@@ -9,6 +9,12 @@ import javafx.stage.Stage;
 
 import java.io.File;
 
+/**
+ * Application graphique intéractive permettant de choisir un fichier scène, un point de vue et de montrer visuellement le comportement de l'algorithme du peintre
+ * sur la scène par rapport au point de vue.
+ * @author Romeo Ibraimovski
+ * @author Maxime Nabli
+ */
 public class TestInteractive extends Application {
 
     Stage primaryStage;

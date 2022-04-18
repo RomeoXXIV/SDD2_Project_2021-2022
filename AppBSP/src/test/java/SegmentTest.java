@@ -64,4 +64,13 @@ public class SegmentTest {
         assertEquals(1, s_oa.length());
         assertEquals(Math.sqrt(2), s_ab.length());
     }
+
+    @Test
+    public void test_contains_point(){
+        Point notContained = new Point(2, 2);
+        Point contained = new Point(0.5, 0.5);
+        assertTrue(s_ab.contains(contained));
+        assertTrue(s_ab.contains(a));
+        assertFalse(s_ab.contains(notContained));
+    }
 }

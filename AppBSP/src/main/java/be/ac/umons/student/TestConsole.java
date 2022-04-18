@@ -10,8 +10,14 @@ import be.ac.umons.student.utils.SceneReader;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.ArrayList;
-import java.util.Objects;
 import java.util.Scanner;
+
+/**
+ * Application console permetant de choisir un fichier scène, de créer l'arbre BSP correspondant grace aux différentes heuristiques et d'effectuer l'algorithme du
+ * peintre sur ces arbres obtenus pour comparer ces heuristiques.
+ * @author Romeo Ibraimovski
+ * @author Maxime Nabli
+ */
 
 public class TestConsole {
 
@@ -40,7 +46,8 @@ public class TestConsole {
     private final static String pathRectangleMedium = "../Scenes/rectangles/rectanglesMedium.txt";
     private final static String pathRectangleSmall = "../Scenes/rectangles/rectanglesSmall.txt";
 
-    /** Imprime dans la consoles les détails de la construction d'un Arbre BSP avec l'Heuristique demandée. Donne
+    /**
+     * Imprime dans la consoles les détails de la construction d'un Arbre BSP avec l'Heuristique demandée. Donne
      * sa hauteur, son nombre de noeud et le temps en ms pour le construire et effectuer l'algorithme du peintre.
      *
      * @param segmentList la liste de segments utilisée pour créer l'Arbre BSP
@@ -61,23 +68,23 @@ public class TestConsole {
     }
 
 
-    /** Première étape du mode console, choix du type de scene. Le choix de l'utilisateur est récupéré dans la console via un scanner.
+    /**
+     * Première étape du mode console, choix du type de scene. Le choix de l'utilisateur est récupéré dans la console via un scanner.
      *
      */
     public static String scenesInfos(){
         System.out.println("+-------------------------------------------------+" );
         System.out.println("|              Choix du type de scene             |");
         System.out.println("+-------------------------------------------------+" );
-        System.out.println("Voici les types de scènes que vous pouvez choisir:");
-        System.out.println("Veuillez entrer le chiffre du type de scène qui vous intéresse.\n");
-        System.out.println("En cas d'input invalide, le fichier randomHuge sera utilisé.\n");
+        System.out.println("En cas d'entrée invalide, le fichier randomHuge sera utilisé.\n");
         System.out.println("1. Ellipses\n2. Rectangles\n3. Aléatoires\n4. First\n5. Autres\n");
         Scanner userInput = new Scanner(System.in);
         String choice = userInput.nextLine();
         return sceneSizes(choice);
     }
 
-    /** Deuxième étape du mode console, choix de la taille de la scene.
+    /**
+     * Deuxième étape du mode console, choix de la taille de la scene.
      *
      * @param choice le choix fait par l'utilisateur dans scenesInfos()
      * @return le path vers un fichier
@@ -91,22 +98,22 @@ public class TestConsole {
         }
         switch (choice){
             case "1":
-                System.out.println("En cas d'input non valide, le fichier Small sera utilisé.\n");
+                System.out.println("En cas d'entrée invalide, le fichier Small sera utilisé.\n");
                 System.out.println("1. Small\n2. Medium\n3. Large\n");
                 String chosen = userInput.nextLine();
                 return switchEllipse(chosen);
             case "2":
-                System.out.println("En cas d'input non valide, le fichier Small sera utilisé.\n");
+                System.out.println("En cas d'entrée invalide, le fichier Small sera utilisé.\n");
                 System.out.println("1. Small\n2. Medium\n3. Large\n4. Huge\n");
                 String chosen2 = userInput.nextLine();
                 return switchRectangle(chosen2);
             case "3":
-                System.out.println("En cas d'input non valide, le fichier Small sera utilisé.\n");
+                System.out.println("En cas d'entrée invalide, le fichier Small sera utilisé.\n");
                 System.out.println("1. Small\n2. Medium\n3. Large\n4. Huge\n");
                 String chosen3 = userInput.nextLine();
                 return switchRandom(chosen3);
             case "4":
-                System.out.println("En cas d'input non valide, le fichier Octangle sera utilisé.\n");
+                System.out.println("En cas d'entrée invalide, le fichier Octangle sera utilisé.\n");
                 System.out.println("1. Octangle\n2. Octogone\n");
                 String chosen4 = userInput.nextLine();
                 return switchFirst(chosen4);
@@ -119,7 +126,8 @@ public class TestConsole {
         }
     }
 
-    /** Fonction Switch pour les fichiers d'ellipse. Selon le choix de l'utilisateur, retourne le path vers le bon fichier
+    /**
+     * Fonction Switch pour les fichiers d'ellipse. Selon le choix de l'utilisateur, retourne le path vers le bon fichier
      *
      * @param choice input de l'utilisateur
      * @return path vers le bon fichier
@@ -137,7 +145,8 @@ public class TestConsole {
         }
     }
 
-    /** Fonction Switch pour les fichiers rectangles. Selon le choix de l'utilisateur, retourne le path vers le bon fichier
+    /**
+     * Fonction Switch pour les fichiers rectangles. Selon le choix de l'utilisateur, retourne le path vers le bon fichier
      *
      * @param choice input de l'utilisateur
      * @return path vers le bon fichier
@@ -157,7 +166,8 @@ public class TestConsole {
         }
     }
 
-    /** Fonction Switch pour les fichiers aléatoires. Selon le choix de l'utilisateur, retourne le path vers le bon fichier
+    /**
+     * Fonction Switch pour les fichiers aléatoires. Selon le choix de l'utilisateur, retourne le path vers le bon fichier
      *
      * @param choice input de l'utilisateur
      * @return path vers le bon fichier
@@ -177,7 +187,8 @@ public class TestConsole {
         }
     }
 
-    /** Fonction Switch pour les fichiers "first" Selon le choix de l'utilisateur, retourne le path vers le bon fichier
+    /**
+     * Fonction Switch pour les fichiers "first" Selon le choix de l'utilisateur, retourne le path vers le bon fichier
      *
      * @param choice input de l'utilisateur
      * @return path vers le bon fichier
@@ -198,7 +209,8 @@ public class TestConsole {
         printScene(scene);
     }
 
-    /** Imprime dans la console tous les détails de la scene choisie par l'utilisateur avec toutes les heuristiques. Ensuite, propose de recommencer ou pas.
+    /**
+     * Imprime dans la console tous les détails de la scene choisie par l'utilisateur avec toutes les heuristiques. Ensuite, propose de recommencer ou pas.
      *  Pour recommencer, soit on recommence avec le meme fichier (En relançant donc cette meme fonction) , soit a l'étape du choix de scene.
      * @param scene la scene choisie dans sceneInfos()
      */
@@ -218,7 +230,10 @@ public class TestConsole {
         printDetails(segmentArrayList, twnbHeuristic);
         //printDetails(segmentArrayList, optimizedRandomHeuristic);
         //printDetails(segmentArrayList, bonusHeuristic);
-        System.out.println("Voulez-vous recommencer?\n1. Oui avec le même fichier\n2. Oui avec un fichier différent.\n3. Non\n\nEn cas d'input invalide, l'application s'arrêtera.");
+        System.out.println("+-------------------------------------------------+" );
+        System.out.println("|                   Menu de fin                   |");
+        System.out.println("+-------------------------------------------------+" );
+        System.out.println("Que voulez-vous faire?\nEn cas d'entrée invalide, l'application s'arrêtera.\n1. Recommencer avec le même fichier\n2. Recommencer avec un fichier différent\n3. Quitter\n");
         Scanner userChoice = new Scanner(System.in);
         String choice = userChoice.nextLine();
         if(choice.equals("1")){printScene(scene);}
@@ -234,7 +249,8 @@ public class TestConsole {
                         "* Bienvenue dans le mode console de l'application *\n" +
                         "*                                                 *\n" +
                         "* * * * * * * * * * * * * * * * * * * * * * * * * *\n\n" +
-                        "Vous pourrez comparer les différentes heuristiques de construction des arbres BSP.\n");
+                        "Vous pourrez comparer nos différentes heuristiques utilisées dans la construction d'arbres BSP.");
+        System.out.println("Pour cela, veillez à entrer le chiffre correspondant au choix qui vous intéresse dans les différents menus.\n");
         consoleInterface();
     }
 }

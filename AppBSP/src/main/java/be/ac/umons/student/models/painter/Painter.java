@@ -1,11 +1,15 @@
 package be.ac.umons.student.models.painter;
 
 import be.ac.umons.student.models.BSPTree;
-import be.ac.umons.student.models.Point;
 import be.ac.umons.student.models.Segment;
 
 import java.util.ArrayList;
 
+/** Implémentation de l'Algorithme du Peintre , permettant d'afficher ce qu'un point de vue particulier voit dans une scene représentée
+ * par un arbre BSP.
+ * @author Romeo Ibraimovski
+ * @author Maxime Nabli
+ */
 public class Painter {
 
     public Painter(BSPTree bspTree, ViewPoint viewPoint, Paintable paintable) {

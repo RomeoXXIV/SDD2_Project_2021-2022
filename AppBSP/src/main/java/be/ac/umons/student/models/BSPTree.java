@@ -4,6 +4,12 @@ import be.ac.umons.student.models.heuristics.HeuristicSelector;
 
 import java.util.ArrayList;
 
+/**
+ * Implémentation des Arbres BSP. Un arbre bsp possède une liste de segments, une droite de coupe split et des sous-arbres à droite et à gauche.
+ * Pour construire un arbre, on utilise une des heuristiques.
+ * @author Romeo Ibraimovski
+ * @author Maxime Nabli
+ */
 public class BSPTree {
 
     private final ArrayList<Segment> segments;

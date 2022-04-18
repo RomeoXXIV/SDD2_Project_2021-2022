@@ -8,6 +8,12 @@ import java.util.Scanner;
 import be.ac.umons.student.models.Point;
 import be.ac.umons.student.models.Segment;
 
+/**
+ * Classe permettant de vérifier qu'un fichier est bien au format d'une scène et puis de lire ce fichier scène et en stocker
+ * les segments et limites.
+ * @author Romeo Ibraimovski
+ * @author Maxime Nabli
+ */
 public class SceneReader {
 
     public static final Color BROWN = new Color(102,51,0);
@@ -28,7 +34,8 @@ public class SceneReader {
         this.readSceneFile(file.getPath());
     }
 
-    /** Lis le fichier et donne la limite de l'axe X, de l'axe Y, le nombre et la liste de segments.
+    /**
+     * Lis le fichier et donne la limite de l'axe X, de l'axe Y, le nombre et la liste de segments.
      *
      * @param pathFile
      */
@@ -170,10 +177,10 @@ public class SceneReader {
 
     @Override
     public String toString() {
-        return "Fichier " + fileName +
+        return "Le fichier " + fileName +
                 ", a une limite en X de " + xAxisLimit +
                 ", a une limite en Y de " + yAxisLimit +
-                ", contient " + segmentsSize +
+                " et contient " + segmentsSize +
                 " segments";
     }
 }
