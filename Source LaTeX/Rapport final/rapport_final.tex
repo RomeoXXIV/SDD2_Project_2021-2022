@@ -11,6 +11,7 @@
 \usepackage[T1]{fontenc}			% accent
 \usepackage{lmodern}				% latin font
 \usepackage{appendix}				% to be able to use appendices
+\usepackage{float}
 
 %---Language(s)
 \usepackage[english,frenchb]{babel}	% last language = typography by default
@@ -160,8 +161,8 @@ Ce rapport d'implémentation est rendu dans le cadre de l'AA-S-INFO-820 ``Projet
 	
 	{\section*{Introduction}}
 	\addcontentsline{toc}{chapter}{Introduction}	% to add in the toc
-\noindent Dans le cadre des cours de "Structure de Données I" et "Structure de Données II" , nous avons vu les arbres binaires et
-d'autres structure de données étant des variantes de ces Arbres. Pour ce projet du cours de "Structure de Données II",
+\noindent Dans le cadre des cours de "Structures de Données I" et "Structures de Données II" , nous avons vu les arbres binaires et
+d'autres structures de données étant des variantes de ces Arbres. Pour ce projet du cours de "Structure de Données II",
 nous avons du implémenter les "Binary Search Partition Tree", notés Arbres BSP pour le reste de ce rapport, structure de données
 modelée après les arbres binaires. Ces Arbres BSP sont utilisés en géométrie pour représenter les objets contenus dans un plan.
 Avec une droite, on coupe ce plan en 2 sous-plans, aussi appelés demi-espace ouvert positif ou négatif.
@@ -194,7 +195,7 @@ associée au noeud de la droite.
     
     {\subsection*{1.4. Les Droites (Classe Line)}}
     	\addcontentsline{toc}{section}{1.4. Droites }
-      Une droite dans le plan d'équation $\alpha$ x² + $\beta$ x + $\gamma$  = 0.  $\alpha$, $\beta$ et $\gamma$ étant des doubles. On peut calculer son intersection avec une autre droite, savoir si un
+      Une droite dans le plan d'équation $\alpha$ x + $\beta$ y + $\gamma$  = 0.  $\alpha$, $\beta$ et $\gamma$ étant des doubles. On peut calculer son intersection avec une autre droite, savoir si un
     segment se trouve à droite ou à gauche de cette droite, et avoir la liste des segments confondus à cette droite.\\
     Pour savoir si un segment se trouve dans le demi-espace ouvert positif ou négatif, on regarde si les deux extrémités du segment s'y trouvent
     en replaçant les coordonnées dans l'équation de la droite. \\Si les 2 extrémités ont un résultat positif, le segment est dans le demi-espace positif.\\
@@ -209,11 +210,12 @@ associée au noeud de la droite.
 	  Un arbre BSP est, dans notre cas, une structure de donnée représentant un plan contenant des segments. Chaque noeud interne est une droite
     coupant le plan en deux, séparant dans l'arbre droite et gauche les segments étant à droite et à gauche de la droite de coupe.\\
     Chaque feuille contient un segment.\\
-    Pour construire cet arbre, il y a plusieurs étapes.\\
-    
+    On commence par créer une ArrayList de segments vide réprésentant les segments contenus dans le noeud (segments confondus à la droite de coupe) puis, il y a plusieurs grandes étapes.\\
+
     {\subsection*{2.1. Choix de la droite de coupe}}
     	\addcontentsline{toc}{section}{2.1. Droite de Coupe}
-      On commence par choisir une droite de coupe. On la choisit via une heuristique qui sera décrite dans la section 3 ci-dessous.\\
+      On commence par choisir un segment parmis ceux de la liste que l'on transforme en droite. On le choisit via une heuristique qui sera décrite dans la section 3 ci-dessous.\\
+      Après avoir choisi ce segment, on l'ajoute lui ainsi que ceux étant confondus à la droite qu'il crée dans la liste créée au dessus , et on les supprimes de la liste générale des segments.\\
     
     {\subsection*{2.2. La Distribution des Segments (Classe SegmentDistribution)}}
     	\addcontentsline{toc}{section}{2.2. Distribution des Segments}
@@ -224,15 +226,21 @@ associée au noeud de la droite.
     Si le segment [A,B] est intersecté par la droite, on le divise en 2 segments [A,C] et [C,B], C étant le point d'intersection entre le segment
     et la droite, et on ajoute les deux nouveaux segments ainsi créés à la bonne ArrayList.
     Si le segment est confondu à la droite, on ne l'ajoute à aucune des deux ArrayLists.\\
+    La complexité de cet algorithme est en O(n), n étant le nombre de segments dans la liste, car on parcours une fois la liste de segments en faisant à chaque fois des opérations de base.\\
      
        
     {\subsection*{2.3. La Construction des sous-arbres gauche et droite}}
     	\addcontentsline{toc}{section}{2.3. Construction des sous-arbres}
       Grace aux ArrayList obtenues grâce à la Distribution des Segments, on peut dès à présent effectuer récursivement la construction des sous-arbres droite et gauche.\\
     
+    \newpage 
     
     {\subsection*{2.4. Complexité}}
     \addcontentsline{toc}{section}{2.4. Complexité}
+    Quand on crée un arbre BSP, on fait des opérations de base en temps constant, on choisit un segment via une heuristique (Complexité variable selon l'heuristique. Ici, dans le pire des cas, c'est l'heuristique TWNB dont la complexité est en O($n^2$), n étant le nombre de segments) , on cherche les segments confondus à la droite obtenue grâce au segment (Opération en O(n)) puis une distribution de segments en O(m), m étant le nombre de segments initial auquel on soustrait le nombre de segments confondus à la droite choisie.\\    
+\indent Donc, la complexité dans le pire des cas du point de vue de l'heuristique choisie en [ O($n^2$) + O(n) + O(m)] c'est à dire en O($n^2$).\\
+\indent Note à propos des heuristiques random et standard:\\
+\indent Ces deux heuristiques sont en temps constant. Mais, ont un comportement très différent qui influe largement sur la construction de l'arbre. Comme Random prend un fichier aléatoire , les arbres gauche et droit seront plus équilibrés à chaque fois, alors que standard qui prend le premier segment de la liste aura des arbres gauche ou droit beaucoup plus grands.\\
     
     \newpage
     
@@ -277,12 +285,24 @@ associée au noeud de la droite.
     Enfin, on calcule le résultat de la foncion. Si ce résultat est plus petit, on garde le segment, son ratio et le résultat en mémoire,
     on ajoute le segments et les segments confondus a la liste des segmens utilisés et on passe au segment suivant.\\
     Sinon, on ajoutes les segments et on passe au suivant.\\
+    
+    {\subsubsection*{3.3.1. Méthodes additionelles}}
+    \addcontentsline{toc}{subsection}{3.3.1. Méthodes additionelles}
+    - Méthode leftAndRightRatio:\\
+    \indent Prend en paramètre un segment et une liste de segments, transforme ce segment en droite puis en utilisant SegmentDistribution récupère la taille des listes de segments dans le demi-espace ouvert positif et demi-espace ouvert négatif. Si aucune des deux n'est vide, on retourne la division de la taille des deux listes. Si l'une des deux est vide, on retourne la taille de l'autre. Si les 2 sont vide, on retourne 1.\\
+\indent La complexité de cette méthode est en O(n), n étant le nombre de segments car on fait une distribution de segment qui est en O(n) puis des opérations de base en temps constant.\\\\
+\indent - Méthode intersectionList: \\
+\indent Prend en paramètre un segment et une liste de segments, transforme ce segment en droite,  copie la liste de segments et crée une liste qui servira à stocker les segments intersectés. On enlève de la liste copiée tous les segments confondus à la droite créée. Ensuite, on regarde chaque segment de la liste. Si le segment n'est ni dans le demi-espace ouvert positif ni dans le demi-espace ouvert négatif, on l'ajoute à la liste d'intersections.\\
+\indent Pour effectuer cet algorithme, on parcours une première fois la liste pour y retirer les segments confondus à la droite, et ensuite on la parcours une deuxième fois en faisant des opérations en temps constant.
+La complexité est donc en O(n+m), n étant le nombre de segments initial, m étant le nombre de segments après avoir enlevés les segments confondus. On peut simplifer ceci en O(n).\\\\
+\indent - Méthode functionToMaximize :\\
+\indent Calcul de la fonction F ci-dessus. On prend en paramètre un segment, la liste des segments et un entier qui est la taille de la liste d'intersection calculée avec la méthode précédente. On copie la liste de segments, on retire ceux confondus à la droite créée par le segment, puis on effectue la distribution de segments sur les segments présents dans la liste copiée. On récupère les listes de segments dans chaque demi-espace et on fait le calcul. On effectue des opérations de base en temps constant, la méthode pour retirer les segments confondus à la droite en O(n) et la distribution de segments en O(m), n et m correspondant aux mêmes notations que précédemment. La complexité de cette méthode est donc en O(n)\\
 
-    Dans le pire des cas, aucun segment ne se trouve sur la même droite qu'un autre, chaque segment a un ratio plus petit que le précédent
-    et est intersecté par moins de segments que le précédent.
-    Pour chaque segment, on parcout 2 fois la liste de segments. Une fois pour faire le ratio et une fois pour les intesection. Par segment,
-    la complexité est en O($n^2$). Et, comme on doit parcourir la liste entièrement, on doit faire n fois l'opération, donc la complexité
-    de cet algorithhme est en O(n) $\cdot$ O($n^2$) , c'est à dire en O($n^3$).\\
+
+    {\subsubsection*{3.3.2. Complexité de l'algorithme principal de l'heuristique}}
+    \addcontentsline{toc}{subsection}{3.3.2. Complexité de l'algorithme principal de l'heuristique}
+    Pour chaque segment de la liste, on fait un leftAndRightRatio (O(n)), un calcul de la liste des intersections (O(n)) , un calcul de la fonction à maximiser (O(n)). Notre complexité est donc en [O(n) $\cdot$ (O(n)+O(n)+O(n))] c'est à dire en O(n) $\cdot$ O(3n), on peut simplifier le O(3n) en O(n), on a donc du O(n) $\cdot$ O(n) c'est à dire du O($n^2$).\\
+	
     
     {\subsection*{3.4. Comparaison des différentes heuristiques}}
     \addcontentsline{toc}{section}{3.4. Comparaison des différentes heuristiques}
@@ -326,6 +346,17 @@ associée au noeud de la droite.
     {\section*{4. L'Algorithme du Peintre}}
     \addcontentsline{toc}{chapter}{Algorithme du Peintre}
     
+    {\subsection*{Implémentation}}
+    \addcontentsline{toc}{section}{Implémentation}
+    L'Algorithme du Peintre permet de représenter ce qu'un certain point de vue voit d'une scène. C'est un algorithme récursif.\\
+    Dans le cas de base, on regarde si l'arbre est une feuille. Si oui, on dessine les segments contenus dans cette feuille, c'est à dire les segments confondus à la droite de coupe de l'arbre.\\
+    Ensuite, on regarde de quel côté du plan le point de vue est. Si le point de vue est dans le demi-espace ouvert positif, on effectue récursivement l'algorithme du peintre sur le sous-arbre gauche, on dessine les segments de l'arbre, et on termine en effectuant récursivement l'algorithme sur le sous-arbre droit. Si le point de vue est dans le demi-espace ouvert négatif, on fait ces opérations dans l'ordre inverse (Sous-arbre droit => Segments de l'arbre => Sous-arbre gauche)\\
+    Si le point de vue n'est ni dans le demi-espace ouvert positif ni dans le demi-espace ouvert négatif, on effectue l'algorithme sur l'arbre droit et l'arbre gauche.\\
+    
+    {\subsection*{Complexité}}
+    \addcontentsline{toc}{section}{Complexité}
+    Dans le pire des cas, notre point de vue est tel qu'il voit chaque segment et doit tous les dessiner. Comme on ne doit pas dessiner plusieurs fois des segments étant confondus, la complexité est en O(n) , n étant le nombre de noeuds dans l'arbre.
+    
     \newpage
     
     {\section*{5. Applications}}
@@ -340,6 +371,10 @@ Si le fichier n'existe pas ou n'a pas le bon format, la taille de sa liste de se
     C'est cela que nous utiliseront par la suite dans le mode console et interactif pour "fermer" l'application. \\
 
     Ensuite, pour la lecture du fichier, on stocke les 3 entiers de la première ligne et, à chaque ligne, on crée le segment correspondant avant de l'ajouter a la liste des segments du fichier. \\
+    
+    Notre SceneReader parcours donc 2 fois le fichier texte. Pour chaque ligne du fichier est en O(1) car simples vérifications de types ou création d'objets. La complexité de cet algorithme est donc O(n) pour le premier parcours + O(n) pour le deuxième parcours, donc en O(2n) , que l'on simplifie en O(n), n étant le nombre de lignes présentes dans le fichier.\\
+	
+	\newpage
 	
 	{\subsection*{5.2. Mode Console (Classe TestConsole)}}
 	\addcontentsline{toc}{subsection}{5.2. Mode Console}
@@ -347,16 +382,53 @@ Si le fichier n'existe pas ou n'a pas le bon format, la taille de sa liste de se
 	{\subsubsection*{5.2.1. Implémentation}}
 	\addcontentsline{toc}{subsection}{5.2.1. Implémentation}
 	  On a commencé par imprimer un message de bienvenue dans la console et proposer un choix du type de scene à écrire dans l'invite de commande. \\
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[width=500px]{welcome.png}
+  \caption{Message de Bienvenue}\label{fig:PERT}
+\end{center}
+\end{figure}
 \indent On récupère le choix de l'utilisateur avec un Scanner. Si l'utilisateur entre autre chose que les choix proposés, un fichier par défaut sera utilisé: le fichier randomHuge. \\
-\indent En utilisant un switch sur le choix fait par l'utilisateur, on arrive à l'étape suivante: le choix de la taille de la scene.
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[width=400px]{sceneChoice.png}
+  \caption{Choix de la scène}\label{fig:PERT}
+\end{center}
+\end{figure}
+\indent En utilisant un switch sur le choix fait par l'utilisateur, on arrive à l'étape suivante: le choix de la taille de la scene.\\
 \indent Comme précedemment, on récupère le choix de l'utilisateur via un scanner et utilisons un switch pour récupérer le path vers le fichier choisi. Pour les fichiers fournit par les enseignants, le path est déjà prêt dans le code. Pour un fichier ajouté manuellement, il y a d'abord la vérification de la conformité et ensuite, si il ne l'est pas, l'application est quittée. \\
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[width=400px]{scizeChoice.png}
+  \caption{Choix de la taille}\label{fig:PERT}
+\end{center}
+\end{figure}
 \indent Pour terminer, on imprime quelques informations sur la scene choisie: Son nom, son nombre de segments et la limite de ses axes avant de construire les arbres à partir des différentes heuristiques.\\
 \indent Pour chacune d'entre elle, on construit l'arbre et récupérons le temps CPU necessaire pour sa construction grace à la classe Instant de Java, ensuite nous faisons la même chose en effectuant l'algorithme du peintre. \\
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[width=400px]{tree.png}
+  \caption{Tableau de résultats}\label{fig:PERT}
+\end{center}
+\end{figure}
 \indent Lorsque toutes les heuristiques ont été faites et que toutes les informations sont regroupées dans un tableau dans la console, on peut soit relancer le même fichier, soit relancer avec un autre fichier, soit quitter l'application. Si l'utilisateur entre autre chose, l'application se fermera.\\
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[width=400px]{end.png}
+  \caption{Menu final}\label{fig:PERT}
+\end{center}
+\end{figure}
+\indent A tout les endroits où il faut faire un choix, nous avons pensé à faire un choix par défaut en imaginant que l'utilisateur entre autre chose que les dits choix.\\
+
+    {\subsubsection*{5.2.2. L'Algorithme du Peintre en Console (Classe PainterConsole)}}
+    \addcontentsline{toc}{subsection}{5.2.2. L'Algorithme du Peintre en Console}
+    Dans le mode console, on n'a pas de point de vue. On effectue l'algorithme en incrémentant simplement un compteur à chaque fois que l'on "dessine" un segment. On parcourt chaque noeud de l'arbre.\\
 	
-    {\subsubsection*{5.2.2. Guide d'utilisation}}
-	\addcontentsline{toc}{subsection}{5.2.2. Guide d'utilisation}
-	    - Lancer TestConsole.\\
+    {\subsubsection*{5.2.3. Guide d'utilisation}}
+	\addcontentsline{toc}{subsection}{5.2.3. Guide d'utilisation}
+	    - Via la console, accéder au dossier ou est le projet\\
+	    - Toujours dans la console, compiler le projet à l'aide de la commande gradle build \\
+	    - Lancer le mode console via la commande gradle runConsole\\
 \indent - Choisir un type de fichier parmi ceux proposés , ou entrer le path vers un fichier externe ajouté via l'invite de commande.\\
 \indent - Si un type de fichier à été choisi, choisir sa taille via l'invite de commande.\\
 \indent - Recommencer ou non.\\
@@ -367,12 +439,21 @@ Si le fichier n'existe pas ou n'a pas le bon format, la taille de sa liste de se
     {\subsubsection*{5.3.1. Implémentation}}
 	\addcontentsline{toc}{subsection}{5.3.1. Implémentation}
 	
-    {\subsubsection*{5.3.2. Guide d'utilisation}}
-	\addcontentsline{toc}{subsection}{5.3.2. Guide d'utilisation}
+	   {\subsubsection*{5.2.2. L'Algorithme du Peintre graphiquement (Classe PainterInteractive)}}
+    \addcontentsline{toc}{subsection}{5.3.2. L'Algorithme du Peintre en Console}
 	
+    {\subsubsection*{5.3.2. Guide d'utilisation}}
+	\addcontentsline{toc}{subsection}{5.3.3. Guide d'utilisation}
+	
+	
+	\newpage 
+	{\section*{6. Autres structures de données utilisées}}
+	\addcontentsline{toc}{chapter}{6. Autres structures de données}
+	Hormis les Arbres BSP, les seules autres structures de données que nous utilisons sont les ArrayList, que l'on utilise pour stocker la liste de segments. Nous les avons choisies car elles sont déjà complètement implémentées dans la bibliothèques java, et sont plus pratiques dans notre cas car au moment de faire la distribution des segments, on ne sait pas combien de segments seront dans l'arbre gauche et l'arbre droit. Les ArrayList n'ayant pas une taille fixe contrairement au tableaux, on pourra sans problème ajouter et supprimer des segments de listes.\\
+	Pour les Hashtable, nous ne les avons pas utilisées car nous trouvions les ArrayList assez complètes et simple d'utilisation.\\
 			
 	{\section*{Conclusion}}
-		\addcontentsline{toc}{chapter}{Conclusion}	% to add in the toc	
+	\addcontentsline{toc}{chapter}{Conclusion}	% to add in the toc	
 	
 
 	
