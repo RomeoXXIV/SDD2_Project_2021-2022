@@ -15,12 +15,18 @@ public class ViewPointTest {
     @Test
     public void test_sees(){
         assertFalse(nullPov.sees(point));
-        assertTrue(notNullPov.sees(point));
-        assertFalse(notNullPov.sees(unseenPoint));
         double upperEyeX = 12 * Math.cos(Math.toRadians((- notNullPov.getViewAngle() / 2) + notNullPov.getRotateAngle()));
         double upperEyeY = 12 * Math.sin(Math.toRadians((- notNullPov.getViewAngle() / 2) + notNullPov.getRotateAngle()));
         Point upperEyeLid = new Point(upperEyeX, upperEyeY);
         assertTrue(notNullPov.sees(upperEyeLid));
+        double hundUpperEyeX = 12 * Math.cos(Math.toRadians((- hundEightyPov.getViewAngle() / 2) + hundEightyPov.getRotateAngle()));
+        double hundUpperEyeY = 12 * Math.sin(Math.toRadians((- hundEightyPov.getViewAngle() / 2) + hundEightyPov.getRotateAngle()));
+        assertTrue(hundEightyPov.sees(new Point(hundUpperEyeX, hundUpperEyeY)));
+        assertTrue(hundEightyPov.sees(point));
+        assertTrue(notNullPov.sees(point));
+        assertFalse(notNullPov.sees(unseenPoint));
+
+
     }
 
 }

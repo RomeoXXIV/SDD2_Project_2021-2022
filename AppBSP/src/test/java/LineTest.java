@@ -1,5 +1,6 @@
 import be.ac.umons.student.models.Line;
 import be.ac.umons.student.models.Point;
+import be.ac.umons.student.models.Segment;
 import be.ac.umons.student.models.Vector;
 import org.junit.jupiter.api.Test;
 
@@ -49,5 +50,25 @@ public class LineTest {
         Vector normalVector = getNormalVector(origin, a);
 
         assertTrue(normalVector.equals(expectedNormalVector) || normalVector.equals(expectedNormalVector.opposite()));
+    }
+
+    @Test
+    public void test_isSecantTo(){
+        Line identity = new Line(1, -1, 0);
+        Line reverseIdentity = new Line(1, 1, 0);
+        Line doubleIdentity = new Line(2, -2, 0);
+        assertTrue(identity.isSecantTo(reverseIdentity));
+        assertFalse(identity.isSecantTo(doubleIdentity));
+    }
+
+    @Test
+    public void test_isSecantToLineOf(){
+        Line identity = new Line(1, -1, 0);
+        Segment notSecantSegment = new Segment(new Point(1, 1), new Point(2, 2));
+        Segment secantSegment = new Segment(new Point(1, -1), new Point(2, -2));
+        assertFalse(identity.isSecantToLineOf(notSecantSegment));
+        assertTrue(identity.isSecantToLineOf(secantSegment));
+
+
     }
 }

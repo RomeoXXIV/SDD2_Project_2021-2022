@@ -35,7 +35,6 @@ public class Segment {
      * @return vrai si le segment contient le point, faux sinon
      */
     public boolean contains(Point point){
-        // TODO JavaDoc + Testing
         this.toLine();
         Vector segDirector = Line.getDirectorVector(this.getA(), this.getB());
         Segment newSeg = new Segment(this.getA(), point);

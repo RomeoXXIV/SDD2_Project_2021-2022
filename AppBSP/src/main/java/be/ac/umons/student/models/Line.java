@@ -53,8 +53,12 @@ public class Line {
         return this.intersection(segment.toLine());
     }
 
+    /**
+     * Retourne vrai si la ligne est sécante à la ligne line
+     * @param line
+     * @return vrai si les droites sont sécantes, faux sinon
+     */
     public boolean isSecantTo(Line line) {
-        // TODO JavaDoc + Testing
         double epsilon = 0.0001;
         if (Math.abs(this.beta - line.getBeta()) < epsilon)
             return false;
@@ -65,8 +69,12 @@ public class Line {
         return !(Math.abs(thisSlope - otherSlope) < epsilon);
     }
 
+    /**
+     * Retourne vrai si la droite est sécante au segment, faux sinon
+     * @param segment
+     * @return
+     */
     public boolean isSecantToLineOf(Segment segment) {
-        // TODO JavaDoc + Testing + utile?
         return this.isSecantTo(segment.toLine());
     }
 
