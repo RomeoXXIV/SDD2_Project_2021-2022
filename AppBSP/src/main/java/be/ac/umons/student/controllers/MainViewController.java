@@ -4,7 +4,6 @@ import be.ac.umons.student.models.BSPTree;
 import be.ac.umons.student.models.Point;
 import be.ac.umons.student.models.Segment;
 import be.ac.umons.student.models.heuristics.*;
-import be.ac.umons.student.models.painter.Paintable;
 import be.ac.umons.student.models.painter.Painter;
 import be.ac.umons.student.models.painter.PainterInteractive;
 import be.ac.umons.student.models.painter.ViewPoint;
@@ -394,7 +393,6 @@ public class MainViewController implements Initializable {
     // Button Show View
     @FXML
     public void handleShowViewButtonAction(ActionEvent actionEvent) {
-        System.out.println("");
         this.drawOnPainterCanvas();
     }
 
@@ -402,11 +400,19 @@ public class MainViewController implements Initializable {
     // Painter Canvas handler
     @FXML
     public void handleScrollOnPainterCanvas(ScrollEvent scrollEvent) {
-        // TODO implement handleScrollOnPainterCanvas()
+        if (scrollEvent.isControlDown()) {
+            scrollEvent.consume();
+            double zoomFactor = 1.1;
+            double deltaY = scrollEvent.getDeltaY();
+            if (deltaY < 0) {
+                zoomFactor = 2. - zoomFactor;
+            }
+            painterCanvas.setScaleX(painterCanvas.getScaleX() * zoomFactor);
+            painterCanvas.setScaleY(painterCanvas.getScaleY() * zoomFactor);
+        }
     }
 
     private void drawOnPainterCanvas() {
-
         this.drawingPreparation();
         this.drawSegmentsPainterCanvas();
     }

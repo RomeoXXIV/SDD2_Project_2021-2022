@@ -35,10 +35,10 @@ public class Segment {
      * @return vrai si le segment contient le point, faux sinon
      */
     public boolean contains(Point point){
-        this.toLine();
         Vector segDirector = Line.getDirectorVector(this.getA(), this.getB());
         Segment newSeg = new Segment(this.getA(), point);
         Vector newSegDirector = Line.getDirectorVector(newSeg.getA(), newSeg.getB());
+        if (this.getA().equals(point) || this.getB().equals(point)) return true;
         if(newSeg.isPoint())
             return true;
         if(Math.signum(segDirector.getX()) == Math.signum(1) && Math.signum(newSegDirector.getX()) == Math.signum(1))
