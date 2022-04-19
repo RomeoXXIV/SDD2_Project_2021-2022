@@ -85,8 +85,6 @@ public class MainViewController implements Initializable {
     // Painter Canvas Variables
     @FXML public Canvas painterCanvas;
     private GraphicsContext graphicsContextPainterCanvas;
-    private double widthPainterCanvas;
-    private double heightPainterCanvas;
 
 
     // MenuBar Handler
@@ -272,8 +270,8 @@ public class MainViewController implements Initializable {
         if (!this.positionXTextField.getText().equals("")
             && !this.positionYTextField.getText().equals("")) {
             this.graphicsContextSubMainCanvas.clearRect(0, 0, subMainCanvas.getWidth(), subMainCanvas.getHeight());
-            double x = Double.parseDouble(this.positionXTextField.getText()) + this.widthMainCanvas / 2.;
-            double y = Double.parseDouble(this.positionYTextField.getText()) + this.heightMainCanvas / 2.;
+            double x = Double.parseDouble(this.positionXTextField.getText()) + this.subMainCanvas.getWidth() / 2.;
+            double y = Double.parseDouble(this.positionYTextField.getText()) + this.subMainCanvas.getHeight() / 2.;
             double length = 20.;
             double viewAngle = Double.parseDouble(this.viewAngleTextfield.getText());
             double rotateAngle = Double.parseDouble(this.rotatorTextfield.getText());
@@ -290,7 +288,7 @@ public class MainViewController implements Initializable {
             this.graphicsContextSubMainCanvas.fillArc(x - 20, y - 20, 40, 40, - viewAngle / 2, viewAngle, ArcType.ROUND);
 
             this.graphicsContextSubMainCanvas.setFill(Color.BLACK);
-            this.graphicsContextSubMainCanvas.fillOval(x + 5, y - 5, 10, 10);
+            this.graphicsContextSubMainCanvas.fillOval(x + 8, y - 5, 10, 10);
             if (this.showViewButton.isDisable()) this.showViewButton.setDisable(false);
         }
     }
@@ -351,7 +349,7 @@ public class MainViewController implements Initializable {
         double rounded = this.round(value, 100);
         this.viewAngleSlider.setValue(rounded);
         this.viewAngleTextfield.setText(Double.toString(this.round(rounded, 100)));
-        drawPointOfViewOnSubMainCanvas();
+        this.drawPointOfViewOnSubMainCanvas();
     }
 
     // Rotator Section
@@ -396,6 +394,7 @@ public class MainViewController implements Initializable {
     // Button Show View
     @FXML
     public void handleShowViewButtonAction(ActionEvent actionEvent) {
+        System.out.println("");
         this.drawOnPainterCanvas();
     }
 
@@ -414,11 +413,11 @@ public class MainViewController implements Initializable {
 
     private void drawingPreparation() {
         // TODO to verify
-        this.widthPainterCanvas = painterCanvas.getWidth();
-        this.heightMainCanvas = painterCanvas.getHeight();
-        this.graphicsContextPainterCanvas.clearRect(0, 0, this.widthPainterCanvas, this.heightMainCanvas);
-        this.painterCanvas.setWidth(this.widthPainterCanvas); // Utilité ?
-        this.painterCanvas.setHeight(this.heightMainCanvas); // Utilité ?
+        double widthPainterCanvas = painterCanvas.getWidth();
+        double heightMainCanvas = painterCanvas.getHeight();
+        this.graphicsContextPainterCanvas.clearRect(0, 0, widthPainterCanvas, heightMainCanvas);
+        this.painterCanvas.setWidth(widthPainterCanvas); // Utilité ?
+        this.painterCanvas.setHeight(heightMainCanvas); // Utilité ?
         this.bspTree = new BSPTree(this.sceneReader.getSegments(), heuristicSelector);
         double x = Double.parseDouble(positionXTextField.getText());
         double y = Double.parseDouble(positionYTextField.getText());
