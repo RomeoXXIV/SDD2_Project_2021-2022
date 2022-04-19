@@ -35,16 +35,12 @@ public class ViewPoint {
     public boolean sees(Point point) {
         // TODO JavaDoc + Testing
         if (this.viewAngle == 0.) return false;
-        double upperEyelidLineX = 12 * Math.cos(Math.toRadians((-viewAngle / 2) + rotateAngle));
-        double upperEyelidLineY = 12 * Math.sin(Math.toRadians((-viewAngle / 2) + rotateAngle));
-        Line upperEyelidLine = new Line(this.point, new Point(upperEyelidLineX, upperEyelidLineY));
+        Line upperEyelidLine = getUpperEyelidLine();
         if (this.viewAngle == 180.) {
             return upperEyelidLine.contains(point) || upperEyelidLine.containsInOpenNegativeHalfSpace(point);
         }
         else {
-            double lowerEyelidLineX = 12 * Math.cos(Math.toRadians((viewAngle / 2) + rotateAngle));
-            double lowerEyelidLineY = 12 * Math.sin(Math.toRadians((viewAngle / 2) + rotateAngle));
-            Line lowerEyelidLine = new Line(this.point, new Point(lowerEyelidLineX, lowerEyelidLineY));
+            Line lowerEyelidLine = getLowerEyelidLine();
             return (upperEyelidLine.contains(point) || upperEyelidLine.containsInOpenNegativeHalfSpace(point))
                     && (lowerEyelidLine.contains(point) || lowerEyelidLine.containsInOpenPositiveHalfSpace(point));
         }

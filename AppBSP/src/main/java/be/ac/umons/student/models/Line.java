@@ -18,8 +18,9 @@ public class Line {
     }
 
     public Line(Point a, Point b) {
+        double epsilon = 0.0001;
         Vector normalVector = getNormalVector(a, b);
-        if (normalVector.getX() == 0 && normalVector.getY() == 0)
+        if (Math.abs(normalVector.getX()) < epsilon && Math.abs(normalVector.getY()) < epsilon)
             this.alpha = this.beta = this.gamma = 0;
         else {
             this.alpha = normalVector.getX();
@@ -35,12 +36,31 @@ public class Line {
      * @return le point d'intersection de la droite avec la seconde droite.
      */
     public Point intersection(Line line) {
-        double n1 = this.beta * line.gamma - line.beta * this.gamma;
+        /*double n1 = this.beta * line.gamma - line.beta * this.gamma;
         double n2 = line.alpha * this.gamma - this.alpha * line.gamma;
         double d = line.alpha * this.beta - this.alpha * line.beta;
         double x = n1/d;
-        double y = n2/d;
-        return new Point(x, y);
+        double y = n2/d;*/
+        double epsilon = 0.0001;
+        double x;
+        double y;
+        if (Math.abs(this.beta) < epsilon && Math.abs(line.getBeta()) < epsilon){
+            double thisSlope = - this.alpha / this.beta;
+            double otherSlope = - line.getAlpha() / line.getBeta();
+            double thisP = -this.gamma / this.beta;
+            double otherP = -line.getGamma() / line.getBeta();
+            x = (thisP - otherP) / (otherSlope - thisSlope);
+            y = thisSlope * x + thisP;
+        }
+        else if (Math.abs(this.beta) < epsilon) {
+            x = - this.gamma / this.alpha;
+            y = ( ( line.getAlpha() * this.gamma ) / (this.alpha * line.getBeta()) ) - (line.getGamma() / line.getBeta()) ;
+        }
+        else {
+            x = - line.getGamma() / line.getAlpha();
+            y = ( ( this.alpha * line.getGamma())  / (line.getAlpha() * this.getBeta())) - (this.gamma / this.beta) ;
+        }
+        return new Point(x,y);
     }
 
     /**

@@ -15,14 +15,12 @@ import javafx.scene.paint.Color;
 public class PainterInteractive implements Paintable { // TODO to complete
 
     private final Canvas canvas;
-
     public PainterInteractive(Canvas canvas) {
         this.canvas = canvas;
     }
 
     @Override
     public void drawSegment(Segment segment, ViewPoint viewPoint) {
-        // TODO to finish/verify
         GraphicsContext graphicsContext = this.canvas.getGraphicsContext2D();
         Segment drawingSegment;
         if (viewPoint.seesPartially(segment)) {
@@ -108,7 +106,7 @@ public class PainterInteractive implements Paintable { // TODO to complete
 
         Point intersectPointOfProjectionAndUpperEyelidLine = projectionLine.intersection(upperEyelidLine);
 
-        double drawingSegmentPointAPosX = (new Segment(intersectPointOfProjectionAndPovToPointA, intersectPointOfProjectionAndUpperEyelidLine)).length();
+        double drawingSegmentPointAPosX = Math.min((new Segment(intersectPointOfProjectionAndPovToPointA, intersectPointOfProjectionAndUpperEyelidLine)).length(),(new Segment(intersectPointOfProjectionAndPovToPointB, intersectPointOfProjectionAndUpperEyelidLine)).length());
         double drawingSegmentPointBPosX = projectedSegment.length();
         Point drawingSegmentPointA = new Point(drawingSegmentPointAPosX, 0);
         Point drawingSegmentPointB = new Point(drawingSegmentPointBPosX, 0);
@@ -120,14 +118,10 @@ public class PainterInteractive implements Paintable { // TODO to complete
         double widthCanvas = this.canvas.getWidth();
         double heightCanvas = this.canvas.getHeight();
         Color color = awtColorToPaintColor(segment.getColor());
-        double x1 = segment.getA().getX() + widthCanvas / 2.;
-        //double x1 = segment.getA().getX() ;
+        double x1 = segment.getA().getX() + widthCanvas / 10.;
         double y1 = segment.getA().getY() + heightCanvas / 2.;
-        //double y1 = segment.getA().getY() ;
-        double x2 = segment.getB().getX() + widthCanvas / 2.;
-        //double x2 = segment.getB().getX() ;
+        double x2 = segment.getB().getX() + widthCanvas / 10.;
         double y2 = segment.getB().getY() + heightCanvas / 2.;
-        //double y2 = segment.getB().getY();
         graphicsContext.setStroke(color);
         graphicsContext.strokeLine(x1, y1, x2, y2);
     }
