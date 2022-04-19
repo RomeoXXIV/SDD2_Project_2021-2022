@@ -239,8 +239,13 @@ associée au noeud de la droite.
     \addcontentsline{toc}{section}{2.4. Complexité}
     Quand on crée un arbre BSP, on fait des opérations de base en temps constant, on choisit un segment via une heuristique (Complexité variable selon l'heuristique. Ici, dans le pire des cas, c'est l'heuristique TWNB dont la complexité est en O($n^2$), n étant le nombre de segments) , on cherche les segments confondus à la droite obtenue grâce au segment (Opération en O(n)) puis une distribution de segments en O(m), m étant le nombre de segments initial auquel on soustrait le nombre de segments confondus à la droite choisie.\\    
 \indent Donc, la complexité dans le pire des cas du point de vue de l'heuristique choisie en [ O($n^2$) + O(n) + O(m)] c'est à dire en O($n^2$).\\
-\indent Note à propos des heuristiques random et standard:\\
-\indent Ces deux heuristiques sont en temps constant. Mais, ont un comportement très différent qui influe largement sur la construction de l'arbre. Comme Random prend un fichier aléatoire , les arbres gauche et droit seront plus équilibrés à chaque fois, alors que standard qui prend le premier segment de la liste aura des arbres gauche ou droit beaucoup plus grands.\\
+\indent Ensuite, on a la construction des sous-arbres droit et gauche qui eux, ont également une complexité en O($n_{g}^2$) pour l'arbre gauche et en O($n_{d}^2$) , $n_{g}$ et $n_{d}$ étant le nombre de segments à gauche et à droite. Selon la fragmentation des segments, ce nombre peut être plus grand ou plus petit.\\
+\indent La complexité finale de la construction de l'arbre est donc en:
+    \begin{equation}
+    O(n^2) * (O(n_{g}^2) + O(n_{d}^2))
+    \end{equation}
+\indent On peut dire que la construction est en O($n^4$)\\
+
     
     \newpage
     
@@ -336,10 +341,12 @@ La complexité est donc en O(n+m), n étant le nombre de segments initial, m ét
     {\subsubsection*{3.4.5. Conclusion de la comparaison}}
     \addcontentsline{toc}{subsection}{3.4.5. Conclusion de la comparaison}
      - L'heuristique aléatoire crée des arbres contenant beaucoup de noeuds mais une petite hauteur.\\
-\indent - L'heuristique Standard et l'heuristique TWNB créent des arbres contenant un nombre similaire de noeuds et ayant une hauteur semblable. \\
-\indent - L'echelle de grandeur pour le temps de création de l'arbre est Aléatoire => Standard => TWNB \\
+\indent - L'heuristique Standard et l'heuristique TWNB créent des arbres contenant un nombre similaire de nœuds et ayant une hauteur semblable. \\
+\indent - L'échelle de grandeur pour le temps de création de l'arbre est Aléatoire => Standard => TWNB \\
 \indent - Pour l'algorithme du peintre est Aléatoire => TWNB => Standard.\\
  Avec, dans les deux cas, une plus grosse différence entre les heuristiques plus le fichier est grand.
+\indent Note sur les chiffres obtenus:
+\indent Évidemment, les temps de constructions peuvent différer selon la puisance de la machine utilisée pour effectuer les différents algorithmes.
     
     \newpage
   
@@ -426,9 +433,9 @@ Si le fichier n'existe pas ou n'a pas le bon format, la taille de sa liste de se
 	
     {\subsubsection*{5.2.3. Guide d'utilisation}}
 	\addcontentsline{toc}{subsection}{5.2.3. Guide d'utilisation}
-	    - Via la console, accéder au dossier ou est le projet\\
-	    - Toujours dans la console, compiler le projet à l'aide de la commande gradle build \\
-	    - Lancer le mode console via la commande gradle runConsole\\
+	    - Via la console, accéder au répertoire AppBSP\\
+\indent - Toujours dans la console, compiler le projet à l'aide de la commande gradle build \\
+\indent - Lancer le mode console via la commande gradle runConsole\\
 \indent - Choisir un type de fichier parmi ceux proposés , ou entrer le path vers un fichier externe ajouté via l'invite de commande.\\
 \indent - Si un type de fichier à été choisi, choisir sa taille via l'invite de commande.\\
 \indent - Recommencer ou non.\\
@@ -439,11 +446,28 @@ Si le fichier n'existe pas ou n'a pas le bon format, la taille de sa liste de se
     {\subsubsection*{5.3.1. Implémentation}}
 	\addcontentsline{toc}{subsection}{5.3.1. Implémentation}
 	
-	   {\subsubsection*{5.2.2. L'Algorithme du Peintre graphiquement (Classe PainterInteractive)}}
+	{\subsubsection*{5.3.1.1. Point de Vue (Classe ViewPoint}}
+	\addcontentsline{toc}{subsubsection}{5.3.1.1. Point de Vue}
+	L'objet Point de Vue représente l'oeil dans le plan. Il possède des coordonnées x et y représentées par un point, un angle de vue et un angle de rotation. Cet oeil possède un cil haut et un cil bas. Graphiquement, il ne change pas mais en pratique, le cil haut et le cil bas représentent les droites créant l'angle de vue.\\
+\indent Avec cet objet, nous vérifions si les segments sont visible entièrement ou partiellement pour ainsi les dessiner. Pour savoir si un segment est entièrement visible, il faut que ses 2 extrémités soient visible. Pour ce faire, on regarde si les extrémités sont soit contenues dans les droites du cil haut ou cil bas , soit dans le demi-espace ouvert négatif du cil haut ET demi-espace ouvert positif du cil bas.\\
+\indent Pour savoir si un segment est partiellement visible, soit on ne voit qu'une des deux extrémités, soit on ne voit aucune des deux extrémités mais on voit le reste du segment.\\
+\indent Par défaut, un point de vue à un angle de rotation de 0 et un angle de vue de 100\\
+	
+	   {\subsubsection*{5.3.2 L'Algorithme du Peintre graphiquement (Classe PainterInteractive)}}
     \addcontentsline{toc}{subsection}{5.3.2. L'Algorithme du Peintre en Console}
+    On parcourt les segments de la liste. Pour chaque segments, on commence par regarder si le point de vue voit entièrement le segment, si oui on le dessine, si non on regarde si il le voit sans les extrémités, si oui on dessine ce que l'oeil voit. Si le segment ne voit qu'une des 2 extrémités, on récupère l'intersection que le segment à avec la droite, on le divise en 2 fragments de segments et on regarde lequel des deux fragments est à l'intérieur du point de vue.\\
+\indent 
 	
     {\subsubsection*{5.3.2. Guide d'utilisation}}
 	\addcontentsline{toc}{subsection}{5.3.3. Guide d'utilisation}
+	   - Via la console, accéder au répertoire AppBSP\\
+\indent - Toujours dans la console, compiler le projet à l'aide de la commande gradle build \\
+\indent - Lancer l'application graphique via la commande gradle run\\
+\indent - Cliquer sur le bouton file pour choisir le fichier à utiliser. On peut soit ouvrir un fichier se trouvant dans notre arborescence de fichier, soit directement ouvrir un des fichiers fournis par les enseignants. \\
+\indent - Après avoir choisi le fichier, placer l'oeil dans le plan en entrant les coordonnées
+x et y.\\
+\indent - Entrer un angle de vue sur la droite de l'application.\\
+\indent - Appuyer sur le bouton voir pour effectuer l'Algorithme du Peintre et afficher le résultat.\\
 	
 	
 	\newpage 
@@ -454,6 +478,14 @@ Si le fichier n'existe pas ou n'a pas le bon format, la taille de sa liste de se
 			
 	{\section*{Conclusion}}
 	\addcontentsline{toc}{chapter}{Conclusion}	% to add in the toc	
+	Ce projet de Structure de Données 2 nous à replongé dans la géométrie en deux dimensions, droites, segments, vecteurs, points et nous a posé des problématiques géométrique que nous n'avions jamais implémenté auparavant. Certains de ces aspects bien que parfois simple à calculer mathématiquement n'étaient pas forcément simple à implémenter. 
+\indent Également, ce projet, lors de la comparaison des temps de construction de l'arbre par rapport aux différentes heuristiques, nous fait réaliser l'importance vitale de la complexité, chose à laquelle certains ne peuvent pas penser forcément. Nous avons eu un clair exemple de l'exponentialité en temps que les algorithmes pouvaient avoir. 
+\indent Ma (Maxime Nabli) grosse déception dans ce projet est le résultat de l'heuristique TWNB. Elle était super intéressante à implémenter mais les résultats en terme de temps de construction et d'application de l'algorithme du peintre de l'heuristique aléatoire restaient bien meilleurs.
+\\
+Il y a quelques fonctionnalités que l'on aurait voulu implémenter (En général, une traduction pour que les 2 applications soient dans la même langue, l'heuristique aléatoire optimisée de la documentation et pour l'application graphique une GUI modulable, une vérification des inputs pour les coordonnées ou angle de vue dans l'application graphiques, une stylisation de l'application, un zoom de l'application à revoir, un ajout d'une représentation des axe, de l'oeil fermé , d'un oeil avec des angles plus grands, pouvoir avoir une historique des fichiers récents et une réaction à la sélection d'un mauvais fichier. On aurait également voulu que les boutons "help" et "about renvoient vers le readMe du Github.)\\
+
+
+	
 	
 
 	
