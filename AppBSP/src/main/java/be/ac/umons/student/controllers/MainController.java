@@ -15,10 +15,12 @@ import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
 import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
@@ -30,14 +32,17 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
 import javafx.scene.transform.Rotate;
 import javafx.stage.FileChooser;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
-public class MainViewController implements Initializable {
+public class MainController implements Initializable {
 
     @FXML public HBox appCenterHBox;
     private Stage stage;
@@ -87,6 +92,22 @@ public class MainViewController implements Initializable {
 
 
     // MenuBar Handler
+    @FXML
+    public void handleClickOnAboutMaySee() throws Exception {
+        Stage aboutMaySeeStage = new Stage();
+        aboutMaySeeStage.initModality(Modality.APPLICATION_MODAL);
+
+        FXMLLoader fxmlLoader = new FXMLLoader(new File("src/main/resources/fxml/AboutMaySeeView.fxml").toURI().toURL());
+        Parent root = fxmlLoader.load();
+        ((AboutMaySeeController) fxmlLoader.getController()).setStage(aboutMaySeeStage);
+        Scene scene = new Scene(root);
+
+        aboutMaySeeStage.setTitle("About MaySee");
+        aboutMaySeeStage.setScene(scene);
+        aboutMaySeeStage.setResizable(false);
+        aboutMaySeeStage.showAndWait();
+    }
+
     @FXML
     public void handleClickOnQuitMaySee() {
         stage.close();

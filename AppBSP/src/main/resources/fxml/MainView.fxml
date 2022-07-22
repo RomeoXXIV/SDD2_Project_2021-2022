@@ -21,13 +21,13 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox id="rootVBox" fx:id="rootVBox" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../css/StyleSheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.ac.umons.student.controllers.MainViewController">
+<VBox id="rootVBox" fx:id="rootVBox" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../css/StyleSheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.ac.umons.student.controllers.MainController">
    <children>
       <MenuBar id="MenuBar" fx:id="MenuBar" VBox.vgrow="NEVER">
          <menus>
             <Menu mnemonicParsing="false" text="MaySee">
                <items>
-                  <MenuItem mnemonicParsing="false" text="About MaySee" />
+                  <MenuItem mnemonicParsing="false" onAction="#handleClickOnAboutMaySee" text="About MaySee" />
                   <SeparatorMenuItem mnemonicParsing="false" />
                   <MenuItem mnemonicParsing="false" onAction="#handleClickOnQuitMaySee" text="Quit MaySee" />
                </items>
