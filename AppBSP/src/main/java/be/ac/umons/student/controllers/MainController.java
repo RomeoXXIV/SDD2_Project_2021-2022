@@ -24,6 +24,9 @@ import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextField;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.input.ScrollEvent;
 import javafx.scene.layout.HBox;
@@ -35,9 +38,12 @@ import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import java.awt.*;
 import java.io.File;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
@@ -106,6 +112,11 @@ public class MainController implements Initializable {
         aboutMaySeeStage.setScene(scene);
         aboutMaySeeStage.setResizable(false);
         aboutMaySeeStage.showAndWait();
+    }
+
+    @FXML
+    public void handleClickOnGitHubRepository() throws IOException, URISyntaxException {
+        Desktop.getDesktop().browse(new URL("https://github.com/RomeoXXIV/SDD2_Project_2021-2022").toURI());
     }
 
     @FXML
