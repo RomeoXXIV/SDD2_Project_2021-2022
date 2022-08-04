@@ -34,7 +34,7 @@
             <Insets />
          </VBox.margin>
       </Text>
-      <Button mnemonicParsing="false" text="Quit" onAction="#handleClickOnQuit">
+      <Button mnemonicParsing="false" onAction="#handleClickOnQuit" prefHeight="30.0" prefWidth="50.0" text="Quit">
          <VBox.margin>
             <Insets top="10.0" />
          </VBox.margin>

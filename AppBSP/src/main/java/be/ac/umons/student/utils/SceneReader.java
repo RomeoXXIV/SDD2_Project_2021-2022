@@ -41,7 +41,7 @@ public class SceneReader {
      */
     public void readSceneFile(String pathFile) {
         boolean fileExist = false;
-        if (checkFileConform(pathFile)) {
+        if (isFileScene(pathFile)) {
             try {
                 File sceneFile = new File(pathFile);
                 this.fileName = sceneFile.getName();
@@ -77,12 +77,22 @@ public class SceneReader {
     }
 
     /**
-     * Retourne vrai si le fichier est au bon format, faux sinon
+     * Retourne vrai si le fichier est un fichier d'un scène au bon format, faux sinon
+     *
      * @param pathFile le path du fichier
      * @return vrai ou faux
      */
-    public boolean checkFileConform(String pathFile){
+    public boolean isFileScene(String pathFile){
         File file = new File(pathFile);
+        return isFileScene(file);
+    }
+
+    /**
+     * Retourne vrai si le fichier est au bon format, faux sinon
+     * @param file le fichier
+     * @return vrai ou faux
+     */
+    public boolean isFileScene(File file){
         fileName = file.getName();
         try(Scanner sc = new Scanner(file))
         {
