@@ -3,6 +3,7 @@ package be.ac.umons.student.utils;
 import java.awt.Color;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 import be.ac.umons.student.models.Point;
 import be.ac.umons.student.models.Segment;
@@ -12,12 +13,13 @@ import be.ac.umons.student.models.Segment;
  *
  * @author Romeo Ibraimovski
  */
-public class SceneReader {
+public class SceneReader { // TODO: à commenter
 
+    private static final Logger LOGGER = Logger.getLogger(SceneReader.class.getName());
     public static final Color BROWN = new Color(102,51,0);
 
     private String fileName;
-    private boolean isSceneFile; // TODO final ?
+    private final boolean isSceneFile;
     private final ArrayList<Segment> segments;
     private int xAxisLimit;
     private int yAxisLimit;
@@ -35,7 +37,6 @@ public class SceneReader {
     }
 
     public static boolean isSceneFile(File file) {
-        // TODO Demander un coup de main pour la gestion des exceptions + Gestion des fichiers non trouvés ?
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
             String firstLine = bufferedReader.readLine();
             if (firstLine == null || !isSceneFileFirstLine(firstLine)) return false;
@@ -51,6 +52,10 @@ public class SceneReader {
             }
             return nbrOfSegmentsLeft == 0;
         } // pas besoin de bufferedReader.close() car on a fait un try with resources
+        catch (IOException e) {
+            LOGGER.severe(e.getMessage());
+            return false;
+        }
     }
 
     public static boolean isSceneFileFirstLine(String firstLine) {
@@ -100,7 +105,6 @@ public class SceneReader {
     }
 
     public void readSceneFile(File sceneFile) {
-        // TODO Demander un coup de main pour la gestion des exceptions
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(sceneFile))) {
             String firstLine = bufferedReader.readLine();
             String[] split = firstLine.split(" ");
@@ -114,6 +118,9 @@ public class SceneReader {
                 line = bufferedReader.readLine();
             }
         } // pas besoin de bufferedReader.close() car on a fait un try with resources
+        catch (IOException e) {
+            LOGGER.severe("Erreur lors de la lecture du fichier " + sceneFile.getName());
+        }
     }
 
     public Segment stringToSegment(String str) {
