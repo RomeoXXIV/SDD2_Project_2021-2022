@@ -209,40 +209,65 @@ public class MainController implements Initializable {
 
     @FXML
     public void handleClickOnStandard() {
+        HeuristicSelector oldHeuristicSelector = this.heuristicSelector;
         this.heuristicSelector = new StandardHeuristic();
         this.heuristicSelected.set("Standard");
+        if (this.sceneFile != null && this.sceneReader.isSceneFile()
+                && !oldHeuristicSelector.getClass().equals(this.heuristicSelector.getClass())) {
+            System.out.println("Works ! But need to fix BSP Tree");
+            //this.bspTree = new BSPTree(this.sceneReader.getSegments(), this.heuristicSelector);
+        }
     }
 
     @FXML
     public void handleClickOnRandom() {
+        HeuristicSelector oldHeuristicSelector = this.heuristicSelector;
         this.heuristicSelector = new RandomHeuristic();
         this.heuristicSelected.set("Random");
+        if (this.sceneFile != null && this.sceneReader.isSceneFile()
+                && !oldHeuristicSelector.getClass().equals(this.heuristicSelector.getClass())) {
+            System.out.println("Works ! But need to fix BSP Tree");
+            //this.bspTree = new BSPTree(this.sceneReader.getSegments(), this.heuristicSelector);
+        }
     }
 
     @FXML
     public void handleClickOnTWBN() {
+        HeuristicSelector oldHeuristicSelector = this.heuristicSelector;
         this.heuristicSelector = new TWNBHeuristic();
         this.heuristicSelected.set("TWBH");
+        if (this.sceneFile != null && this.sceneReader.isSceneFile()
+                && !oldHeuristicSelector.getClass().equals(this.heuristicSelector.getClass())) {
+            System.out.println("Works ! But need to fix BSP Tree");
+            //this.bspTree = new BSPTree(this.sceneReader.getSegments(), this.heuristicSelector);
+        }
     }
 
     @FXML
     public void handleClickOnOptimizedRandom() {
+        HeuristicSelector oldHeuristicSelector = this.heuristicSelector;
         this.heuristicSelector = new OptimizedRandomHeuristic();
         this.heuristicSelected.set("Optimized Random");
+        if (this.sceneFile != null && this.sceneReader.isSceneFile()
+                && !oldHeuristicSelector.getClass().equals(this.heuristicSelector.getClass())) {
+            System.out.println("Works ! But need to fix BSP Tree");
+            //this.bspTree = new BSPTree(this.sceneReader.getSegments(), this.heuristicSelector);
+        }
     }
 
     private void updateContentAppCenterHBox() {
-        //if (SceneReader.isSceneFile(this.sceneFile))
-        this.sceneFileSelected.set(sceneFile.getName());
-        this.pointOfViewVBox.setDisable(false);
         this.sceneReader = new SceneReader(this.sceneFile);
-        String positionXPromptText = "-" + (double) this.sceneReader.getxAxisLimit() + " to " + (double) this.sceneReader.getxAxisLimit();
-        String positionYPromptText = "-" + (double) this.sceneReader.getyAxisLimit() + " to " + (double) this.sceneReader.getyAxisLimit();
-        this.positionXTextField.setPromptText(positionXPromptText);
-        this.positionYTextField.setPromptText(positionYPromptText);
-        this.drawSceneOnMainCanvas();
-        /*this.bspTree = new BSPTree(this.sceneReader.getSegments(), this.heuristicSelector);
-        new Painter(bspTree, painterInteractive);*/
+        if (this.sceneReader.isSceneFile()) {
+            this.sceneFileSelected.set(sceneFile.getName());
+            this.pointOfViewVBox.setDisable(false);
+            String positionXPromptText = "-" + (double) this.sceneReader.getxAxisLimit() + " to " + (double) this.sceneReader.getxAxisLimit();
+            String positionYPromptText = "-" + (double) this.sceneReader.getyAxisLimit() + " to " + (double) this.sceneReader.getyAxisLimit();
+            this.positionXTextField.setPromptText(positionXPromptText);
+            this.positionYTextField.setPromptText(positionYPromptText);
+            this.drawSceneOnMainCanvas();
+            // TODO : fix BSP Tree
+            // this.bspTree = new BSPTree(this.sceneReader.getSegments(), this.heuristicSelector);
+        }
     }
 
 
