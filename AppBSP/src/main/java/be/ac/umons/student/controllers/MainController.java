@@ -119,92 +119,92 @@ public class MainController implements Initializable {
 
     @FXML
     public void handleClickOnQuitMaySee() {
-        stage.close();
+        this.stage.close();
     }
 
     @FXML
     public void handleClickOnOpen() {
         FileChooser fileChooser = new FileChooser();
         this.sceneFile = fileChooser.showOpenDialog(stage);
-        updateContentAppCenterHBox();
+        this.updateContentAppCenterHBox();
     }
 
     @FXML
     public void handleClickOnOpenEllipsesLarge() {
         this.sceneFile = new File("src/main/resources/scenes/ellipses/ellipsesLarge.txt");
-        updateContentAppCenterHBox();
+        this.updateContentAppCenterHBox();
     }
 
     @FXML
     public void handleClickOnOpenEllipsesMedium() {
         this.sceneFile = new File("src/main/resources/scenes/ellipses/ellipsesMedium.txt");
-        updateContentAppCenterHBox();
+        this.updateContentAppCenterHBox();
     }
 
     @FXML
     public void handleClickOnOpenEllipsesSmall() {
         this.sceneFile = new File("src/main/resources/scenes/ellipses/ellipsesSmall.txt");
-        updateContentAppCenterHBox();
+        this.updateContentAppCenterHBox();
     }
 
     @FXML
     public void handleClickOnOpenFirstOctangle() {
         this.sceneFile = new File("src/main/resources/scenes/first/octangle.txt");
-        updateContentAppCenterHBox();
+        this.updateContentAppCenterHBox();
     }
 
     @FXML
     public void handleClickOnOpenFirstOctogone() {
         this.sceneFile = new File("src/main/resources/scenes/first/octogone.txt");
-        updateContentAppCenterHBox();
+        this.updateContentAppCenterHBox();
     }
 
     @FXML
     public void handleClickOnOpenRandomHuge() {
         this.sceneFile = new File("src/main/resources/scenes/random/randomHuge.txt");
-        updateContentAppCenterHBox();
+        this.updateContentAppCenterHBox();
     }
 
     @FXML
     public void handleClickOnOpenRandomLarge() {
         this.sceneFile = new File("src/main/resources/scenes/random/randomLarge.txt");
-        updateContentAppCenterHBox();
+        this.updateContentAppCenterHBox();
     }
 
     @FXML
     public void handleClickOnOpenRandomMedium() {
         this.sceneFile = new File("src/main/resources/scenes/random/randomMedium.txt");
-        updateContentAppCenterHBox();
+        this.updateContentAppCenterHBox();
     }
 
     @FXML
     public void handleClickOnOpenRandomSmall() {
         this.sceneFile = new File("src/main/resources/scenes/random/randomSmall.txt");
-        updateContentAppCenterHBox();
+        this.updateContentAppCenterHBox();
     }
 
     @FXML
     public void handleClickOnOpenRectanglesHuge() {
         this.sceneFile = new File("src/main/resources/scenes/rectangles/rectanglesHuge.txt");
-        updateContentAppCenterHBox();
+        this.updateContentAppCenterHBox();
     }
 
     @FXML
     public void handleClickOnOpenRectanglesLarge() {
         this.sceneFile = new File("src/main/resources/scenes/rectangles/rectanglesLarge.txt");
-        updateContentAppCenterHBox();
+        this.updateContentAppCenterHBox();
     }
 
     @FXML
     public void handleClickOnOpenRectanglesMedium() {
         this.sceneFile = new File("src/main/resources/scenes/rectangles/rectanglesMedium.txt");
-        updateContentAppCenterHBox();
+        this.updateContentAppCenterHBox();
     }
 
     @FXML
     public void handleClickOnOpenRectanglesSmall() {
         this.sceneFile = new File("src/main/resources/scenes/rectangles/rectanglesSmall.txt");
-        updateContentAppCenterHBox();
+        this.updateContentAppCenterHBox();
     }
 
     @FXML
@@ -232,6 +232,7 @@ public class MainController implements Initializable {
     }
 
     private void updateContentAppCenterHBox() {
+        //if (SceneReader.isSceneFile(this.sceneFile))
         this.sceneFileSelected.set(sceneFile.getName());
         this.pointOfViewVBox.setDisable(false);
         this.sceneReader = new SceneReader(this.sceneFile);

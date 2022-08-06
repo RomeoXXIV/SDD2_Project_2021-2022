@@ -3,141 +3,125 @@ package be.ac.umons.student.utils;
 import java.awt.Color;
 import java.io.*;
 import java.util.ArrayList;
-import java.util.Scanner;
 
 import be.ac.umons.student.models.Point;
 import be.ac.umons.student.models.Segment;
 
 /**
- * Classe permettant de vérifier qu'un fichier est bien au format d'une scène et puis de lire ce fichier scène et en stocker
- * les segments et limites.
+ * SceneReader est une classe qui vérifie le format d'un fichier scène, lit une scène à partir d'un fichier.
+ *
  * @author Romeo Ibraimovski
- * @author Maxime Nabli
  */
 public class SceneReader {
 
     public static final Color BROWN = new Color(102,51,0);
 
-    private final ArrayList<Segment> segments;
     private String fileName;
+    private boolean isSceneFile; // TODO final ?
+    private final ArrayList<Segment> segments;
     private int xAxisLimit;
     private int yAxisLimit;
     private int segmentsSize;
 
-    public SceneReader(String pathFile) {
-        this.segments = new ArrayList<>();
-        this.readSceneFile(pathFile);
-    }
-
     public SceneReader(File file) {
         this.segments = new ArrayList<>();
-        this.readSceneFile(file.getPath());
+        this.isSceneFile = isSceneFile(file);
+        if (this.isSceneFile)
+            this.readSceneFile(file);
     }
 
-    /**
-     * Lis le fichier et donne la limite de l'axe X, de l'axe Y, le nombre et la liste de segments.
-     *
-     * @param pathFile
-     */
-    public void readSceneFile(String pathFile) {
-        boolean fileExist = false;
-        if (isFileScene(pathFile)) {
-            try {
-                File sceneFile = new File(pathFile);
-                this.fileName = sceneFile.getName();
-                try (Scanner sc = new Scanner(sceneFile)) {
-                    fileExist = true;
-                    sc.next();
-                    this.xAxisLimit = sc.nextInt();
-                    this.yAxisLimit = sc.nextInt();
-                    this.segmentsSize = sc.nextInt();
-                    while (sc.hasNext()) {
-                        Point x = new Point(Double.parseDouble(sc.next()), Double.parseDouble(sc.next()));
-                        Point y = new Point(Double.parseDouble(sc.next()), Double.parseDouble(sc.next()));
-                        Color color = stringToColor(sc.next());
-                        this.segments.add(new Segment(x, y, color));
-                    }
-                }
-            } catch (FileNotFoundException e) {
-                System.out.println("");
-            }
-        }
-        else{
-            if(fileExist == true) {
-                System.out.println("Le Format du Fichier " + fileName  + " ne correspond pas\nL'application va être quittée.");
-            }
-            else{
-                System.out.println("Le Fichier " + fileName  + " n'existe pas\nL'application va être quittée.");
-
-            }
-            this.xAxisLimit = 0;
-            this.yAxisLimit = 0;
-            this.segmentsSize = 0;
-        }
+    public SceneReader(String pathFile) {
+        this(new File(pathFile));
     }
 
-    /**
-     * Retourne vrai si le fichier est un fichier d'un scène au bon format, faux sinon
-     *
-     * @param pathFile le path du fichier
-     * @return vrai ou faux
-     */
-    public boolean isFileScene(String pathFile){
-        File file = new File(pathFile);
-        return isFileScene(file);
+    public static boolean isSceneFile(File file) {
+        // TODO Demander un coup de main pour la gestion des exceptions + Gestion des fichiers non trouvés ?
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+            String firstLine = bufferedReader.readLine();
+            if (firstLine == null || !isSceneFileFirstLine(firstLine)) return false;
+            int nbrOfSegmentsLeft = Integer.parseInt(firstLine.split(" ")[3]);
+            String line = bufferedReader.readLine();
+            while (line != null) {
+                if (line.length() >= 40) {
+                    nbrOfSegmentsLeft--;
+                    if (!isSceneFileLine(line)) return false;
+                    line = bufferedReader.readLine();
+                }
+                else return false;
+            }
+            return nbrOfSegmentsLeft == 0;
+        } // pas besoin de bufferedReader.close() car on a fait un try with resources
     }
 
-    /**
-     * Retourne vrai si le fichier est au bon format, faux sinon
-     * @param file le fichier
-     * @return vrai ou faux
-     */
-    public boolean isFileScene(File file){
-        fileName = file.getName();
-        try(Scanner sc = new Scanner(file))
-        {
-            sc.next();
-            try{
-                int xAxis = Integer.parseInt(sc.next());
-                int yAxis = Integer.parseInt(sc.next());
-                int numbOfSegment = Integer.parseInt(sc.next());
-                int count = 0;
-                while(sc.hasNext()){
-                    count++;
-                    for(int i = 0; i < 4; i++){
-                        try{
-                            Double a = Double.parseDouble(sc.next());
-                        }
-                        catch (NumberFormatException e)
-                        {
-                            System.out.println("Ligne " + count + ": Un des 4 'doubles' n'en est pas un.\n");
-                            return false;
-                        }
-                    }
-                    String color = sc.next();
-                    if(!color.equals("Noir") && stringToColor(color) == Color.BLACK)
-                    {
-                        System.out.println("Ligne " + count + ": Presence d'une couleur inconnue.\n");
-                        return false;
-                    }
+    public static boolean isSceneFileFirstLine(String firstLine) {
+        String[] split = firstLine.split(" ");
+        return split.length == 4 && split[0].equals(">") && isInteger(split[1]) && isInteger(split[2]) && isInteger(split[3]);
+    }
 
-                }
-                if(count != numbOfSegment){
-                    System.out.println("Le fichier annonce " + numbOfSegment + " lignes mais n'en contient que " + count + ".\n");
-                    return false;
-                }
-
-            } catch (NumberFormatException e) {
-                System.out.println("La première ligne contient des elements qui ne sont pas des entiers.\n");
-                return false;
-            }
+    public static boolean isInteger(String str) {
+        if (str == null) return false;
+        int length = str.length();
+        if (length == 0) return false;
+        int i = 0;
+        if (str.charAt(0) == '-') {
+            if (length == 1) return false;
+            i = 1;
         }
-        catch (FileNotFoundException e)
-        {
-            System.out.println("Exception : \"" + e.getMessage() + "\"");
-            return false;
+        for (; i < length; i++) {
+            char c = str.charAt(i);
+            if (c < '0' || c > '9') return false;
         }
         return true;
+    }
+
+    public static boolean isSceneFileLine(String line) {
+        String[] split = line.split(" ");
+        return split.length == 5 && isSceneFileDouble(split[0]) && isSceneFileDouble(split[1]) && isSceneFileDouble(split[2]) && isSceneFileDouble(split[3]) && isSceneFileColor(split[4]);
+    }
+
+    public static boolean isSceneFileDouble(String str) {
+        if (str == null) return false;
+        int length = str.length();
+        if (length < 8) return false;
+        int i = 0;
+        if (str.charAt(0) == '-')
+            i = 1;
+        for (; i < length; i++) {
+            char c = str.charAt(i);
+            if (i == length - 7) {
+                if (c != '.') return false;
+            } else if (c < '0' || c > '9') return false;
+        }
+        return true;
+    }
+
+    public static boolean isSceneFileColor(String str) {
+        return str.equals("Rouge") || str.equals("Bleu") || str.equals("Gris") || str.equals("Vert") || str.equals("Orange") || str.equals("Violet") || str.equals("Jaune") || str.equals("Rose") || str.equals("Marron") || str.equals("Noir");
+    }
+
+    public void readSceneFile(File sceneFile) {
+        // TODO Demander un coup de main pour la gestion des exceptions
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(sceneFile))) {
+            String firstLine = bufferedReader.readLine();
+            String[] split = firstLine.split(" ");
+            this.fileName = sceneFile.getName();
+            this.xAxisLimit = Integer.parseInt(split[1]);
+            this.yAxisLimit = Integer.parseInt(split[2]);
+            this.segmentsSize = Integer.parseInt(split[3]);
+            String line = bufferedReader.readLine();
+            while (line != null) {
+                this.segments.add(this.stringToSegment(line));
+                line = bufferedReader.readLine();
+            }
+        } // pas besoin de bufferedReader.close() car on a fait un try with resources
+    }
+
+    public Segment stringToSegment(String str) {
+        String[] split = str.split(" ");
+        Point p1 = new Point(Double.parseDouble(split[0]), Double.parseDouble(split[1]));
+        Point p2 = new Point(Double.parseDouble(split[2]), Double.parseDouble(split[3]));
+        Color color = this.stringToColor(split[4]);
+        return new Segment(p1, p2, color);
     }
 
     public Color stringToColor(String color){
@@ -165,12 +149,16 @@ public class SceneReader {
         }
     }
 
-    public ArrayList<Segment> getSegments() {
-        return segments;
-    }
-
     public String getFileName() {
         return fileName;
+    }
+
+    public boolean isSceneFile() {
+        return isSceneFile;
+    }
+
+    public ArrayList<Segment> getSegments() {
+        return segments;
     }
 
     public int getxAxisLimit() {
@@ -187,7 +175,7 @@ public class SceneReader {
 
     @Override
     public String toString() {
-        return "Le fichier " + fileName +
+        return "Le fichier de scène " + fileName +
                 ", a une limite en X de " + xAxisLimit +
                 ", a une limite en Y de " + yAxisLimit +
                 " et contient " + segmentsSize +
