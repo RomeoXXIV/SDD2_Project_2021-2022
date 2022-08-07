@@ -19,6 +19,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Bounds;
 import javafx.geometry.Point2D;
+import javafx.geometry.VPos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
@@ -33,6 +34,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.ArcType;
+import javafx.scene.text.TextAlignment;
 import javafx.scene.transform.Rotate;
 import javafx.stage.FileChooser;
 import javafx.stage.Modality;
@@ -288,6 +290,13 @@ public class MainController implements Initializable {
         }
     }
 
+    public void setStartTextMainCanvas(String text) {
+        this.graphicsContextMainCanvas.setFill(Color.gray(0.33));
+        this.graphicsContextMainCanvas.setTextAlign(TextAlignment.CENTER);
+        this.graphicsContextMainCanvas.setTextBaseline(VPos.CENTER);
+        this.graphicsContextMainCanvas.fillText(text, Math.round(mainCanvas.getWidth() / 2), Math.round(mainCanvas.getHeight() / 2));
+    }
+
     private void drawSceneOnMainCanvas() {
         this.graphicsContextMainCanvas.clearRect(0, 0, mainCanvas.getWidth(), mainCanvas.getHeight());
         this.widthMainCanvas = this.sceneReader.getxAxisLimit() * 2.5;
@@ -506,6 +515,7 @@ public class MainController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         this.graphicsContextMainCanvas = mainCanvas.getGraphicsContext2D();
+        this.setStartTextMainCanvas("Select a scene file to get started");
         this.graphicsContextSubMainCanvas = subMainCanvas.getGraphicsContext2D();
         this.graphicsContextPainterCanvas = painterCanvas.getGraphicsContext2D();
         this.sceneFileTextField.textProperty().bind(sceneFileSelected);
