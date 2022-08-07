@@ -80,9 +80,9 @@ public class MainController implements Initializable {
     @FXML public TextField sceneFileTextField;
     @FXML public TextField heuristicTextField;
     @FXML public VBox pointOfViewVBox;
-    @FXML public TextField positionXTextField;
-    @FXML public TextField positionYTextField;
-    @FXML public TextField viewAngleTextfield;
+    @FXML public DoubleTextField positionXTextField;
+    @FXML public DoubleTextField positionYTextField;
+    @FXML public DoubleTextField viewAngleTextfield;
     @FXML public Slider viewAngleSlider;
     @FXML public Button showViewButton;
     @FXML public DoubleTextField rotatorTextfield;
@@ -90,6 +90,7 @@ public class MainController implements Initializable {
     @FXML public Button rotatorHandle;
     private final StringProperty sceneFileSelected = new SimpleStringProperty();
     private final StringProperty heuristicSelected = new SimpleStringProperty("Standard");
+    //private final FocusProperty focusProperty = new FocusProperty();
     private final DoubleProperty rotation = new SimpleDoubleProperty();
 
     // Painter Canvas Variables
@@ -370,33 +371,43 @@ public class MainController implements Initializable {
     }
 
     // Position XY Section
+    @FXML
     public void handlePositionXTextFieldAction(ActionEvent actionEvent) {
+        this.pointOfViewVBox.requestFocus();
+    }
+
+    public void handlePositionXTextFieldAction() {
         double value = Double.parseDouble(this.positionXTextField.getText());
         double rounded = this.round(value, 100);
         rounded = this.boundingValue(rounded, - this.sceneReader.getxAxisLimit(), this.sceneReader.getxAxisLimit());
         this.positionXTextField.setText(String.valueOf(rounded));
         this.drawPointOfViewOnSubMainCanvas();
-        actionEvent.consume();
     }
 
+    @FXML
     public void handlePositionYTextFieldAction(ActionEvent actionEvent) {
+        this.pointOfViewVBox.requestFocus();
+    }
+
+    public void handlePositionYTextFieldAction() {
         double value = Double.parseDouble(this.positionYTextField.getText());
         double rounded = this.round(value, 100);
         rounded = this.boundingValue(rounded, - this.sceneReader.getyAxisLimit(), this.sceneReader.getyAxisLimit());
         this.positionYTextField.setText(String.valueOf(rounded));
         this.drawPointOfViewOnSubMainCanvas();
-        actionEvent.consume();
     }
 
     // View Angle Section
     @FXML
     public void handleViewAngleTextfieldAction(ActionEvent actionEvent) {
+        this.pointOfViewVBox.requestFocus();
+    }
+
+    public void handleViewAngleTextfieldAction() {
         double value = Double.parseDouble(this.viewAngleTextfield.getText());
         double rounded = this.round(value, 100);
         rounded = this.boundingValue(rounded, 0, 180);
         this.translate(rounded);
-        this.viewAngleTextfield.selectAll();
-        actionEvent.consume();
     }
 
     @FXML
@@ -419,12 +430,14 @@ public class MainController implements Initializable {
     // Rotator Section
     @FXML
     public void handleRotatorTextfieldAction(ActionEvent actionEvent) {
+        this.pointOfViewVBox.requestFocus();
+    }
+
+    public void handleRotatorTextfieldAction() {
         double value = Double.parseDouble(this.rotatorTextfield.getText());
         double rounded = this.round(value, 100);
-        rounded = this.boundingValue(rounded, 0, 359);
+        rounded = this.boundingValue(rounded, 0, 360);
         this.rotate(rounded);
-        this.rotatorTextfield.selectAll();
-        actionEvent.consume();
     }
 
     @FXML
@@ -520,6 +533,22 @@ public class MainController implements Initializable {
         this.graphicsContextPainterCanvas = painterCanvas.getGraphicsContext2D();
         this.sceneFileTextField.textProperty().bind(sceneFileSelected);
         this.heuristicTextField.textProperty().bind(heuristicSelected);
+        this.positionXTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) // when focus is lost
+                this.handlePositionXTextFieldAction();
+        });
+        this.positionYTextField.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) // when focus is lost
+                this.handlePositionYTextFieldAction();
+        });
+        this.viewAngleTextfield.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) // when focus is lost
+                this.handleViewAngleTextfieldAction();
+        });
+        this.rotatorTextfield.focusedProperty().addListener((observable, oldValue, newValue) -> {
+            if (!newValue) // when focus is lost
+                this.handleRotatorTextfieldAction();
+        });
         this.pointOfViewVBox.setDisable(true);
         this.showViewButton.setDisable(true);
     }

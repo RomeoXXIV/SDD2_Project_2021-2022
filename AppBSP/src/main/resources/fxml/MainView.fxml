@@ -163,7 +163,7 @@
                         <HBox minHeight="30.0" spacing="28.0">
                            <children>
                               <Label minHeight="30.0" minWidth="78.0" text="Position X" />
-                              <TextField fx:id="positionXTextField" minHeight="30.0" onAction="#handlePositionXTextFieldAction" />
+                              <DoubleTextField fx:id="positionXTextField" minHeight="30.0" onAction="#handlePositionXTextFieldAction"/>
                            </children>
                            <padding>
                               <Insets left="10.0" right="10.0" />
@@ -175,7 +175,7 @@
                         <HBox minHeight="30.0" spacing="28.0">
                            <children>
                               <Label minHeight="30.0" minWidth="78.0" text="Position Y" />
-                              <TextField fx:id="positionYTextField" minHeight="30.0" onAction="#handlePositionYTextFieldAction" />
+                              <DoubleTextField fx:id="positionYTextField" minHeight="30.0" onAction="#handlePositionYTextFieldAction" />
                            </children>
                            <padding>
                               <Insets left="10.0" right="10.0" />
@@ -187,10 +187,11 @@
                         <HBox minHeight="30.0" spacing="28.0">
                            <children>
                               <Label minHeight="30.0" minWidth="78.0" text="View angle" />
-                              <TextField fx:id="viewAngleTextfield" minHeight="30.0" minWidth="50.0" onAction="#handleViewAngleTextfieldAction" text="100.0">
+                              <DoubleTextField fx:id="viewAngleTextfield" minHeight="30.0" minWidth="50.0" onAction="#handleViewAngleTextfieldAction" text="90.0">
                                  <HBox.margin>
                                     <Insets right="-5.0" />
-                                 </HBox.margin></TextField>
+                                 </HBox.margin>
+                              </DoubleTextField>
                               <Slider fx:id="viewAngleSlider" blockIncrement="1.0" max="180.0" minHeight="30.0" minWidth="75.0" onMouseDragged="#handleViewAngleSliderMouseDragged" onMousePressed="#handleViewAngleSliderMousePressed" value="90.0">
                                  <HBox.margin>
                                     <Insets left="-25.0" right="-5.0" />
