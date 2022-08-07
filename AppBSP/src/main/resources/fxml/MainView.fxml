@@ -21,7 +21,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 
-<VBox id="rootVBox" fx:id="rootVBox" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../css/StyleSheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.ac.umons.student.controllers.MainController">
+<VBox id="rootVBox" fx:id="rootVBox" prefHeight="800.0" prefWidth="1280.0" stylesheets="@../css/StyleSheet.css" xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="be.ac.umons.student.controllers.MainController" onMousePressed="#handleOnMousePressedRootVBox">
    <children>
       <MenuBar id="MenuBar" VBox.vgrow="NEVER">
          <menus>

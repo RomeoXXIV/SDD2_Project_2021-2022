@@ -50,11 +50,11 @@ import java.util.ResourceBundle;
 
 public class MainController implements Initializable {
 
+    @FXML public VBox rootVBox;
     @FXML public HBox appCenterHBox;
     private Stage stage;
 
     // Not Yet Used
-    @FXML public VBox rootVBox;
     @FXML public VBox inAppCenterHBoxVBox;
     private PainterInteractive painterInteractive;
     private HeuristicSelector heuristicSelector = new StandardHeuristic();
@@ -90,13 +90,17 @@ public class MainController implements Initializable {
     @FXML public Button rotatorHandle;
     private final StringProperty sceneFileSelected = new SimpleStringProperty();
     private final StringProperty heuristicSelected = new SimpleStringProperty("Standard");
-    //private final FocusProperty focusProperty = new FocusProperty();
     private final DoubleProperty rotation = new SimpleDoubleProperty();
 
     // Painter Canvas Variables
     @FXML public Canvas painterCanvas;
     private GraphicsContext graphicsContextPainterCanvas;
 
+    // RootVBox Handler
+    @FXML
+    public void handleOnMousePressedRootVBox(MouseEvent mouseEvent) {
+        this.rootVBox.requestFocus();
+    }
 
     // MenuBar Handler
     @FXML
