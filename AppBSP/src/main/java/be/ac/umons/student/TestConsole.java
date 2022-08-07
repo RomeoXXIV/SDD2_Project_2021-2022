@@ -15,8 +15,8 @@ import java.util.Scanner;
 /**
  * Application console permetant de choisir un fichier scène, de créer l'arbre BSP correspondant grace aux différentes heuristiques et d'effectuer l'algorithme du
  * peintre sur ces arbres obtenus pour comparer ces heuristiques.
- * @author Romeo Ibraimovski
- * @author Maxime Nabli
+ * @author Romeo Ibraimovski (ux)
+ * @author Maxime Nabli (code)
  */
 
 public class TestConsole {

@@ -9,6 +9,8 @@ import java.util.ArrayList;
  */
 public class Line {
 
+    public static final double EPSILON = 0.00000001;
+
     private final double alpha, beta, gamma;
 
     public Line(double alpha, double beta, double gamma) {
@@ -18,9 +20,8 @@ public class Line {
     }
 
     public Line(Point a, Point b) {
-        double epsilon = 0.0001;
         Vector normalVector = getNormalVector(a, b);
-        if (Math.abs(normalVector.getX()) < epsilon && Math.abs(normalVector.getY()) < epsilon)
+        if (Math.abs(normalVector.getX()) < EPSILON && Math.abs(normalVector.getY()) < EPSILON)
             this.alpha = this.beta = this.gamma = 0;
         else {
             this.alpha = normalVector.getX();
@@ -41,10 +42,9 @@ public class Line {
         double d = line.alpha * this.beta - this.alpha * line.beta;
         double x = n1/d;
         double y = n2/d;*/
-        double epsilon = 0.0001;
         double x;
         double y;
-        if (Math.abs(this.beta) < epsilon && Math.abs(line.getBeta()) < epsilon){
+        if (Math.abs(this.beta) < EPSILON && Math.abs(line.getBeta()) < EPSILON){
             double thisSlope = - this.alpha / this.beta;
             double otherSlope = - line.getAlpha() / line.getBeta();
             double thisP = -this.gamma / this.beta;
@@ -52,7 +52,7 @@ public class Line {
             x = (thisP - otherP) / (otherSlope - thisSlope);
             y = thisSlope * x + thisP;
         }
-        else if (Math.abs(this.beta) < epsilon) {
+        else if (Math.abs(this.beta) < EPSILON) {
             x = - this.gamma / this.alpha;
             y = ( ( line.getAlpha() * this.gamma ) / (this.alpha * line.getBeta()) ) - (line.getGamma() / line.getBeta()) ;
         }
@@ -79,14 +79,13 @@ public class Line {
      * @return vrai si les droites sont sécantes, faux sinon
      */
     public boolean isSecantTo(Line line) {
-        double epsilon = 0.0001;
-        if (Math.abs(this.beta - line.getBeta()) < epsilon)
+        if (Math.abs(this.beta - line.getBeta()) < EPSILON)
             return false;
-        else if (Math.abs(this.beta) < epsilon && line.getBeta() != 0 || this.beta != 0 && Math.abs(line.getBeta()) < epsilon)
+        else if (Math.abs(this.beta) < EPSILON && line.getBeta() != 0 || this.beta != 0 && Math.abs(line.getBeta()) < EPSILON)
             return true;
         double thisSlope = - this.alpha / this.beta;
         double otherSlope = - line.getAlpha() / line.getBeta();
-        return !(Math.abs(thisSlope - otherSlope) < epsilon);
+        return !(Math.abs(thisSlope - otherSlope) < EPSILON);
     }
 
     /**
@@ -169,8 +168,7 @@ public class Line {
      * @return true si le point appartient à la droite, false sinon.
      */
     public Boolean contains(Point point) {
-        double epsilon = 0.0001;
-        return Math.abs(this.alpha * point.getX() + this.beta * point.getY() + this.gamma) < epsilon;
+        return Math.abs(this.alpha * point.getX() + this.beta * point.getY() + this.gamma) < EPSILON;
     }
 
     /**
@@ -218,16 +216,15 @@ public class Line {
         if (o == null || getClass() != o.getClass()) return false;
 
         Line line = (Line) o;
-        double epsilon = 0.0001;
 
-        if(Math.abs(gamma - 0) < epsilon && Math.abs(line.gamma - 0) < epsilon) {
-            return ((Math.abs(line.alpha - alpha) < epsilon) && (Math.abs(line.beta - beta) < epsilon))
-                    || ((Math.abs(line.alpha + alpha) < epsilon) && (Math.abs(line.beta + beta) < epsilon));
+        if(Math.abs(gamma - 0) < EPSILON && Math.abs(line.gamma - 0) < EPSILON) {
+            return ((Math.abs(line.alpha - alpha) < EPSILON) && (Math.abs(line.beta - beta) < EPSILON))
+                    || ((Math.abs(line.alpha + alpha) < EPSILON) && (Math.abs(line.beta + beta) < EPSILON));
         }
         else {
-            if (Math.abs(line.alpha - alpha) > epsilon) return false;
-            if (Math.abs(line.beta - beta) > epsilon) return false;
-            return Math.abs(line.gamma - gamma) < epsilon;
+            if (Math.abs(line.alpha - alpha) > EPSILON) return false;
+            if (Math.abs(line.beta - beta) > EPSILON) return false;
+            return Math.abs(line.gamma - gamma) < EPSILON;
         }
     }
 

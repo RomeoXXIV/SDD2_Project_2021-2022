@@ -1,7 +1,9 @@
 package be.ac.umons.student.models;
 
+import static be.ac.umons.student.models.Line.EPSILON;
+
 /**
- * Représente un vecteur (x, y) , vecteur directeur ou normal de droite dans le plan. x et y étant des doubles.
+ * Représente un vecteur (x, y), vecteur directeur ou normal de droite dans le plan. x et y étant des doubles.
  * @author Romeo Ibraimovski
  * @author Maxime Nabli
  */
@@ -78,10 +80,9 @@ public class Vector {
         if (o == null || getClass() != o.getClass()) return false;
 
         Vector vector = (Vector) o;
-        double epsilon = 0.0001;
 
-        if (Math.abs(vector.x - x) > epsilon) return false;
-        return Math.abs(vector.y - y) < epsilon;
+        if (Math.abs(vector.x - x) > EPSILON) return false;
+        return Math.abs(vector.y - y) < EPSILON;
     }
 
     @Override

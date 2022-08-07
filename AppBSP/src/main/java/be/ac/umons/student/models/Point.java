@@ -1,5 +1,7 @@
 package be.ac.umons.student.models;
 
+import static be.ac.umons.student.models.Line.EPSILON;
+
 /** Représente un emplacement dans le plan par une coordonnée X et une coordonnée Y permettant de le situer.
  * @author Romeo Ibraimovski
  * @author Maxime Nabli
@@ -27,10 +29,9 @@ public class Point {
         if (o == null || getClass() != o.getClass()) return false;
 
         Point point = (Point) o;
-        double epsilon = 0.0001;
 
-        if (Math.abs(point.x - x) > epsilon) return false;
-        return Math.abs(point.y - y) < epsilon;
+        if (Math.abs(point.x - x) > EPSILON) return false;
+        return Math.abs(point.y - y) < EPSILON;
     }
 
     @Override
