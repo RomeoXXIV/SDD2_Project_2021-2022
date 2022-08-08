@@ -5,7 +5,7 @@ import java.lang.Math;
 
 /**
  * Segment est une classe représentant un segment dans un espace coordonné.
- * Un segment possède une couleur et deux point étant ses extrémités. On peut transformer ce segment en droite.
+ * Un segment possède une couleur et deux point étant ses extrémités.
  * @author Romeo Ibraimovski
  */
 public class Segment {
@@ -28,22 +28,17 @@ public class Segment {
     }
 
     /**
-     * Détermine si le segment contient un point.
+     * Détermine si le segment contient un point. La longueur du segment doit être strictement supérieur à 0.
      * @param point le point à tester.
      * @return true si le segment contient le point, false sinon.
      */
     public boolean contains(Point point){
-        Vector segDirector = Line.directorVector(this.getA(), this.getB());
-        Segment newSeg = new Segment(this.getA(), point);
-        Vector newSegDirector = Line.directorVector(newSeg.getA(), newSeg.getB());
-        if (this.getA().equals(point) || this.getB().equals(point)) return true;
-        if(newSeg.isPoint())
-            return true;
-        if(Math.signum(segDirector.getX()) == Math.signum(1) && Math.signum(newSegDirector.getX()) == Math.signum(1))
-            return  segDirector.getX() % newSegDirector.getX() == 0 && segDirector.getY() % newSegDirector.getY() == 0;
-        if(Math.signum(segDirector.getX()) == Math.signum(-1) && Math.signum(newSegDirector.getX()) == Math.signum(-1))
-            return  segDirector.getX() % newSegDirector.getX() == 0 && segDirector.getY() % newSegDirector.getY() == 0;
-        return false;
+        Line line = this.toLine();
+        if (line.contains(point))
+            return ( Math.min(this.a.getX(), this.b.getX()) <= point.getX() && point.getX() <= Math.max(this.a.getX(), this.b.getX()) )
+                    && ( Math.min(this.a.getY(), this.b.getY()) <= point.getY() && point.getY() <= Math.max(this.a.getY(), this.b.getY()) );
+        else // Le point n'est même pas sur la droite.
+            return false;
     }
 
     /**

@@ -1,6 +1,7 @@
 package be.ac.umons.student.models;
 
-/** Point est une classe représentant un emplacement dans le plan par une coordonnée X et une coordonnée Y permettant de le situer.
+/**
+ * Point est une classe représentant un emplacement dans le plan par une coordonnée X et une coordonnée Y permettant de le situer.
  * @author Ibraimovski Romeo
  */
 public class Point {
