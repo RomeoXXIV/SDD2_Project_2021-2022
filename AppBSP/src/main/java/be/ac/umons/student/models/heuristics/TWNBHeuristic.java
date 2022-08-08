@@ -23,14 +23,14 @@ public class TWNBHeuristic implements HeuristicSelector {
         Segment currentSegment = segments.get(0);
         int currentRatio = leftAndRightRatio(currentSegment, segments);
         usedSegments.add(currentSegment);
-        usedSegments.addAll(currentSegment.toLine().getContentSegments(segments));
+        usedSegments.addAll(currentSegment.toLine().contentSegments(segments));
         ArrayList<Segment> currentIntersectedList = intersectionList(currentSegment, segments);
         int functionResult = functionToMaximize(currentSegment, segments, currentIntersectedList.size());
         for(int i = 0; i < segments.size(); i++) {
             Segment newSegment = segments.get(0);
             if (!usedSegments.contains(newSegment)) {
                 usedSegments.add(newSegment);
-                usedSegments.addAll(newSegment.toLine().getContentSegments(segments));
+                usedSegments.addAll(newSegment.toLine().contentSegments(segments));
                 ArrayList<Segment> newIntersectedList = intersectionList(newSegment, segments);
                 int newRatio = leftAndRightRatio(newSegment, segments);
                 if (newRatio < currentRatio) {
@@ -60,7 +60,7 @@ public class TWNBHeuristic implements HeuristicSelector {
         ArrayList<Segment> copiedSegments = new ArrayList<>(segments);
         ArrayList<Segment> intersectedSegments = new ArrayList<>();
         Line line = segment.toLine();
-        copiedSegments.removeAll(line.getContentSegments(segments));
+        copiedSegments.removeAll(line.contentSegments(segments));
         for(int i = 0; i < segments.size(); i++)
         {
             if(!line.containsInOpenNegativeHalfSpace(segments.get(i))){
@@ -109,7 +109,7 @@ public class TWNBHeuristic implements HeuristicSelector {
     public int functionToMaximize(Segment segment, ArrayList<Segment> segments, int intersectionListSize){
         ArrayList<Segment> copiedSegments = new ArrayList<>(segments);
         Line currentLine = segment.toLine();
-        copiedSegments.removeAll(currentLine.getContentSegments(segments));
+        copiedSegments.removeAll(currentLine.contentSegments(segments));
         SegmentDistribution segmentDistribution = new SegmentDistribution(copiedSegments, currentLine);
         ArrayList<Segment> segmentsForLeft = segmentDistribution.getSegmentsInOpenNegativeHalfSpace();
         ArrayList<Segment> segmentsForRight = segmentDistribution.getSegmentsInOpenPositiveHalfSpace();

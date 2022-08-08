@@ -1,10 +1,7 @@
 package be.ac.umons.student.models;
 
-import static be.ac.umons.student.models.Line.EPSILON;
-
-/** Représente un emplacement dans le plan par une coordonnée X et une coordonnée Y permettant de le situer.
- * @author Romeo Ibraimovski
- * @author Maxime Nabli
+/** Point est une classe représentant un emplacement dans le plan par une coordonnée X et une coordonnée Y permettant de le situer.
+ * @author Ibraimovski Romeo
  */
 public class Point {
 
@@ -30,8 +27,8 @@ public class Point {
 
         Point point = (Point) o;
 
-        if (Math.abs(point.x - x) > EPSILON) return false;
-        return Math.abs(point.y - y) < EPSILON;
+        if (Line.equals(x, point.x)) return false;
+        return Line.equals(y, point.y);
     }
 
     @Override

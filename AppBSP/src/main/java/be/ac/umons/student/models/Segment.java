@@ -4,10 +4,9 @@ import java.awt.Color;
 import java.lang.Math;
 
 /**
- * Représente un segment dans un espace coordonné. Un segment possède une couleur et deux point étant ses extrémités. On peut transformer ce segment
- * en droite.
+ * Segment est une classe représentant un segment dans un espace coordonné.
+ * Un segment possède une couleur et deux point étant ses extrémités. On peut transformer ce segment en droite.
  * @author Romeo Ibraimovski
- * @author Maxime Nabli
  */
 public class Segment {
 
@@ -29,15 +28,14 @@ public class Segment {
     }
 
     /**
-     * Retourne vrai si le segment contient le point
-     *
-     * @param point
-     * @return vrai si le segment contient le point, faux sinon
+     * Détermine si le segment contient un point.
+     * @param point le point à tester.
+     * @return true si le segment contient le point, false sinon.
      */
     public boolean contains(Point point){
-        Vector segDirector = Line.getDirectorVector(this.getA(), this.getB());
+        Vector segDirector = Line.directorVector(this.getA(), this.getB());
         Segment newSeg = new Segment(this.getA(), point);
-        Vector newSegDirector = Line.getDirectorVector(newSeg.getA(), newSeg.getB());
+        Vector newSegDirector = Line.directorVector(newSeg.getA(), newSeg.getB());
         if (this.getA().equals(point) || this.getB().equals(point)) return true;
         if(newSeg.isPoint())
             return true;
@@ -50,7 +48,6 @@ public class Segment {
 
     /**
      * Retourne la droite correspondante au segment.
-     *
      * @return la droite correspondante au segment.
      */
     public Line toLine() {
@@ -59,7 +56,6 @@ public class Segment {
 
     /**
      * Retourne un tableau de deux segments correspondant au partitionnement du segment en deux à partir <u>d'un point du segment</u>.
-     *
      * @param point le point appartenant au segment.
      * @return le tableau de deux segments.
      */
@@ -70,8 +66,7 @@ public class Segment {
     }
 
     /**
-     * Retourne true si le segment est un point, c-à-d qu'il ne possède pas deux extrémités distinctes.
-     *
+     * Détermine si le segment est un point, c-à-d qu'il ne possède pas deux extrémités distinctes.
      * @return true si le segment est un point, false sinon.
      */
     public Boolean isPoint() {
@@ -80,7 +75,6 @@ public class Segment {
 
     /**
      * Retourne la longueur d'un segment à partir de ses extrémités.
-     *
      * @return la longueur du segment.
      */
     public double length() {

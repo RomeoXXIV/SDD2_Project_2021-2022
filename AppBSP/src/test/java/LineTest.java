@@ -4,8 +4,8 @@ import be.ac.umons.student.models.Segment;
 import be.ac.umons.student.models.Vector;
 import org.junit.jupiter.api.Test;
 
-import static be.ac.umons.student.models.Line.getDirectorVector;
-import static be.ac.umons.student.models.Line.getNormalVector;
+import static be.ac.umons.student.models.Line.directorVector;
+import static be.ac.umons.student.models.Line.normalVector;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class LineTest {
@@ -38,7 +38,7 @@ public class LineTest {
     public void test_getDirectorVector() {
         Vector expectedDirectorVector = new Vector(-1, 1);
         Point a = new Point(1, -1);
-        Vector directorVector = getDirectorVector(origin, a);
+        Vector directorVector = directorVector(origin, a);
 
         assertTrue(directorVector.equals(expectedDirectorVector) || directorVector.equals(expectedDirectorVector.opposite()));
     }
@@ -47,7 +47,7 @@ public class LineTest {
     public void test_getNormalVector() {
         Vector expectedNormalVector = new Vector(1, 1);
         Point a = new Point(1, -1);
-        Vector normalVector = getNormalVector(origin, a);
+        Vector normalVector = normalVector(origin, a);
 
         assertTrue(normalVector.equals(expectedNormalVector) || normalVector.equals(expectedNormalVector.opposite()));
     }

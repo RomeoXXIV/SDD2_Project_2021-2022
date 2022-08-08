@@ -3,25 +3,25 @@ package be.ac.umons.student.models;
 import java.util.ArrayList;
 
 /**
- * Représente une droite alpha*x + beta*y + c dans un espace coordonné.
+ * Line est une classe représentant une droite comme alpha * x + beta * y + c = 0 dans un espace coordonné.
  * @author Romeo Ibraimovski
- * @author Maxime Nabli
  */
 public class Line {
 
     public static final double EPSILON = 0.00000001;
+    public static final double ZERO = 0.0;
 
     private final double alpha, beta, gamma;
 
     public Line(double alpha, double beta, double gamma) {
         this.alpha = alpha;
         this.beta = beta;
-        this.gamma = (alpha == 0 && beta == 0) ? 0 : gamma;
+        this.gamma = (equals(alpha, ZERO) && equals(beta, ZERO)) ? 0 : gamma;
     }
 
     public Line(Point a, Point b) {
-        Vector normalVector = getNormalVector(a, b);
-        if (Math.abs(normalVector.getX()) < EPSILON && Math.abs(normalVector.getY()) < EPSILON)
+        Vector normalVector = normalVector(a, b);
+        if (equals(normalVector.getX(), ZERO) && equals(normalVector.getY(), ZERO))
             this.alpha = this.beta = this.gamma = 0;
         else {
             this.alpha = normalVector.getX();
@@ -32,40 +32,35 @@ public class Line {
 
     /**
      * Retourne le point d'intersection de deux droites <u>sécantes</u>.
-     *
      * @param line la seconde droite.
      * @return le point d'intersection de la droite avec la seconde droite.
      */
     public Point intersection(Line line) {
-        /*double n1 = this.beta * line.gamma - line.beta * this.gamma;
-        double n2 = line.alpha * this.gamma - this.alpha * line.gamma;
-        double d = line.alpha * this.beta - this.alpha * line.beta;
-        double x = n1/d;
-        double y = n2/d;*/
         double x;
         double y;
-        if (Math.abs(this.beta) < EPSILON && Math.abs(line.getBeta()) < EPSILON){
-            double thisSlope = - this.alpha / this.beta;
-            double otherSlope = - line.getAlpha() / line.getBeta();
-            double thisP = -this.gamma / this.beta;
-            double otherP = -line.getGamma() / line.getBeta();
-            x = (thisP - otherP) / (otherSlope - thisSlope);
-            y = thisSlope * x + thisP;
+        if (!this.isVertical() && !line.isVertical()) {
+            // Aucune des droites n'est verticale.
+            double thisSlope = this.slope();
+            double lineSlope = line.slope();
+            double thisOrdinate = this.ordinate();
+            double lineOrdinate = line.ordinate();
+            x = (lineOrdinate - thisOrdinate) / (thisSlope - lineSlope);
+            y = thisSlope * x + thisOrdinate;
         }
-        else if (Math.abs(this.beta) < EPSILON) {
+        else if (this.isVertical()) {
+            // La droite this est verticale.
             x = - this.gamma / this.alpha;
-            y = ( ( line.getAlpha() * this.gamma ) / (this.alpha * line.getBeta()) ) - (line.getGamma() / line.getBeta()) ;
+            y = line.slope() * x + line.ordinate();
         }
-        else {
-            x = - line.getGamma() / line.getAlpha();
-            y = ( ( this.alpha * line.getGamma())  / (line.getAlpha() * this.getBeta())) - (this.gamma / this.beta) ;
+        else { // La droite line est verticale.
+            x = - line.gamma / line.alpha;
+            y = this.slope() * x + this.ordinate();
         }
-        return new Point(x,y);
+        return new Point(x, y);
     }
 
     /**
      * Retourne le point d'intersection d'une droite avec un segment <u>sécant</u>.
-     *
      * @param segment le segment.
      * @return le point d'intersection de la droite avec le segment.
      */
@@ -74,32 +69,57 @@ public class Line {
     }
 
     /**
-     * Retourne vrai si la ligne est sécante à la ligne line
-     * @param line
-     * @return vrai si les droites sont sécantes, faux sinon
+     * Retourne la pente d'une droite non verticale.
+     * @return la pente d'une droite non verticale.
      */
-    public boolean isSecantTo(Line line) {
-        if (Math.abs(this.beta - line.getBeta()) < EPSILON)
-            return false;
-        else if (Math.abs(this.beta) < EPSILON && line.getBeta() != 0 || this.beta != 0 && Math.abs(line.getBeta()) < EPSILON)
-            return true;
-        double thisSlope = - this.alpha / this.beta;
-        double otherSlope = - line.getAlpha() / line.getBeta();
-        return !(Math.abs(thisSlope - otherSlope) < EPSILON);
+    public double slope() {
+        return - this.alpha / this.beta;
     }
 
     /**
-     * Retourne vrai si la droite est sécante au segment, faux sinon
-     * @param segment
-     * @return
+     * Retourne l'ordonnée à l'origine d'une droite non verticale.
+     * @return l'ordonnée à l'origine d'une droite non verticale.
+     */
+    public double ordinate() {
+        return - this.gamma / this.beta;
+    }
+
+    /**
+     * Détermine si la droite est verticale.
+     * @return true si la droite est verticale, false sinon.
+     */
+    public boolean isVertical() {
+        return equals(this.beta, ZERO);
+    }
+
+    /**
+     * Détermine si la droite est sécante à une autre droite.
+     * @param line la seconde droite.
+     * @return true si les droites sont sécantes, false sinon.
+     */
+    public boolean isSecantTo(Line line) {
+        if (!this.isVertical() && !line.isVertical()) {
+            // Aucune des droites n'est verticale.
+            double thisSlope = this.slope();
+            double lineSlope = line.slope();
+            return !equals(thisSlope, lineSlope);
+        }
+        else
+            // Une des droites est verticale et l'autre non.
+            return !this.isVertical() || !line.isVertical();
+    }
+
+    /**
+     * Détermine si la droite est sécante à la droite correspondante au segment.
+     * @param segment le segment.
+     * @return true si la droite est sécante à la droite correspondante au segment, false sinon.
      */
     public boolean isSecantToLineOf(Segment segment) {
         return this.isSecantTo(segment.toLine());
     }
 
     /**
-     * Retourne true si le segment se trouve dans le demi-espace négatif ouvert par rapport à la droite.
-     *
+     * Détermine si le segment se trouve dans le demi-espace négatif ouvert par rapport à la droite.
      * @param segment le segment.
      * @return true si le segment se trouve dans le demi-espace négatif ouvert, false sinon.
      */
@@ -108,8 +128,7 @@ public class Line {
     }
 
     /**
-     * Retourne true si le point se trouve dans le demi-espace négatif ouvert par rapport à la droite.
-     *
+     * Détermine si le point se trouve dans le demi-espace négatif ouvert par rapport à la droite.
      * @param point le point.
      * @return true si le point se trouve dans le demi-espace négatif ouvert, false sinon.
      */
@@ -118,8 +137,7 @@ public class Line {
     }
 
     /**
-     * Retourne true si le segment se trouve dans le demi-espace positif ouvert par rapport à la droite.
-     *
+     * Détermine si le segment se trouve dans le demi-espace positif ouvert par rapport à la droite.
      * @param segment le segment.
      * @return true si le segment se trouve dans le demi-espace positif ouvert, false sinon.
      */
@@ -128,8 +146,7 @@ public class Line {
     }
 
     /**
-     * Retourne true si le point se trouve dans le demi-espace positif ouvert par rapport à la droite.
-     *
+     * Détermine si le point se trouve dans le demi-espace positif ouvert par rapport à la droite.
      * @param point le point.
      * @return true si le point se trouve dans le demi-espace positif ouvert, false sinon.
      */
@@ -139,11 +156,10 @@ public class Line {
 
     /**
      * Retourne une liste de segments confondus à la droite parmi une liste de segments.
-     *
      * @param segments une liste de segments.
      * @return la liste de segments confondus à la droite.
      */
-    public ArrayList<Segment> getContentSegments(ArrayList<Segment> segments) {
+    public ArrayList<Segment> contentSegments(ArrayList<Segment> segments) {
         ArrayList<Segment> segmentsInLine = new ArrayList<>();
         for (Segment segment: segments)
             if (this.contains(segment))
@@ -152,8 +168,7 @@ public class Line {
     }
 
     /**
-     * Retourne true si le segment appartient à la droite.
-     *
+     * Détermine si le segment appartient à la droite.
      * @param segment le segment.
      * @return true si le segment appartient à la droite, false sinon.
      */
@@ -162,23 +177,21 @@ public class Line {
     }
 
     /**
-     * Retourne true si le point appartient à la droite.
-     *
+     * Détermine si le point appartient à la droite.
      * @param point le point.
      * @return true si le point appartient à la droite, false sinon.
      */
     public Boolean contains(Point point) {
-        return Math.abs(this.alpha * point.getX() + this.beta * point.getY() + this.gamma) < EPSILON;
+        return equals(this.alpha * point.getX() + this.beta * point.getY() + this.gamma, ZERO);
     }
 
     /**
      * Retourne un vecteur directeur d’une droite passant par les points a et b.
-     *
      * @param a le premier point où passe la droite.
      * @param b le second point où passe la droite.
      * @return un vecteur directeur de la droite.
      */
-    public static Vector getDirectorVector(Point a, Point b) {
+    public static Vector directorVector(Point a, Point b) {
         double x_d = a.getX() - b.getX();
         double y_d = a.getY() - b.getY();
         return new Vector(x_d, y_d);
@@ -191,11 +204,21 @@ public class Line {
      * @param b le second point où passe la droite.
      * @return un vecteur normal de la droite.
      */
-    public static Vector getNormalVector(Point a, Point b) {
-        Vector directorVector = getDirectorVector(a, b);
+    public static Vector normalVector(Point a, Point b) {
+        Vector directorVector = directorVector(a, b);
         double x_n = -directorVector.getY();
         double y_n = directorVector.getX();
         return new Vector(x_n, y_n);
+    }
+
+    /**
+     * Détermine si les doubles a et b sont égales à EPSILON = 10e-9 près.
+     * @param a un double.
+     * @param b un double.
+     * @return true si les doubles a et b sont égales à EPSILON = 10e-9 près, false sinon.
+     */
+    public static boolean equals(Double a, Double b) {
+        return Math.abs(a - b) < EPSILON;
     }
 
     public double getAlpha() {
@@ -216,15 +239,15 @@ public class Line {
         if (o == null || getClass() != o.getClass()) return false;
 
         Line line = (Line) o;
-
-        if(Math.abs(gamma - 0) < EPSILON && Math.abs(line.gamma - 0) < EPSILON) {
-            return ((Math.abs(line.alpha - alpha) < EPSILON) && (Math.abs(line.beta - beta) < EPSILON))
-                    || ((Math.abs(line.alpha + alpha) < EPSILON) && (Math.abs(line.beta + beta) < EPSILON));
+        if(equals(gamma, ZERO) && equals(line.gamma, ZERO)) {
+            return (equals(alpha, line.alpha) && equals(beta, line.beta))
+                    || (equals(-alpha, line.alpha) && equals(-beta, line.beta));
+                    // au cas ou, anciennement -> ((Math.abs(line.alpha + alpha) < EPSILON) && (Math.abs(line.beta + beta) < EPSILON));
         }
         else {
-            if (Math.abs(line.alpha - alpha) > EPSILON) return false;
-            if (Math.abs(line.beta - beta) > EPSILON) return false;
-            return Math.abs(line.gamma - gamma) < EPSILON;
+            if (!equals(alpha, line.alpha)) return false;
+            if (!equals(beta, line.beta)) return false;
+            return equals(gamma, line.gamma);
         }
     }
 

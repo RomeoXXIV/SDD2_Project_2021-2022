@@ -30,7 +30,7 @@ public class BSPTree {
             Segment selectSegment = heuristic.selectSegment(segmentArrayList);
             this.segments.add(segmentArrayList.remove(segmentArrayList.indexOf(selectSegment)));
             this.split = selectSegment.toLine();
-            this.segments.addAll(this.split.getContentSegments(segmentArrayList));
+            this.segments.addAll(this.split.contentSegments(segmentArrayList));
             segmentArrayList.removeAll(this.segments);
             SegmentDistribution segmentDistribution = new SegmentDistribution(segmentArrayList, split);
             ArrayList<Segment> segmentsForLeft = segmentDistribution.getSegmentsInOpenNegativeHalfSpace();

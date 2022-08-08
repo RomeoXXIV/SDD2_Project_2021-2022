@@ -20,7 +20,7 @@ public class BonusHeuristic implements HeuristicSelector {
         ArrayList<Segment> usedSegments = new ArrayList<>();
         Segment currentSegment = segments.get(new Random().nextInt(segments.size()));
         ArrayList<Segment> contentCurrentSegment = new ArrayList<>();
-        contentCurrentSegment.addAll(currentSegment.toLine().getContentSegments(segments));
+        contentCurrentSegment.addAll(currentSegment.toLine().contentSegments(segments));
         int currentRatio = leftAndRightRatio(currentSegment, segments);
         usedSegments.add(currentSegment);
         usedSegments.addAll(contentCurrentSegment);
@@ -28,7 +28,7 @@ public class BonusHeuristic implements HeuristicSelector {
         for(int i = 0; i < segments.size(); i++) {
             Segment newSegment = segments.get(new Random().nextInt(segments.size()));
             ArrayList<Segment> contentNewSegment = new ArrayList<>();
-            contentNewSegment.addAll(newSegment.toLine().getContentSegments(segments));
+            contentNewSegment.addAll(newSegment.toLine().contentSegments(segments));
             int newRatio = leftAndRightRatio(newSegment, segments);
             if (newRatio < currentRatio) {
                 if (contentNewSegment.size() < contentCurrentSegment.size()) {
@@ -40,7 +40,7 @@ public class BonusHeuristic implements HeuristicSelector {
                             currentRatio = newRatio;
                         }
                         usedSegments.add(newSegment);
-                        usedSegments.addAll(newSegment.toLine().getContentSegments(segments));
+                        usedSegments.addAll(newSegment.toLine().contentSegments(segments));
                     }
                 }
             }
@@ -58,7 +58,7 @@ public class BonusHeuristic implements HeuristicSelector {
     public int functionToMaximize(Segment segment, ArrayList<Segment> segments){
         ArrayList<Segment> copiedSegments = new ArrayList<>(segments);
         Line currentLine = segment.toLine();
-        ArrayList<Segment> contentSegment = currentLine.getContentSegments(segments);
+        ArrayList<Segment> contentSegment = currentLine.contentSegments(segments);
         copiedSegments.removeAll(contentSegment);
         SegmentDistribution segmentDistribution = new SegmentDistribution(copiedSegments, currentLine);
         ArrayList<Segment> segmentsForLeft = segmentDistribution.getSegmentsInOpenNegativeHalfSpace();

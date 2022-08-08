@@ -1,11 +1,8 @@
 package be.ac.umons.student.models;
 
-import static be.ac.umons.student.models.Line.EPSILON;
-
 /**
- * Représente un vecteur (x, y), vecteur directeur ou normal de droite dans le plan. x et y étant des doubles.
+ * Vector est une classe représentant un vecteur (x, y), vecteur directeur ou normal de droite dans le plan. x et y étant des doubles.
  * @author Romeo Ibraimovski
- * @author Maxime Nabli
  */
 public class Vector {
 
@@ -23,7 +20,6 @@ public class Vector {
 
     /**
      * Retourne la norme d'un vecteur.
-     *
      * @return la norme du vecteur.
      */
     public double norm() {
@@ -32,7 +28,6 @@ public class Vector {
 
     /**
      * Retourne le vecteur opposé d'un vecteur.
-     *
      * @return le vecteur opposé du vecteur.
      */
     public Vector opposite() {
@@ -41,7 +36,6 @@ public class Vector {
 
     /**
      * Retourne le vecteur résultant de la somme de deux vecteurs.
-     *
      * @return le vecteur résultant de la somme des vecteurs.
      */
     public Vector sum(Vector v) {
@@ -50,7 +44,6 @@ public class Vector {
 
     /**
      * Retourne le vecteur résultant de la différence de deux vecteurs.
-     *
      * @return le vecteur résultant de la différence des vecteurs.
      */
     public Vector difference(Vector v) {
@@ -59,7 +52,6 @@ public class Vector {
 
     /**
      * Retourne le vecteur résultant de la multiplication d'un vecteur par un scalaire.
-     *
      * @return le vecteur résultant de la multiplication du vecteur par le scalaire.
      */
     public Vector multiplyByScalar(double scalar) {
@@ -81,8 +73,8 @@ public class Vector {
 
         Vector vector = (Vector) o;
 
-        if (Math.abs(vector.x - x) > EPSILON) return false;
-        return Math.abs(vector.y - y) < EPSILON;
+        if (!Line.equals(x, vector.x)) return false;
+        return Line.equals(y, vector.y);
     }
 
     @Override
