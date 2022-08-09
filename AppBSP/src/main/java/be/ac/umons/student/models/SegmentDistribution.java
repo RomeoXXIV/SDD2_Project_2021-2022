@@ -3,10 +3,9 @@ package be.ac.umons.student.models;
 import java.util.ArrayList;
 
 /**
- * Classe effectuant la distribution des segments d'une liste de segments dans les demi-espaces ouverts positifs et négatifs
- * par rapport à une droite.
+ * SegmentDistribution est une classe effectuant la distribution des segments d'une liste de segments
+ * dans les demi-espaces ouverts positifs et négatifs définie par rapport à une droite.
  * @author Romeo Ibraimovski
- * @author Maxime Nabli
  */
 public class SegmentDistribution {
 

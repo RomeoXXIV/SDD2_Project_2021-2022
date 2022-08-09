@@ -5,23 +5,14 @@ import be.ac.umons.student.models.heuristics.HeuristicSelector;
 import java.util.ArrayList;
 
 /**
- * Implémentation des Arbres BSP. Un arbre bsp possède une liste de segments, une droite de coupe split et des sous-arbres à droite et à gauche.
- * Pour construire un arbre, on utilise une des heuristiques.
+ * BSPTree est une classe représentant un arbre BSP (en anglais, "binary space partition tree").
  * @author Romeo Ibraimovski
- * @author Maxime Nabli
  */
 public class BSPTree {
 
     private final ArrayList<Segment> segments;
     private Line split;
     private BSPTree left, right;
-
-    public BSPTree(ArrayList<Segment> segments, Line split, BSPTree left, BSPTree right) {
-        this.segments = segments;
-        this.split = split;
-        this.left = left;
-        this.right = right;
-    }
 
     public BSPTree(ArrayList<Segment> segmentArrayList, HeuristicSelector heuristic) {
         if (segmentArrayList.size() <= 1) this.segments = segmentArrayList;
@@ -40,19 +31,12 @@ public class BSPTree {
         }
     }
 
-    public BSPTree() {
-        this(null, null, null, null);
-    }
-
     /**
      * Retourne la hauteur de l'arbre.
-     *
      * @return la hauteur de l'arbre.
      */
     public int height() {
-        if (this.isEmpty())
-            return 0;
-        else if (this.isLeaf())
+        if (this.isLeaf())
             return 1;
         else
             return 1 + Math.max(this.left.height(), this.right.height());
@@ -60,36 +44,21 @@ public class BSPTree {
 
     /**
      * Retourne la taille de l'arbre.
-     *
      * @return la taille de l'arbre.
      */
     public int size() {
-        if (this.isEmpty())
-            return 0;
-        else if (this.isLeaf())
+        if (this.isLeaf())
             return 1;
         else
             return 1 + this.left.size() + this.right.size();
     }
 
     /**
-     * Retourne true si l'arbre est réduit à une feuille.
-     *
+     * Détermine si l'arbre est réduit à une feuille.
      * @return true si l'arbre est réduit à une feuille, false sinon.
      */
     public boolean isLeaf() {
-        if (this.isEmpty())
-            return false;
-        return this.segments.size() <= 1 && this.split == null && this.left == null && this.right == null;
-    }
-
-    /**
-     * Retourne true si l'arbre est vide.
-     *
-     * @return true si l'arbre est vide, false sinon.
-     */
-    public boolean isEmpty() {
-        return this.segments == null && this.split == null && this.left == null && this.right == null;
+        return this.segments.size() <= 1;
     }
 
     public ArrayList<Segment> getSegments() {

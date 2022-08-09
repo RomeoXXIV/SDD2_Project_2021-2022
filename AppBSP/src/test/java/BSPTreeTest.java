@@ -13,7 +13,6 @@ import static org.junit.jupiter.api.Assertions.*;
 public class BSPTreeTest {
 
     private final HeuristicSelector heuristic = new StandardHeuristic();
-    private final BSPTree emptyBspTree = new BSPTree();
     private final Point origin = new Point(0, 0);
     private final Point a = new Point(1, 1);
     private final Point b = new Point(0, 1);
@@ -41,7 +40,6 @@ public class BSPTreeTest {
         segmentArrayList.add(segment_oc);
         BSPTree bspTree = new BSPTree(segmentArrayList, heuristic);
 
-        assertEquals(0,  emptyBspTree.height());
         assertEquals(1, nodeBspTree.height());
         assertEquals(2, bspTree.height());
     }
@@ -56,7 +54,6 @@ public class BSPTreeTest {
         segmentArrayList.add(segment_oc);
         BSPTree bspTree = new BSPTree(segmentArrayList, heuristic);
 
-        assertEquals(0,  emptyBspTree.size());
         assertEquals(1, nodeBspTree.size());
         assertEquals(3, bspTree.size());
     }
@@ -71,27 +68,9 @@ public class BSPTreeTest {
         segmentArrayList.add(segment_oc);
         BSPTree bspTree = new BSPTree(segmentArrayList, heuristic);
 
-        assertFalse(emptyBspTree.isLeaf());
         assertTrue(nodeBspTree.isLeaf());
         assertFalse(bspTree.isLeaf());
         assertTrue(bspTree.getLeft().isLeaf());
         assertTrue(bspTree.getRight().isLeaf());
-    }
-
-    @Test
-    public void test_isEmpty() {
-        oneSegmentArrayList.add(segment_oa);
-        BSPTree nodeBspTree = new BSPTree(oneSegmentArrayList, heuristic);
-
-        segmentArrayList.add(segment_oa);
-        segmentArrayList.add(segment_ob);
-        segmentArrayList.add(segment_oc);
-        BSPTree bspTree = new BSPTree(segmentArrayList, heuristic);
-
-        assertTrue(emptyBspTree.isEmpty());
-        assertFalse(nodeBspTree.isEmpty());
-        assertFalse(bspTree.isEmpty());
-        assertFalse(bspTree.getLeft().isEmpty());
-        assertFalse(bspTree.getRight().isEmpty());
     }
 }
