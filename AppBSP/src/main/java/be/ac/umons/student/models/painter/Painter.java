@@ -5,39 +5,41 @@ import be.ac.umons.student.models.Segment;
 
 import java.util.ArrayList;
 
-/** Implémentation de l'Algorithme du Peintre , permettant d'afficher ce qu'un point de vue particulier voit dans une scene représentée
- * par un arbre BSP.
+/** Painter est une classe implémentant l'algorithme du peintre, permettant de traiter les segments d'un arbre BSP
+ * dans le bon ordre selon deux comportements :
+ * - un comportement de dessin pour l'interface graphique.
+ * - un comportement de calcul pour la console.
  * @author Romeo Ibraimovski
- * @author Maxime Nabli
  */
 public class Painter {
 
-    public Painter(BSPTree bspTree, ViewPoint viewPoint, Paintable paintable) {
+    public static void painter(BSPTree bspTree, ViewPoint viewPoint, Paintable paintable) {
         if (bspTree.isLeaf())
             drawSegments(bspTree.getSegments(), viewPoint, paintable);
         else if (bspTree.getSplit().containsInOpenPositiveHalfSpace(viewPoint.getPoint())) {
-            new Painter(bspTree.getLeft(), viewPoint, paintable);
+            painter(bspTree.getLeft(), viewPoint, paintable);
             drawSegments(bspTree.getSegments(), viewPoint, paintable);
-            new Painter(bspTree.getRight(), viewPoint, paintable);
+            painter(bspTree.getRight(), viewPoint, paintable);
         }
         else if (bspTree.getSplit().containsInOpenNegativeHalfSpace(viewPoint.getPoint())) {
-            new Painter(bspTree.getRight(), viewPoint, paintable);
+            painter(bspTree.getRight(), viewPoint, paintable);
             drawSegments(bspTree.getSegments(), viewPoint, paintable);
-            new Painter(bspTree.getLeft(), viewPoint, paintable);
+            painter(bspTree.getLeft(), viewPoint, paintable);
         }
         else {
-            new Painter(bspTree.getRight(), viewPoint, paintable);
-            new Painter(bspTree.getLeft(), viewPoint, paintable);
+            painter(bspTree.getRight(), viewPoint, paintable);
+            painter(bspTree.getLeft(), viewPoint, paintable);
         }
     }
 
-    public Painter(BSPTree bspTree, Paintable paintable) {
-        this(bspTree, new ViewPoint(), paintable);
+    public static void painter(BSPTree bspTree, Paintable paintable) {
+        painter(bspTree, new ViewPoint(), paintable);
     }
 
-    public void drawSegments(ArrayList<Segment> segments, ViewPoint viewPoint, Paintable paintable) {
+    public static void drawSegments(ArrayList<Segment> segments, ViewPoint viewPoint, Paintable paintable) {
         for (Segment segment : segments) {
             paintable.drawSegment(segment, viewPoint);
         }
     }
+
 }

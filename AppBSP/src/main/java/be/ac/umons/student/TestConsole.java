@@ -59,7 +59,7 @@ public class TestConsole {
         Instant buildStop = Instant.now();
         Duration randomElapsedTimeForBuilding = Duration.between(buildStart, buildStop);
         Instant painterStart = Instant.now();
-        new Painter(bspTree, painterConsole);
+        Painter.painter(bspTree, painterConsole);
         Instant painterStop = Instant.now();
         Duration randomElapsedTimeForPainter = Duration.between(painterStart, painterStop);
         System.out.printf("| %-20s | %8d | %6d | %11d ms | %13s ms |\n",heuristic.toString(), bspTree.size(),

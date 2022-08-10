@@ -516,7 +516,7 @@ public class MainController implements Initializable {
     }
 
     private void drawSegmentsPainterCanvas() {
-        new Painter(this.bspTree, this.viewPoint, this.painterInteractive);
+        Painter.painter(this.bspTree, this.viewPoint, this.painterInteractive);
     }
 
 
