@@ -15,15 +15,19 @@ public class BSPTree {
     private BSPTree left, right;
 
     public BSPTree(ArrayList<Segment> segmentArrayList, HeuristicSelector heuristic) {
-        if (segmentArrayList.size() <= 1) this.segments = segmentArrayList;
-        else {
+        if (segmentArrayList.size() <= 1) this.segments = segmentArrayList; // une feuille.
+        else { // un noeud interne.
             this.segments = new ArrayList<>();
             Segment selectSegment = heuristic.selectSegment(segmentArrayList);
+            // ajouter le segment selectionné a la liste des segments du noeud courant
+            // et le supprimer de la liste des segments fournie par noeud parent.
             this.segments.add(segmentArrayList.remove(segmentArrayList.indexOf(selectSegment)));
             this.split = selectSegment.toLine();
+            // ajouter les segments confondus à la droite venant de la liste des segments du noeud fournie par noeud parent.
             this.segments.addAll(this.split.contentSegments(segmentArrayList));
             segmentArrayList.removeAll(this.segments);
-            SegmentDistribution segmentDistribution = new SegmentDistribution(segmentArrayList, split);
+            // segmentArrayList ne contient plus que les segments à repartir aux sous-arbres.
+            SegmentDistribution segmentDistribution = new SegmentDistribution(segmentArrayList, this.split);
             ArrayList<Segment> segmentsForLeft = segmentDistribution.getSegmentsInOpenNegativeHalfSpace();
             ArrayList<Segment> segmentsForRight = segmentDistribution.getSegmentsInOpenPositiveHalfSpace();
             this.left = new BSPTree(segmentsForLeft, heuristic);

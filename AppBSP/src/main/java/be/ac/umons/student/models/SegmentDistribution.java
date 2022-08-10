@@ -3,8 +3,8 @@ package be.ac.umons.student.models;
 import java.util.ArrayList;
 
 /**
- * SegmentDistribution est une classe effectuant la distribution des segments d'une liste de segments
- * dans les demi-espaces ouverts positifs et négatifs définie par rapport à une droite.
+ * SegmentDistribution est une classe effectuant la distribution des segments d'une liste de segments non confondus
+ * à la droite dans les demi-espaces ouverts positifs et négatifs définie par rapport à une droite.
  * @author Romeo Ibraimovski
  */
 public class SegmentDistribution {
@@ -21,33 +21,24 @@ public class SegmentDistribution {
                 this.segmentsInOpenNegativeHalfSpace.add(segment);
             else if (line.containsInOpenPositiveHalfSpace(segment))
                 this.segmentsInOpenPositiveHalfSpace.add(segment);
-            else {
+            else { // le segment n'est pas entièrement dans un des demi-espaces ouverts.
                 Point intersection = line.intersection(segment);
-                Segment[] splitSegment = segment.split(intersection);
-                if (!splitSegment[0].isPoint() && !splitSegment[1].isPoint()) {
-                    if (line.containsInOpenNegativeHalfSpace(splitSegment[0].getA())
-                            || line.containsInOpenNegativeHalfSpace(splitSegment[0].getB())) {
-                        segmentsInOpenNegativeHalfSpace.add(splitSegment[0]);
-                        segmentsInOpenPositiveHalfSpace.add(splitSegment[1]);
+                if (segment.hasForExtremity(intersection)) { // le segment est en contact avec la droite.
+                    if (line.containsNotStrictlyInOpenNegativeHalfSpace(segment))
+                        this.segmentsInOpenNegativeHalfSpace.add(segment);
+                    else
+                        this.segmentsInOpenPositiveHalfSpace.add(segment);
+                }
+                else { // le segment est dans les deux demi-espaces ouverts.
+                    Segment[] splitSegment = segment.split(intersection);
+                    if (line.containsNotStrictlyInOpenNegativeHalfSpace(splitSegment[0])) {
+                        this.segmentsInOpenNegativeHalfSpace.add(splitSegment[0]);
+                        this.segmentsInOpenPositiveHalfSpace.add(splitSegment[1]);
                     }
                     else {
-                        segmentsInOpenNegativeHalfSpace.add(splitSegment[1]);
-                        segmentsInOpenPositiveHalfSpace.add(splitSegment[0]);
+                        this.segmentsInOpenPositiveHalfSpace.add(splitSegment[0]);
+                        this.segmentsInOpenNegativeHalfSpace.add(splitSegment[1]);
                     }
-                }
-                else if (splitSegment[0].isPoint()) {
-                    if (line.containsInOpenNegativeHalfSpace(splitSegment[1].getA())
-                            || line.containsInOpenNegativeHalfSpace(splitSegment[1].getB()))
-                        segmentsInOpenNegativeHalfSpace.add(splitSegment[1]);
-                    else
-                        segmentsInOpenPositiveHalfSpace.add(splitSegment[1]);
-                }
-                else if (splitSegment[1].isPoint()) {
-                    if (line.containsInOpenNegativeHalfSpace(splitSegment[0].getA())
-                            || line.containsInOpenNegativeHalfSpace(splitSegment[0].getB()))
-                        segmentsInOpenNegativeHalfSpace.add(splitSegment[1]);
-                    else
-                        segmentsInOpenPositiveHalfSpace.add(splitSegment[1]);
                 }
             }
         }

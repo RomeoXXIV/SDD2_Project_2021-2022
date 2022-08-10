@@ -128,12 +128,30 @@ public class Line {
     }
 
     /**
+     * Détermine si le segment se trouve dans le demi-espace négatif ouvert non strictement par rapport à la droite.
+     * @param segment le segment.
+     * @return true si le segment se trouve dans le demi-espace négatif ouvert non strictement, false sinon.
+     */
+    public Boolean containsNotStrictlyInOpenNegativeHalfSpace(Segment segment) {
+        return this.containsNotStrictlyInOpenNegativeHalfSpace(segment.getA()) && this.containsNotStrictlyInOpenNegativeHalfSpace(segment.getB());
+    }
+
+    /**
      * Détermine si le point se trouve dans le demi-espace négatif ouvert par rapport à la droite.
      * @param point le point.
      * @return true si le point se trouve dans le demi-espace négatif ouvert, false sinon.
      */
     public Boolean containsInOpenNegativeHalfSpace(Point point) {
         return this.alpha * point.getX() + this.beta * point.getY() + this.gamma < 0;
+    }
+
+    /**
+     * Détermine si le point se trouve dans le demi-espace négatif ouvert non strictement par rapport à la droite.
+     * @param point le point.
+     * @return true si le point se trouve dans le demi-espace négatif ouvert non strictement, false sinon.
+     */
+    public Boolean containsNotStrictlyInOpenNegativeHalfSpace(Point point) {
+        return this.alpha * point.getX() + this.beta * point.getY() + this.gamma <= 0;
     }
 
     /**
@@ -146,12 +164,30 @@ public class Line {
     }
 
     /**
+     * Détermine si le segment se trouve dans le demi-espace positif ouvert non strictement par rapport à la droite.
+     * @param segment le segment.
+     * @return true si le segment se trouve dans le demi-espace positif ouvert non strictement, false sinon.
+     */
+    public Boolean containsNotStrictlyInOpenPositiveHalfSpace(Segment segment) {
+        return this.containsNotStrictlyInOpenPositiveHalfSpace(segment.getA()) && this.containsNotStrictlyInOpenPositiveHalfSpace(segment.getB());
+    }
+
+    /**
      * Détermine si le point se trouve dans le demi-espace positif ouvert par rapport à la droite.
      * @param point le point.
      * @return true si le point se trouve dans le demi-espace positif ouvert, false sinon.
      */
     public Boolean containsInOpenPositiveHalfSpace(Point point) {
         return this.alpha * point.getX() + this.beta * point.getY() + this.gamma > 0;
+    }
+
+    /**
+     * Détermine si le point se trouve dans le demi-espace positif ouvert non strictement par rapport à la droite.
+     * @param point le point.
+     * @return true si le point se trouve dans le demi-espace positif ouvert non strictement, false sinon.
+     */
+    public Boolean containsNotStrictlyInOpenPositiveHalfSpace(Point point) {
+        return this.alpha * point.getX() + this.beta * point.getY() + this.gamma >= 0;
     }
 
     /**

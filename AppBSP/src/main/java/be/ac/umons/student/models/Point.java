@@ -28,7 +28,7 @@ public class Point {
 
         Point point = (Point) o;
 
-        if (Line.equals(x, point.x)) return false;
+        if (!Line.equals(x, point.x)) return false;
         return Line.equals(y, point.y);
     }
 

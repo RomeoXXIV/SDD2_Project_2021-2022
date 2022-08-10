@@ -61,6 +61,15 @@ public class Segment {
     }
 
     /**
+     * Détermine si le segment a pour extrémité un point.
+     * @param point le point à tester.
+     * @return true si le segment a pour extrémité le point, false sinon.
+     */
+    public boolean hasForExtremity(Point point) {
+        return this.a.equals(point) || this.b.equals(point);
+    }
+
+    /**
      * Détermine si le segment est un point, c-à-d qu'il ne possède pas deux extrémités distinctes.
      * @return true si le segment est un point, false sinon.
      */
