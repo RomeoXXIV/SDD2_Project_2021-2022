@@ -5,9 +5,8 @@ import be.ac.umons.student.models.Point;
 import be.ac.umons.student.models.Segment;
 
 /**
- * Implémentation du point de vue qui a un angle de vue, des coordonnées et un angle de rotation.
+ * ViewPoint est une classe représentant un point de vue possédant des coordonnées, un angle de vue et un angle de rotation.
  * @author Romeo Ibraimovski
- * @author Maxime Nabli
  */
 public class ViewPoint {
 
@@ -22,76 +21,77 @@ public class ViewPoint {
 
     public ViewPoint() {
         this.point = new Point(0, 0);
-        this.viewAngle = 100;
+        this.viewAngle = 90;
         this.rotateAngle = 0;
     }
 
     /**
-     * Retourne vrai si le point de vue voit le point , faux sinon
-     *
-     * @param point
-     * @return vrai si le point de vue voit le point, faux sinon
+     * Détermine si le point de vue voit un point.
+     * @param point Le point à tester.
+     * @return true si le point de vue voit le point, false sinon.
      */
     public boolean sees(Point point) {
-        // TODO JavaDoc + Testing
-        if (this.viewAngle == 0.) return false;
-        Line upperEyelidLine = getUpperEyelidLine();
+        if (Line.equals(this.viewAngle, Line.ZERO)) return false;
+        Line upperEyelidLine = this.upperEyelidLine();
         if (this.viewAngle == 180.) {
-            return upperEyelidLine.contains(point) || upperEyelidLine.containsInOpenNegativeHalfSpace(point);
+            return upperEyelidLine.containsNotStrictlyInOpenNegativeHalfSpace(point);
         }
         else {
-            Line lowerEyelidLine = getLowerEyelidLine();
-            return (upperEyelidLine.contains(point) || upperEyelidLine.containsInOpenNegativeHalfSpace(point))
-                    && (lowerEyelidLine.contains(point) || lowerEyelidLine.containsInOpenPositiveHalfSpace(point));
+            Line lowerEyelidLine = this.lowerEyelidLine();
+            return upperEyelidLine.containsNotStrictlyInOpenNegativeHalfSpace(point)
+                    && lowerEyelidLine.containsNotStrictlyInOpenPositiveHalfSpace(point);
         }
     }
 
     /**
-     * Retourne vrai si le point de vue voit un segment mais pas ses extrémités faux sinon
-     *
-     * @param segment
-     * @return vrai si le point de vue voit le segment sans ses extrémités, faut sinon
-     */
-    public boolean seesWithoutExtremity(Segment segment) {
-        // TODO JavaDoc + Testing note : && !this.seesEntirely(segment) removed from the condition check when testing
-        Line upperEyelidLine = getUpperEyelidLine();
-        Line lowerEyelidLine = getLowerEyelidLine();
-        Line segmentLine = segment.toLine();
-        if (segmentLine.isSecantTo(upperEyelidLine) && segmentLine.isSecantTo(lowerEyelidLine)) {
-            Point upperIntersection = segmentLine.intersection(upperEyelidLine);
-            Point lowerIntersection = segmentLine.intersection(lowerEyelidLine);
-            return segment.contains(upperIntersection) && segment.contains(lowerIntersection);
-        }
-        return false;
-    }
-
-
-    /**
-     * Retourne vrai si le point de vue voit entièrement le segment, faux sinon
-     *
-     * @param segment
-     * @return vrai si le point de vue voit entièrement le segment faux sinon
+     * Détermine si le point de vue voit entièrement un segment.
+     * @param segment Le segment à tester.
+     * @return true si le point de vue voit entièrement le segment, false sinon.
      */
     public boolean seesEntirely(Segment segment) {
         return this.sees(segment.getA()) && this.sees(segment.getB());
     }
 
     /**
-     * Retourne vrai si le point de vue voit le segment en partie
-     *
-     * @param segment
-     * @return vrai si le point de vue voit le segment en partie
+     * Détermine si le point de vue voit un segment sans ses extrémités.
+     * @param segment Le segment à tester.
+     * @return true si le point de vue voit le segment sans ses extrémités, false sinon.
+     */
+    public boolean seesWithoutExtremity(Segment segment) {
+        Line upperEyelidLine = upperEyelidLine();
+        Line lowerEyelidLine = lowerEyelidLine();
+        Line segmentLine = segment.toLine();
+        if (segmentLine.isSecantTo(upperEyelidLine) && segmentLine.isSecantTo(lowerEyelidLine)) {
+            Point upperIntersection = segmentLine.intersection(upperEyelidLine);
+            Point lowerIntersection = segmentLine.intersection(lowerEyelidLine);
+            return segment.contains(upperIntersection) && segment.contains(lowerIntersection) && !this.seesEntirely(segment);
+        }
+        return false;
+    }
+
+    /**
+     * Détermine si le point de vue voit un segment en partie au moins.
+     * @param segment Le segment à tester.
+     * @return true si le point de vue voit le segment en partie au moins, false sinon.
      */
     public boolean seesPartially(Segment segment) {
         return this.sees(segment.getA()) || this.sees(segment.getB()) || this.seesWithoutExtremity(segment);
     }
 
     /**
+     * Détermine si le point de vue voit un segment que partiellement.
+     * @param segment Le segment à tester.
+     * @return true si le point de vue voit le segment que partiellement, false sinon.
+     */
+    public boolean seesOnlyPartially(Segment segment) {
+        return (this.sees(segment.getA()) ^ this.sees(segment.getB())) || this.seesWithoutExtremity(segment);
+    }
+
+    /**
      * Retourne la droite associée à la paupière du haut
-     *
      * @return la droite associée à la paupière du haut
      */
-    public Line getUpperEyelidLine() {
+    public Line upperEyelidLine() {
         double upperEyelidLineX = 12 * Math.cos(Math.toRadians((-viewAngle / 2) + rotateAngle));
         double upperEyelidLineY = 12 * Math.sin(Math.toRadians((-viewAngle / 2) + rotateAngle));
         return new Line(this.point, new Point(upperEyelidLineX, upperEyelidLineY));
@@ -99,10 +99,9 @@ public class ViewPoint {
 
     /**
      * Retourne la droite associée à la paupière du bas
-     *
      * @return la droite associée à la paupière du bas
      */
-    public Line getLowerEyelidLine(){
+    public Line lowerEyelidLine(){
         double lowerEyelidLineX = 12 * Math.cos(Math.toRadians((viewAngle / 2) + rotateAngle));
         double lowerEyelidLineY = 12 * Math.sin(Math.toRadians((viewAngle / 2) + rotateAngle));
         return  new Line(this.point, new Point(lowerEyelidLineX, lowerEyelidLineY));

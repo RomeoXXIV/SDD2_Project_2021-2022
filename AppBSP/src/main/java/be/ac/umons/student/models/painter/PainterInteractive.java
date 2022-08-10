@@ -30,8 +30,8 @@ public class PainterInteractive implements Paintable { // TODO to complete
             }
             else {
                 Line segmentLine = segment.toLine();
-                Line upperEyelidLine = viewPoint.getUpperEyelidLine();
-                Line lowerEyelidLine = viewPoint.getLowerEyelidLine();
+                Line upperEyelidLine = viewPoint.upperEyelidLine();
+                Line lowerEyelidLine = viewPoint.lowerEyelidLine();
                 Segment splitSegment;
                 if (viewPoint.seesWithoutExtremity(segment)) {
                     splitSegment = new Segment(segmentLine.intersection(upperEyelidLine), segmentLine.intersection(lowerEyelidLine), segment.getColor());
@@ -102,7 +102,7 @@ public class PainterInteractive implements Paintable { // TODO to complete
         Point intersectPointOfProjectionAndPovToPointB = projectionLine.intersection(povToPointBLine);
         Segment projectedSegment = new Segment(intersectPointOfProjectionAndPovToPointA, intersectPointOfProjectionAndPovToPointB, segment.getColor());
 
-        Line upperEyelidLine = viewPoint.getUpperEyelidLine();
+        Line upperEyelidLine = viewPoint.upperEyelidLine();
 
         Point intersectPointOfProjectionAndUpperEyelidLine = projectionLine.intersection(upperEyelidLine);
 

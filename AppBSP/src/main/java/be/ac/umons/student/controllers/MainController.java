@@ -222,7 +222,7 @@ public class MainController implements Initializable {
         if (this.sceneFile != null && this.sceneReader.isSceneFile()
                 && !oldHeuristicSelector.getClass().equals(this.heuristicSelector.getClass())) {
             System.out.println("Works ! But need to fix BSP Tree");
-            //this.bspTree = new BSPTree(this.sceneReader.getSegments(), this.heuristicSelector);
+            this.bspTree = new BSPTree(this.sceneReader.getSegments(), this.heuristicSelector);
         }
     }
 
@@ -234,7 +234,7 @@ public class MainController implements Initializable {
         if (this.sceneFile != null && this.sceneReader.isSceneFile()
                 && !oldHeuristicSelector.getClass().equals(this.heuristicSelector.getClass())) {
             System.out.println("Works ! But need to fix BSP Tree");
-            //this.bspTree = new BSPTree(this.sceneReader.getSegments(), this.heuristicSelector);
+            this.bspTree = new BSPTree(this.sceneReader.getSegments(), this.heuristicSelector);
         }
     }
 
@@ -246,7 +246,7 @@ public class MainController implements Initializable {
         if (this.sceneFile != null && this.sceneReader.isSceneFile()
                 && !oldHeuristicSelector.getClass().equals(this.heuristicSelector.getClass())) {
             System.out.println("Works ! But need to fix BSP Tree");
-            //this.bspTree = new BSPTree(this.sceneReader.getSegments(), this.heuristicSelector);
+            this.bspTree = new BSPTree(this.sceneReader.getSegments(), this.heuristicSelector);
         }
     }
 
@@ -258,7 +258,7 @@ public class MainController implements Initializable {
         if (this.sceneFile != null && this.sceneReader.isSceneFile()
                 && !oldHeuristicSelector.getClass().equals(this.heuristicSelector.getClass())) {
             System.out.println("Works ! But need to fix BSP Tree");
-            //this.bspTree = new BSPTree(this.sceneReader.getSegments(), this.heuristicSelector);
+            this.bspTree = new BSPTree(this.sceneReader.getSegments(), this.heuristicSelector);
         }
     }
 
@@ -272,8 +272,7 @@ public class MainController implements Initializable {
             this.positionXTextField.setPromptText(positionXPromptText);
             this.positionYTextField.setPromptText(positionYPromptText);
             this.drawSceneOnMainCanvas();
-            // TODO : fix BSP Tree
-            // this.bspTree = new BSPTree(this.sceneReader.getSegments(), this.heuristicSelector);
+            this.bspTree = new BSPTree(this.sceneReader.getSegments(), this.heuristicSelector);
         }
     }
 
@@ -506,7 +505,7 @@ public class MainController implements Initializable {
         this.graphicsContextPainterCanvas.clearRect(0, 0, widthPainterCanvas, heightMainCanvas);
         this.painterCanvas.setWidth(widthPainterCanvas); // Utilité ?
         this.painterCanvas.setHeight(heightMainCanvas); // Utilité ?
-        this.bspTree = new BSPTree(this.sceneReader.getSegments(), heuristicSelector);
+        //this.bspTree = new BSPTree(this.sceneReader.getSegments(), heuristicSelector); // inutile de le recalculer
         double x = Double.parseDouble(positionXTextField.getText());
         double y = Double.parseDouble(positionYTextField.getText());
         double viewAngle = Double.parseDouble(viewAngleTextfield.getText());
