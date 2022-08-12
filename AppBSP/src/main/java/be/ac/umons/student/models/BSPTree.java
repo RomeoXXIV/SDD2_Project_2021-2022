@@ -62,7 +62,7 @@ public class BSPTree {
      * @return true si l'arbre est réduit à une feuille, false sinon.
      */
     public boolean isLeaf() {
-        return this.segments.size() <= 1;
+        return this.left == null && this.right == null;
     }
 
     public ArrayList<Segment> getSegments() {
