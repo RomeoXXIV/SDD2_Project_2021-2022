@@ -70,9 +70,9 @@ public class ViewPoint {
     }
 
     /**
-     * Détermine si le point de vue voit un segment en partie au moins.
+     * Détermine si le point de vue voit un segment au moins en partie.
      * @param segment Le segment à tester.
-     * @return true si le point de vue voit le segment en partie au moins, false sinon.
+     * @return true si le point de vue voit le segment au moins en partie, false sinon.
      */
     public boolean seesPartially(Segment segment) {
         return this.sees(segment.getA()) || this.sees(segment.getB()) || this.seesWithoutExtremity(segment);

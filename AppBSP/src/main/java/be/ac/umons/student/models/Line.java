@@ -222,6 +222,29 @@ public class Line {
     }
 
     /**
+     * Retourne la distance entre la droite et un point.
+     * @param point le point.
+     * @return la distance entre la droite et le point.
+     */
+    public double distanceTo(Point point) {
+        return Math.abs(this.alpha * point.getX() + this.beta * point.getY() + this.gamma) / Math.sqrt(this.alpha * this.alpha + this.beta * this.beta);
+    }
+
+    /**
+     * Retourne le point le plus proche de la droite d'un segment qui n'est pas parallèle avec la droite.
+     * @param segment le segment.
+     * @return le point le plus proche de la droite d'un segment.
+     */
+    public Point nearestPointTo(Segment segment) {
+        double distanceA = this.distanceTo(segment.getA());
+        double distanceB = this.distanceTo(segment.getB());
+        if (distanceA < distanceB)
+            return segment.getA();
+        else
+            return segment.getB();
+    }
+
+    /**
      * Retourne un vecteur directeur d’une droite passant par les points a et b.
      * @param a le premier point où passe la droite.
      * @param b le second point où passe la droite.

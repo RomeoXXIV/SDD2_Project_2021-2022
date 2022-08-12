@@ -503,9 +503,8 @@ public class MainController implements Initializable {
         double widthPainterCanvas = painterCanvas.getWidth();
         double heightMainCanvas = painterCanvas.getHeight();
         this.graphicsContextPainterCanvas.clearRect(0, 0, widthPainterCanvas, heightMainCanvas);
-        this.painterCanvas.setWidth(widthPainterCanvas); // Utilité ?
-        this.painterCanvas.setHeight(heightMainCanvas); // Utilité ?
-        //this.bspTree = new BSPTree(this.sceneReader.getSegments(), heuristicSelector); // inutile de le recalculer
+        /*this.painterCanvas.setWidth(widthPainterCanvas); // Utilité ?
+        this.painterCanvas.setHeight(heightMainCanvas); // Utilité ?*/
         double x = Double.parseDouble(positionXTextField.getText());
         double y = Double.parseDouble(positionYTextField.getText());
         double viewAngle = Double.parseDouble(viewAngleTextfield.getText());

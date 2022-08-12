@@ -27,6 +27,18 @@ public class Segment {
         this.color = DEFAULT_COLOR;
     }
 
+    public Point midPoint() {
+        return new Point((this.a.getX() + this.b.getX()) / 2, (this.a.getY() + this.b.getY()) / 2);
+    }
+
+    public Line mediator() {
+        Point midPoint = this.midPoint();
+        double alpha = this.getB().getX() - this.getA().getX();
+        double beta = this.getB().getY() - this.getA().getY();
+        double gamma = - alpha * midPoint.getX() - beta * midPoint.getY();
+        return new Line(alpha, beta, gamma);
+    }
+
     /**
      * Détermine si le segment contient un point. La longueur du segment doit être strictement supérieur à 0.
      * @param point le point à tester.
