@@ -312,12 +312,12 @@ public class MainController implements Initializable {
 
     private void drawSegmentOnMainCanvas(Segment segment) {
         Color color = PainterInteractive.awtColorToPaintColor(segment.getColor());
-        double x1 = segment.getA().getX() + this.widthMainCanvas / 2.;
-        double y1 = segment.getA().getY() + this.heightMainCanvas / 2.;
-        double x2 = segment.getB().getX() + this.widthMainCanvas / 2.;
-        double y2 = segment.getB().getY() + this.heightMainCanvas / 2.;
+        double xA = segment.getA().getX() + this.widthMainCanvas / 2.;
+        double yA = - segment.getA().getY() + this.heightMainCanvas / 2.;
+        double xB = segment.getB().getX() + this.widthMainCanvas / 2.;
+        double yB = - segment.getB().getY() + this.heightMainCanvas / 2.;
         this.graphicsContextMainCanvas.setStroke(color);
-        this.graphicsContextMainCanvas.strokeLine(x1, y1, x2, y2);
+        this.graphicsContextMainCanvas.strokeLine(xA, yA, xB, yB);
     }
 
     // Sub Main Canvas handler
@@ -331,7 +331,7 @@ public class MainController implements Initializable {
             && !this.positionYTextField.getText().equals("")) {
             this.graphicsContextSubMainCanvas.clearRect(0, 0, subMainCanvas.getWidth(), subMainCanvas.getHeight());
             double x = Double.parseDouble(this.positionXTextField.getText()) + this.subMainCanvas.getWidth() / 2.;
-            double y = Double.parseDouble(this.positionYTextField.getText()) + this.subMainCanvas.getHeight() / 2.;
+            double y = - Double.parseDouble(this.positionYTextField.getText()) + this.subMainCanvas.getHeight() / 2.;
             double length = 20.;
             double viewAngle = Double.parseDouble(this.viewAngleTextfield.getText());
             double rotateAngle = Double.parseDouble(this.rotatorTextfield.getText());

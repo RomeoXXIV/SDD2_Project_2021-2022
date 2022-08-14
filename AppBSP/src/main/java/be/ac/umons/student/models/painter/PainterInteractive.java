@@ -78,8 +78,9 @@ public class PainterInteractive implements Paintable {
                     }
                 }
             }
-            if (!drawingSegment.isPoint() )
-                this.drawSegmentOnCanvas(graphicsContext, drawingSegment);
+            if (!drawingSegment.isPoint()) {
+                System.out.println("Segment à dessiner : " + drawingSegment);
+                this.drawSegmentOnCanvas(graphicsContext, drawingSegment);}
         }
     }
 
