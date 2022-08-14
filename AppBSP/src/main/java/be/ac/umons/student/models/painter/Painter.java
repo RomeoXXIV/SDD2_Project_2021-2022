@@ -14,8 +14,8 @@ import java.util.ArrayList;
 public class Painter {
 
     public static void painter(BSPTree bspTree, ViewPoint viewPoint, Paintable paintable) {
-        if (bspTree.isLeaf())
-            drawSegments(bspTree.getSegments(), viewPoint, paintable);
+        if (bspTree.isLeaf()) {
+            drawSegments(bspTree.getSegments(), viewPoint, paintable);}
         else if (bspTree.getSplit().containsInOpenPositiveHalfSpace(viewPoint.getPoint())) {
             painter(bspTree.getLeft(), viewPoint, paintable);
             drawSegments(bspTree.getSegments(), viewPoint, paintable);

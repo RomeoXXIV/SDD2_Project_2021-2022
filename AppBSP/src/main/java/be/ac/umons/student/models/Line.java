@@ -151,7 +151,7 @@ public class Line {
      * @return true si le point se trouve dans le demi-espace négatif ouvert non strictement, false sinon.
      */
     public Boolean containsNotStrictlyInOpenNegativeHalfSpace(Point point) {
-        return this.alpha * point.getX() + this.beta * point.getY() + this.gamma <= 0;
+        return containsInOpenNegativeHalfSpace(point) || equals(this.alpha * point.getX() + this.beta * point.getY() + this.gamma, Line.ZERO);
     }
 
     /**
@@ -187,7 +187,7 @@ public class Line {
      * @return true si le point se trouve dans le demi-espace positif ouvert non strictement, false sinon.
      */
     public Boolean containsNotStrictlyInOpenPositiveHalfSpace(Point point) {
-        return this.alpha * point.getX() + this.beta * point.getY() + this.gamma >= 0;
+        return containsInOpenPositiveHalfSpace(point) || equals(this.alpha * point.getX() + this.beta * point.getY() + this.gamma, Line.ZERO);
     }
 
     /**

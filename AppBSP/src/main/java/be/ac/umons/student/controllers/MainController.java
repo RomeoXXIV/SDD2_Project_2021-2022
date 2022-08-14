@@ -220,10 +220,8 @@ public class MainController implements Initializable {
         this.heuristicSelector = new StandardHeuristic();
         this.heuristicSelected.set("Standard");
         if (this.sceneFile != null && this.sceneReader.isSceneFile()
-                && !oldHeuristicSelector.getClass().equals(this.heuristicSelector.getClass())) {
-            System.out.println("Works ! But need to fix BSP Tree");
+                && !oldHeuristicSelector.getClass().equals(this.heuristicSelector.getClass()))
             this.bspTree = new BSPTree(this.sceneReader.getSegments(), this.heuristicSelector);
-        }
     }
 
     @FXML
@@ -232,10 +230,8 @@ public class MainController implements Initializable {
         this.heuristicSelector = new RandomHeuristic();
         this.heuristicSelected.set("Random");
         if (this.sceneFile != null && this.sceneReader.isSceneFile()
-                && !oldHeuristicSelector.getClass().equals(this.heuristicSelector.getClass())) {
-            System.out.println("Works ! But need to fix BSP Tree");
+                && !oldHeuristicSelector.getClass().equals(this.heuristicSelector.getClass()))
             this.bspTree = new BSPTree(this.sceneReader.getSegments(), this.heuristicSelector);
-        }
     }
 
     @FXML
@@ -244,10 +240,8 @@ public class MainController implements Initializable {
         this.heuristicSelector = new TWNBHeuristic();
         this.heuristicSelected.set("TWBH");
         if (this.sceneFile != null && this.sceneReader.isSceneFile()
-                && !oldHeuristicSelector.getClass().equals(this.heuristicSelector.getClass())) {
-            System.out.println("Works ! But need to fix BSP Tree");
+                && !oldHeuristicSelector.getClass().equals(this.heuristicSelector.getClass()))
             this.bspTree = new BSPTree(this.sceneReader.getSegments(), this.heuristicSelector);
-        }
     }
 
     @FXML
@@ -256,10 +250,8 @@ public class MainController implements Initializable {
         this.heuristicSelector = new OptimizedRandomHeuristic();
         this.heuristicSelected.set("Optimized Random");
         if (this.sceneFile != null && this.sceneReader.isSceneFile()
-                && !oldHeuristicSelector.getClass().equals(this.heuristicSelector.getClass())) {
-            System.out.println("Works ! But need to fix BSP Tree");
+                && !oldHeuristicSelector.getClass().equals(this.heuristicSelector.getClass()))
             this.bspTree = new BSPTree(this.sceneReader.getSegments(), this.heuristicSelector);
-        }
     }
 
     private void updateContentAppCenterHBox() {
@@ -503,8 +495,8 @@ public class MainController implements Initializable {
         double widthPainterCanvas = painterCanvas.getWidth();
         double heightMainCanvas = painterCanvas.getHeight();
         this.graphicsContextPainterCanvas.clearRect(0, 0, widthPainterCanvas, heightMainCanvas);
-        /*this.painterCanvas.setWidth(widthPainterCanvas); // Utilité ?
-        this.painterCanvas.setHeight(heightMainCanvas); // Utilité ?*/
+        this.painterCanvas.setWidth(widthPainterCanvas); // Utilité ?
+        this.painterCanvas.setHeight(heightMainCanvas); // Utilité ?
         double x = Double.parseDouble(positionXTextField.getText());
         double y = Double.parseDouble(positionYTextField.getText());
         double viewAngle = Double.parseDouble(viewAngleTextfield.getText());

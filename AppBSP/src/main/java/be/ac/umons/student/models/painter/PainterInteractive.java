@@ -3,7 +3,6 @@ package be.ac.umons.student.models.painter;
 import be.ac.umons.student.models.Line;
 import be.ac.umons.student.models.Point;
 import be.ac.umons.student.models.Segment;
-import be.ac.umons.student.models.Vector;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -14,6 +13,9 @@ import javafx.scene.paint.Color;
  * @author Romeo Ibraimovski
  */
 public class PainterInteractive implements Paintable {
+
+    public static final double PROJECTION_LENGTH = 1000.;
+    public static final double PROJECTION_WIDTH = 6.;
 
     private final Canvas canvas;
 
@@ -108,9 +110,8 @@ public class PainterInteractive implements Paintable {
                         Point nearestPoint;
                         if (!upperEyelidLine.isSecantToLineOf(segment)) { // le segment est parallèle à upperEyelidLine.
                             // le point de départ du segment à projeter est le point le plus éloigné du povPoint.
-                            if (lengthFromPovPointToPointB < lengthFromPovPointToPointA ) {
+                            if (lengthFromPovPointToPointB < lengthFromPovPointToPointA )
                                 nearestPoint = segment.getA();
-                            }
                             else
                                 nearestPoint = segment.getB();
                             Point intersectionOfUpperEyelidLineAndSegmentMediator = segment.mediator().intersection(upperEyelidLine);
@@ -120,19 +121,33 @@ public class PainterInteractive implements Paintable {
                             angleBeforeStartProjection = angleC(lengthFromPovPointToIntersection, lengthFromPovPointToNearestPoint, lengthFromNearestPointToIntersection);
                         }
                         else { // le segment n'est pas parallèle à upperEyelidLine.
-                            // le point de départ du segment à projeter est le point le plus proche d'upperEyelidLine.
-                            nearestPoint = upperEyelidLine.nearestPointTo(segment);
                             Point intersectionOfUpperEyelidLineAndSegmentLine = upperEyelidLine.intersection(segment.toLine());
-                            double lengthFromNearestPointToIntersection = (new Segment(nearestPoint, intersectionOfUpperEyelidLineAndSegmentLine).length());
-                            double lengthFromPovPointToNearestPoint = (new Segment(povPoint, nearestPoint).length());
-                            double lengthFromPovPointToIntersection = (new Segment(povPoint, intersectionOfUpperEyelidLineAndSegmentLine).length());
-                            angleBeforeStartProjection = angleC(lengthFromPovPointToIntersection, lengthFromPovPointToNearestPoint, lengthFromNearestPointToIntersection);
+                            if (viewPoint.sees(intersectionOfUpperEyelidLineAndSegmentLine)) { // l'intersection avec upperEyelidLine est visible.
+                                // le point de départ du segment à projeter est le point le plus proche d'upperEyelidLine.
+                                nearestPoint = upperEyelidLine.nearestPointTo(segment);
+                                double lengthFromNearestPointToIntersection = (new Segment(nearestPoint, intersectionOfUpperEyelidLineAndSegmentLine).length());
+                                double lengthFromPovPointToNearestPoint = (new Segment(povPoint, nearestPoint).length());
+                                double lengthFromPovPointToIntersection = (new Segment(povPoint, intersectionOfUpperEyelidLineAndSegmentLine).length());
+                                angleBeforeStartProjection = angleC(lengthFromPovPointToIntersection, lengthFromPovPointToNearestPoint, lengthFromNearestPointToIntersection);
+                            }
+                            else { // l'intersection upperEyelidLine n'est pas visible.
+                                // le point de départ du segment à projeter est le point le plus éloigné du povPoint.
+                                if (lengthFromPovPointToPointB < lengthFromPovPointToPointA )
+                                    nearestPoint = segment.getA();
+                                else
+                                    nearestPoint = segment.getB();
+                                Point intersectionOfUpperEyelidLineAndSegmentMediator = (segment.mediator()).intersection(upperEyelidLine);
+                                double lengthFromNearestPointToIntersection = (new Segment(nearestPoint, intersectionOfUpperEyelidLineAndSegmentMediator).length());
+                                double lengthFromPovPointToNearestPoint = (new Segment(povPoint, nearestPoint).length());
+                                double lengthFromPovPointToIntersection = (new Segment(povPoint, intersectionOfUpperEyelidLineAndSegmentMediator).length());
+                                angleBeforeStartProjection = angleC(lengthFromPovPointToIntersection, lengthFromPovPointToNearestPoint, lengthFromNearestPointToIntersection);
+                            }
                         }
                     }
                 }
             }
-            return new Segment(new Point(angleBeforeStartProjection, 0.0)
-                            , new Point(angleBeforeStartProjection + angleC, 0.0)
+            return new Segment(new Point((angleBeforeStartProjection / viewAngle) * PROJECTION_LENGTH, 0.0)
+                            , new Point(((angleBeforeStartProjection + angleC) / viewAngle) * PROJECTION_LENGTH, 0.0)
                             , segment.getColor());
         }
         else // Les points A, B et PovPoint sont colinéaires et peut-être que A et B ne sont pas distincts.
@@ -166,11 +181,12 @@ public class PainterInteractive implements Paintable {
         double widthCanvas = this.canvas.getWidth();
         double heightCanvas = this.canvas.getHeight();
         Color color = awtColorToPaintColor(segment.getColor());
-        double xA = 140 + segment.getA().getX() * 5.555555;
-        double yA = 61; // segment.getA().getY() + heightCanvas / 2.
-        double xB = 140 + segment.getB().getX() * 5.555555;
-        double yB = 61; //segment.getB().getY() + heightCanvas / 2.
+        double xA = (widthCanvas - PROJECTION_LENGTH) / 2 + segment.getA().getX();
+        double yA = (heightCanvas - PROJECTION_WIDTH) / 2.;
+        double xB = (widthCanvas - PROJECTION_LENGTH) / 2 + segment.getB().getX();
+        double yB = (heightCanvas - PROJECTION_WIDTH) / 2.;
         graphicsContext.setStroke(color);
+        graphicsContext.setLineWidth(PROJECTION_WIDTH);
         graphicsContext.strokeLine(xA, yA, xB, yB);
     }
 

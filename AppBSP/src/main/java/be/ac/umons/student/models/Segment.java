@@ -33,10 +33,18 @@ public class Segment {
 
     public Line mediator() {
         Point midPoint = this.midPoint();
-        double alpha = this.getB().getX() - this.getA().getX();
-        double beta = this.getB().getY() - this.getA().getY();
-        double gamma = - alpha * midPoint.getX() - beta * midPoint.getY();
-        return new Line(alpha, beta, gamma);
+        Line segmentLine = this.toLine();
+        double segmentLineSlope = segmentLine.slope();
+        if (Line.equals(segmentLineSlope, Line.ZERO)) {
+            // le segment est horizontal et la médiatrice est verticale.
+            return new Line(midPoint, new Point(midPoint.getX(), midPoint.getY() + 1));
+        }
+        else { // le segment n'est pas horizontal et la médiatrice n'est pas verticale.
+            double alpha = this.getB().getX() - this.getA().getX();
+            double beta = this.getB().getY() - this.getA().getY();
+            double gamma = - alpha * midPoint.getX() - beta * midPoint.getY();
+            return new Line(alpha, beta, gamma);
+        }
     }
 
     /**
