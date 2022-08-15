@@ -92,8 +92,8 @@ public class ViewPoint {
      * @return la droite associée à la paupière du haut
      */
     public Line upperEyelidLine() {
-        double upperEyelidLineX = this.point.getX() + 12 * Math.cos(Math.toRadians((-viewAngle / 2) + rotateAngle));
-        double upperEyelidLineY = this.point.getY() + 12 * Math.sin(Math.toRadians((-viewAngle / 2) + rotateAngle));
+        double upperEyelidLineX = this.point.getX() + 12 * Math.cos(Math.toRadians((viewAngle / 2) + rotateAngle));
+        double upperEyelidLineY = this.point.getY() + 12 * Math.sin(Math.toRadians((viewAngle / 2) + rotateAngle));
         return new Line(this.point, new Point(upperEyelidLineX, upperEyelidLineY));
     }
 
@@ -102,8 +102,8 @@ public class ViewPoint {
      * @return la droite associée à la paupière du bas
      */
     public Line lowerEyelidLine(){
-        double lowerEyelidLineX = this.point.getX() + 12 * Math.cos(Math.toRadians((viewAngle / 2) + rotateAngle));
-        double lowerEyelidLineY = this.point.getY() + 12 * Math.sin(Math.toRadians((viewAngle / 2) + rotateAngle));
+        double lowerEyelidLineX = this.point.getX() + 12 * Math.cos(Math.toRadians((-viewAngle / 2) + rotateAngle));
+        double lowerEyelidLineY = this.point.getY() + 12 * Math.sin(Math.toRadians((-viewAngle / 2) + rotateAngle));
         return new Line(this.point, new Point(lowerEyelidLineX, lowerEyelidLineY));
     }
 
