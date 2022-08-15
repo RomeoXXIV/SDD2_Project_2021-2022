@@ -2,9 +2,9 @@ package be.ac.umons.student.models.painter;
 
 import be.ac.umons.student.models.Segment;
 
-/** Interface visant à adapter l'Algorithme du Peintre au mode console ou graphique.
+/** Paintable est une interface fonctionnelle permettant de définir la signature d’une méthode qui pourra être utilisée
+ * pour adapter l'algorithme du Peintre au mode console ou graphique.
  * @author Romeo Ibraimovski
- * @author Maxime Nabli
  */
 @FunctionalInterface
 public interface Paintable {

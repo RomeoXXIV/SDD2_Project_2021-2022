@@ -4,9 +4,9 @@ import be.ac.umons.student.models.Segment;
 
 import java.util.ArrayList;
 
-/** Interface permetant d'implémenter les différentes heuristiques
+/** HeuristicSelector est une interface fonctionnelle permettant de définir la signature d'une méthode qui pourra être
+ * utilisée pour adapter l'heuristique lors de la création d'un arbre BSP.
  * @author Romeo Ibraimovski
- * @author Maxime Nabli
  */
 @FunctionalInterface
 public interface HeuristicSelector {

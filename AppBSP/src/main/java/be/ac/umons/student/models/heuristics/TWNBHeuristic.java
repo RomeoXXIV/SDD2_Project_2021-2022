@@ -63,8 +63,8 @@ public class TWNBHeuristic implements HeuristicSelector {
         copiedSegments.removeAll(line.contentSegments(segments));
         for(int i = 0; i < segments.size(); i++)
         {
-            if(!line.containsInOpenNegativeHalfSpace(segments.get(i))){
-                if(!line.containsInOpenPositiveHalfSpace(segments.get(i)))
+            if(!line.containsInOpenPositiveHalfSpace(segments.get(i))){
+                if(!line.containsInOpenNegativeHalfSpace(segments.get(i)))
                 {
                     intersectedSegments.add(segments.get(i));
                 }

@@ -54,9 +54,14 @@ public class Segment {
      */
     public boolean contains(Point point){
         Line line = this.toLine();
-        if (line.contains(point))
-            return ( Math.min(this.a.getX(), this.b.getX()) <= point.getX() && point.getX() <= Math.max(this.a.getX(), this.b.getX()) )
-                    && ( Math.min(this.a.getY(), this.b.getY()) <= point.getY() && point.getY() <= Math.max(this.a.getY(), this.b.getY()) );
+        if (line.contains(point)) {
+            double xMin = Math.min(this.a.getX(), this.b.getX());
+            double xMax = Math.max(this.a.getX(), this.b.getX());
+            double yMin = Math.min(this.a.getY(), this.b.getY());
+            double yMax = Math.max(this.a.getY(), this.b.getY());
+            return ( (xMin < point.getX() || Line.equals(xMin, point.getX())) && (point.getX() < xMax || Line.equals(point.getX(), xMax)) )
+                    && ( (yMin < point.getY() || Line.equals(yMin, point.getY())) && (point.getY() < yMax || Line.equals(point.getY(), yMax)) );
+        }
         else // Le point n'est même pas sur la droite.
             return false;
     }

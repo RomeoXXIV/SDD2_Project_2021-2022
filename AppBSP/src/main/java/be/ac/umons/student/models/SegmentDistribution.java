@@ -17,21 +17,21 @@ public class SegmentDistribution {
         this.segmentsInOpenPositiveHalfSpace = new ArrayList<>();
 
         for (Segment segment : segmentArrayList) {
-            if (line.containsInOpenNegativeHalfSpace(segment))
+            if (line.containsInOpenPositiveHalfSpace(segment))
                 this.segmentsInOpenNegativeHalfSpace.add(segment);
-            else if (line.containsInOpenPositiveHalfSpace(segment))
+            else if (line.containsInOpenNegativeHalfSpace(segment))
                 this.segmentsInOpenPositiveHalfSpace.add(segment);
             else { // le segment n'est pas entièrement dans un des demi-espaces ouverts.
                 Point intersection = line.intersection(segment);
                 if (segment.hasForExtremity(intersection)) { // le segment est en contact avec la droite.
-                    if (line.containsNotStrictlyInOpenNegativeHalfSpace(segment))
+                    if (line.containsInClosePositiveHalfSpace(segment))
                         this.segmentsInOpenNegativeHalfSpace.add(segment);
                     else
                         this.segmentsInOpenPositiveHalfSpace.add(segment);
                 }
                 else { // le segment est dans les deux demi-espaces ouverts.
                     Segment[] splitSegment = segment.split(intersection);
-                    if (line.containsNotStrictlyInOpenNegativeHalfSpace(splitSegment[0])) {
+                    if (line.containsInClosePositiveHalfSpace(splitSegment[0])) {
                         this.segmentsInOpenNegativeHalfSpace.add(splitSegment[0]);
                         this.segmentsInOpenPositiveHalfSpace.add(splitSegment[1]);
                     }

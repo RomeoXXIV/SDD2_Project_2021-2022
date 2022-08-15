@@ -34,12 +34,12 @@ public class ViewPoint {
         if (Line.equals(this.viewAngle, Line.ZERO)) return false;
         Line upperEyelidLine = this.upperEyelidLine();
         if (Line.equals(this.viewAngle, 180.)) {
-            return upperEyelidLine.containsNotStrictlyInOpenNegativeHalfSpace(point);
+            return upperEyelidLine.containsInClosePositiveHalfSpace(point);
         }
         else {
             Line lowerEyelidLine = this.lowerEyelidLine();
-            return upperEyelidLine.containsNotStrictlyInOpenNegativeHalfSpace(point)
-                    && lowerEyelidLine.containsNotStrictlyInOpenPositiveHalfSpace(point);
+            return upperEyelidLine.containsInClosePositiveHalfSpace(point)
+                    && lowerEyelidLine.containsInCloseNegativeHalfSpace(point);
         }
     }
 
@@ -64,7 +64,7 @@ public class ViewPoint {
         if (segmentLine.isSecantTo(upperEyelidLine) && segmentLine.isSecantTo(lowerEyelidLine)) {
             Point upperIntersection = segmentLine.intersection(upperEyelidLine);
             Point lowerIntersection = segmentLine.intersection(lowerEyelidLine);
-            return segment.contains(upperIntersection) && segment.contains(lowerIntersection) && !this.seesEntirely(segment);
+            return segment.contains(upperIntersection) && segment.contains(lowerIntersection) && this.seesEntirely(new Segment(upperIntersection, lowerIntersection));
         }
         return false;
     }
@@ -92,8 +92,8 @@ public class ViewPoint {
      * @return la droite associée à la paupière du haut
      */
     public Line upperEyelidLine() {
-        double upperEyelidLineX = this.point.getX() + 12 * Math.cos(Math.toRadians((viewAngle / 2) + rotateAngle));
-        double upperEyelidLineY = this.point.getY() + 12 * Math.sin(Math.toRadians((viewAngle / 2) + rotateAngle));
+        double upperEyelidLineX = this.point.getX() + 12 * Math.cos(Math.toRadians((viewAngle / 2) - rotateAngle));
+        double upperEyelidLineY = this.point.getY() + 12 * Math.sin(Math.toRadians((viewAngle / 2) - rotateAngle));
         return new Line(this.point, new Point(upperEyelidLineX, upperEyelidLineY));
     }
 
@@ -102,8 +102,8 @@ public class ViewPoint {
      * @return la droite associée à la paupière du bas
      */
     public Line lowerEyelidLine(){
-        double lowerEyelidLineX = this.point.getX() + 12 * Math.cos(Math.toRadians((-viewAngle / 2) + rotateAngle));
-        double lowerEyelidLineY = this.point.getY() + 12 * Math.sin(Math.toRadians((-viewAngle / 2) + rotateAngle));
+        double lowerEyelidLineX = this.point.getX() + 12 * Math.cos(Math.toRadians((-viewAngle / 2) - rotateAngle));
+        double lowerEyelidLineY = this.point.getY() + 12 * Math.sin(Math.toRadians((-viewAngle / 2) - rotateAngle));
         return new Line(this.point, new Point(lowerEyelidLineX, lowerEyelidLineY));
     }
 

@@ -123,8 +123,8 @@ public class Line {
      * @param segment le segment.
      * @return true si le segment se trouve dans le demi-espace négatif ouvert, false sinon.
      */
-    public Boolean containsInOpenNegativeHalfSpace(Segment segment) {
-        return this.containsInOpenNegativeHalfSpace(segment.getA()) && this.containsInOpenNegativeHalfSpace(segment.getB());
+    public Boolean containsInOpenPositiveHalfSpace(Segment segment) {
+        return this.containsInOpenPositiveHalfSpace(segment.getA()) && this.containsInOpenPositiveHalfSpace(segment.getB());
     }
 
     /**
@@ -132,8 +132,8 @@ public class Line {
      * @param segment le segment.
      * @return true si le segment se trouve dans le demi-espace négatif ouvert non strictement, false sinon.
      */
-    public Boolean containsNotStrictlyInOpenNegativeHalfSpace(Segment segment) {
-        return this.containsNotStrictlyInOpenNegativeHalfSpace(segment.getA()) && this.containsNotStrictlyInOpenNegativeHalfSpace(segment.getB());
+    public Boolean containsInClosePositiveHalfSpace(Segment segment) {
+        return this.containsInClosePositiveHalfSpace(segment.getA()) && this.containsInClosePositiveHalfSpace(segment.getB());
     }
 
     /**
@@ -141,8 +141,8 @@ public class Line {
      * @param point le point.
      * @return true si le point se trouve dans le demi-espace négatif ouvert, false sinon.
      */
-    public Boolean containsInOpenNegativeHalfSpace(Point point) {
-        return this.alpha * point.getX() + this.beta * point.getY() + this.gamma < 0;
+    public Boolean containsInOpenPositiveHalfSpace(Point point) {
+        return this.alpha * point.getX() + this.beta * point.getY() + this.gamma > 0;
     }
 
     /**
@@ -150,8 +150,8 @@ public class Line {
      * @param point le point.
      * @return true si le point se trouve dans le demi-espace négatif ouvert non strictement, false sinon.
      */
-    public Boolean containsNotStrictlyInOpenNegativeHalfSpace(Point point) {
-        return containsInOpenNegativeHalfSpace(point) || equals(this.alpha * point.getX() + this.beta * point.getY() + this.gamma, Line.ZERO);
+    public Boolean containsInClosePositiveHalfSpace(Point point) {
+        return containsInOpenPositiveHalfSpace(point) || equals(this.alpha * point.getX() + this.beta * point.getY() + this.gamma, Line.ZERO);
     }
 
     /**
@@ -159,8 +159,8 @@ public class Line {
      * @param segment le segment.
      * @return true si le segment se trouve dans le demi-espace positif ouvert, false sinon.
      */
-    public Boolean containsInOpenPositiveHalfSpace(Segment segment) {
-        return this.containsInOpenPositiveHalfSpace(segment.getA()) && this.containsInOpenPositiveHalfSpace(segment.getB());
+    public Boolean containsInOpenNegativeHalfSpace(Segment segment) {
+        return this.containsInOpenNegativeHalfSpace(segment.getA()) && this.containsInOpenNegativeHalfSpace(segment.getB());
     }
 
     /**
@@ -168,8 +168,8 @@ public class Line {
      * @param segment le segment.
      * @return true si le segment se trouve dans le demi-espace positif ouvert non strictement, false sinon.
      */
-    public Boolean containsNotStrictlyInOpenPositiveHalfSpace(Segment segment) {
-        return this.containsNotStrictlyInOpenPositiveHalfSpace(segment.getA()) && this.containsNotStrictlyInOpenPositiveHalfSpace(segment.getB());
+    public Boolean containsInCloseNegativeHalfSpace(Segment segment) {
+        return this.containsInCloseNegativeHalfSpace(segment.getA()) && this.containsInCloseNegativeHalfSpace(segment.getB());
     }
 
     /**
@@ -177,8 +177,8 @@ public class Line {
      * @param point le point.
      * @return true si le point se trouve dans le demi-espace positif ouvert, false sinon.
      */
-    public Boolean containsInOpenPositiveHalfSpace(Point point) {
-        return this.alpha * point.getX() + this.beta * point.getY() + this.gamma > 0;
+    public Boolean containsInOpenNegativeHalfSpace(Point point) {
+        return this.alpha * point.getX() + this.beta * point.getY() + this.gamma < 0;
     }
 
     /**
@@ -186,8 +186,8 @@ public class Line {
      * @param point le point.
      * @return true si le point se trouve dans le demi-espace positif ouvert non strictement, false sinon.
      */
-    public Boolean containsNotStrictlyInOpenPositiveHalfSpace(Point point) {
-        return containsInOpenPositiveHalfSpace(point) || equals(this.alpha * point.getX() + this.beta * point.getY() + this.gamma, Line.ZERO);
+    public Boolean containsInCloseNegativeHalfSpace(Point point) {
+        return containsInOpenNegativeHalfSpace(point) || equals(this.alpha * point.getX() + this.beta * point.getY() + this.gamma, Line.ZERO);
     }
 
     /**

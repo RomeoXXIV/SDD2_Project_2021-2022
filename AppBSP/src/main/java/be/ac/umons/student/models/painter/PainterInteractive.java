@@ -28,9 +28,8 @@ public class PainterInteractive implements Paintable {
         GraphicsContext graphicsContext = this.canvas.getGraphicsContext2D();
         Segment drawingSegment;
         if (viewPoint.seesPartially(segment)) { // viewPoint voit un segment au moins en partie.
-            if (viewPoint.seesEntirely(segment)) { // viewPoint voit entièrement un segment.
+            if (viewPoint.seesEntirely(segment))  // viewPoint voit entièrement un segment.
                 drawingSegment = this.segmentProcessing(segment, viewPoint);
-            }
             else { // viewPoint voit partiellement un segment.
                 Line segmentLine = segment.toLine();
                 Line upperEyelidLine = viewPoint.upperEyelidLine();
@@ -40,48 +39,46 @@ public class PainterInteractive implements Paintable {
                     splitSegment = new Segment(segmentLine.intersection(upperEyelidLine), segmentLine.intersection(lowerEyelidLine), segment.getColor());
                     drawingSegment = this.segmentProcessing(splitSegment, viewPoint);
                 }
-                else { // viewPoint voit un segment sans une seule de ses extremités.
+                else { // viewPoint voit un segment avec une seule de ses extremités.
                     if (segmentLine.isSecantTo(upperEyelidLine) && segmentLine.isSecantTo(lowerEyelidLine)) {
                         // segmentLine n'est pas parallèle à upperEyelidLine et lowerEyelidLine.
                         Point upperIntersection = segmentLine.intersection(upperEyelidLine);
                         Point lowerIntersection = segmentLine.intersection(lowerEyelidLine);
-                        if (segment.contains(upperIntersection)) { // l'intersection avec la paupière du haut est dans segment.
-                            if (upperEyelidLine.containsInOpenNegativeHalfSpace(segment.getA())) {
+                        if (segment.contains(upperIntersection) && viewPoint.sees(upperIntersection)) { // l'intersection avec la paupière du haut est dans segment.
+                            if (upperEyelidLine.containsInOpenPositiveHalfSpace(segment.getA()))
                                 splitSegment = new Segment(upperIntersection, segment.getA(), segment.getColor());
-                            }
-                            else splitSegment = new Segment(upperIntersection, segment.getB(), segment.getColor());
+                            else
+                                splitSegment = new Segment(upperIntersection, segment.getB(), segment.getColor());
                         }
                         else { // l'intersection avec la paupière du bas est dans segment.
-                            if (lowerEyelidLine.containsInOpenPositiveHalfSpace(segment.getA())) {
+                            if (lowerEyelidLine.containsInOpenNegativeHalfSpace(segment.getA()))
                                 splitSegment = new Segment(segment.getA(), lowerIntersection, segment.getColor());
-                            }
-                            else splitSegment = new Segment(segment.getB(), lowerIntersection, segment.getColor());
+                            else
+                                splitSegment = new Segment(segment.getB(), lowerIntersection, segment.getColor());
                         }
                         drawingSegment = this.segmentProcessing(splitSegment, viewPoint);
                     } // segmentLine est parallèle soit à upperEyelidLine ou soit à lowerIntersection.
                     else if (segmentLine.isSecantTo(upperEyelidLine)) {
                         // segmentLine est parallèle à lowerIntersection.
                         Point upperIntersection = segmentLine.intersection(upperEyelidLine);
-                        if (upperEyelidLine.containsInOpenNegativeHalfSpace(segment.getA())) {
+                        if (upperEyelidLine.containsInOpenPositiveHalfSpace(segment.getA()))
                             splitSegment = new Segment(upperIntersection, segment.getA(), segment.getColor());
-                        }
-                        else splitSegment = new Segment(upperIntersection, segment.getB(), segment.getColor());
+                        else
+                            splitSegment = new Segment(upperIntersection, segment.getB(), segment.getColor());
                         drawingSegment = this.segmentProcessing(splitSegment, viewPoint);
                     }
                     else { // segmentLine est parallèle à upperIntersection.
                         Point lowerIntersection = segmentLine.intersection(lowerEyelidLine);
-                        if (lowerEyelidLine.containsInOpenPositiveHalfSpace(segment.getA())) {
+                        if (lowerEyelidLine.containsInOpenNegativeHalfSpace(segment.getA()))
                             splitSegment = new Segment(segment.getA(), lowerIntersection, segment.getColor());
-                        }
-                        else splitSegment = new Segment(segment.getB(), lowerIntersection, segment.getColor());
+                        else
+                            splitSegment = new Segment(segment.getB(), lowerIntersection, segment.getColor());
                         drawingSegment = this.segmentProcessing(splitSegment, viewPoint);
                     }
                 }
             }
-            if (!drawingSegment.isPoint()) {
-                System.out.println("Segment à dessiner : " + drawingSegment);
+            if (!drawingSegment.isPoint())
                 this.drawSegmentOnCanvas(graphicsContext, drawingSegment);}
-        }
     }
 
     public Segment segmentProcessing(Segment segment, ViewPoint viewPoint) {
@@ -97,15 +94,13 @@ public class PainterInteractive implements Paintable {
                 angleBeforeStartProjection = 0.0;
             else { // angleC < viewAngle
                 Line upperEyelidLine = viewPoint.upperEyelidLine();
-                if (upperEyelidLine.contains(segment.getA()) || upperEyelidLine.contains(segment.getB())) {
+                if (upperEyelidLine.contains(segment.getA()) || upperEyelidLine.contains(segment.getB()))
                     angleBeforeStartProjection = 0.0;
-                }
                 else { // le segment n'est pas en contact avec la paupière du haut.
                     Line lowerEyelidLine = viewPoint.lowerEyelidLine();
-                    if (lowerEyelidLine.contains(segment.getA()) || lowerEyelidLine.contains(segment.getB())) {
+                    if (lowerEyelidLine.contains(segment.getA()) || lowerEyelidLine.contains(segment.getB()))
                         // le segment est en contact avec la paupière du bas.
                         angleBeforeStartProjection = viewAngle - angleC;
-                    }
                     else { // le segment n'est pas en contact avec les paupières.
                           // trouvons le point de départ du segment à projeter.
                         Point nearestPoint;
