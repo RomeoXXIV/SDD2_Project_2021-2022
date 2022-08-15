@@ -9,9 +9,11 @@ import javafx.stage.Stage;
 import java.io.File;
 
 /**
- * Application graphique intéractive permettant de choisir un fichier scène, un point de vue et de montrer visuellement le comportement de l'algorithme du peintre
- * sur la scène par rapport au point de vue.
+ * TestInteractive est une classe contenant la méthode main permettant de lancer la version interactive
+ * du programme.
  *
+ * Cette version permet de choisir un fichier scène, un point de vue et de montrer visuellement le comportement
+ * de l'algorithme du peintre sur la scène par rapport au point de vue.
  * @author Romeo Ibraimovski
  */
 public class TestInteractive extends Application {

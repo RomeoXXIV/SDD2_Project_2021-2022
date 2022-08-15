@@ -27,9 +27,9 @@ public class BSPTree {
             this.segments.addAll(this.split.contentSegments(segmentArrayList));
             segmentArrayList.removeAll(this.segments);
             // segmentArrayList ne contient plus que les segments à repartir aux sous-arbres.
-            SegmentDistribution segmentDistribution = new SegmentDistribution(segmentArrayList, this.split);
-            ArrayList<Segment> segmentsForLeft = segmentDistribution.getSegmentsInOpenNegativeHalfSpace();
-            ArrayList<Segment> segmentsForRight = segmentDistribution.getSegmentsInOpenPositiveHalfSpace();
+            SegmentDispenser segmentDispenser = new SegmentDispenser(segmentArrayList, this.split);
+            ArrayList<Segment> segmentsForLeft = segmentDispenser.getSegmentsInOpenNegativeHalfSpace();
+            ArrayList<Segment> segmentsForRight = segmentDispenser.getSegmentsInOpenPositiveHalfSpace();
             this.left = new BSPTree(segmentsForLeft, heuristic);
             this.right = new BSPTree(segmentsForRight, heuristic);
         }

@@ -9,7 +9,8 @@ import be.ac.umons.student.models.Point;
 import be.ac.umons.student.models.Segment;
 
 /**
- * SceneReader est une classe qui vérifie qu'un fichier soit au format d'un fichier scène et qui lit une scène à partir d'un fichier scène.
+ * SceneReader est une classe qui vérifie qu'un fichier soit au format d'un fichier scène.
+ * ELLe lit et stocke les données d'une scène à partir d'un fichier scène.
  * @author Romeo Ibraimovski
  */
 public class SceneReader {

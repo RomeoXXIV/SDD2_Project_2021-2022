@@ -13,8 +13,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- * Application console permetant de choisir un fichier scène, de créer l'arbre BSP correspondant grace aux différentes heuristiques et d'effectuer l'algorithme du
- * peintre sur ces arbres obtenus pour comparer ces heuristiques.
+ * TestConsole est une classe contenant la méthode main permettant de lancer la version console du programme.
+ *
+ * Cette version permet de choisir un fichier scène, de créer l'arbre BSP correspondant grace aux différentes
+ * heuristiques et d'effectuer l'algorithme du peintre sur ces arbres obtenus pour comparer ces heuristiques.
  * @author Romeo Ibraimovski (ux)
  * @author Maxime Nabli (code)
  */

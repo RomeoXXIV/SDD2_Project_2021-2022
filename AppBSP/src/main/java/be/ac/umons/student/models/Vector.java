@@ -1,7 +1,7 @@
 package be.ac.umons.student.models;
 
 /**
- * Vector est une classe représentant un vecteur (x, y), vecteur directeur ou normal de droite dans le plan. x et y étant des doubles.
+ * Vector est une classe représentant un vecteur (x, y) dans l'espace de coordonnées (x, y)
  * @author Romeo Ibraimovski
  */
 public class Vector {

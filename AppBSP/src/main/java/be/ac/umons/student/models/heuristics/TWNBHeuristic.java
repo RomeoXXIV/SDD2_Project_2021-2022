@@ -2,20 +2,20 @@ package be.ac.umons.student.models.heuristics;
 
 import be.ac.umons.student.models.Segment;
 import be.ac.umons.student.models.Line;
-import be.ac.umons.student.models.SegmentDistribution;
+import be.ac.umons.student.models.SegmentDispenser;
 
 import java.util.ArrayList;
 
 /**
- * Implémentation de l'Heuristique H3: l'Heuristique TWNB (Thibault William & Naylor Bruce), cherchant à minimiser la fonction suivante:
- * (fd+)*(fd-) - w*fd
- * Fd+ étant le nombre de segments dans le demi-espace ouvert positif, Fd- étant le nombre de segments ans le demi-espace ouvert négatif,
- * w un poid ici fixé à 7 et fd le nombre de segment que la droite de coupe intersecte.
+ * TWNBHeuristic est une classe implémentant l'heuristique dite "TWBN" (pour Thibault William & Naylor Bruce) consistant à prendre le segment dont la droite
+ * maximise (fd+ * fd-) - w * fd.
+
+ * Fd+ étant le nombre de segments dans le demi-espace ouvert positif, Fd- étant le nombre de segments dans le demi-espace ouvert négatif,
+ * w un poids ici fixé à 7 et fd le nombre de segments que la droite de coupe intersecte.
  * @author Romeo Ibraimovski
  * @author Maxime Nabli
  */
 public class TWNBHeuristic implements HeuristicSelector {
-
 
     @Override
     public Segment selectSegment(ArrayList<Segment> segments) {
@@ -82,9 +82,9 @@ public class TWNBHeuristic implements HeuristicSelector {
      */
     public int leftAndRightRatio(Segment segment, ArrayList<Segment> segments){
         Line segmentLine = segment.toLine();
-        SegmentDistribution segmentDistribution = new SegmentDistribution(segments, segmentLine);
-        ArrayList<Segment> segmentsForLeft = segmentDistribution.getSegmentsInOpenNegativeHalfSpace();
-        ArrayList<Segment> segmentsForRight = segmentDistribution.getSegmentsInOpenPositiveHalfSpace();
+        SegmentDispenser segmentDispenser = new SegmentDispenser(segments, segmentLine);
+        ArrayList<Segment> segmentsForLeft = segmentDispenser.getSegmentsInOpenNegativeHalfSpace();
+        ArrayList<Segment> segmentsForRight = segmentDispenser.getSegmentsInOpenPositiveHalfSpace();
         if (segmentsForRight.size() != 0 && segmentsForLeft.size() != 0) {
             return Math.abs((int) (segmentsForLeft.size() / segmentsForRight.size()));
         }
@@ -110,9 +110,9 @@ public class TWNBHeuristic implements HeuristicSelector {
         ArrayList<Segment> copiedSegments = new ArrayList<>(segments);
         Line currentLine = segment.toLine();
         copiedSegments.removeAll(currentLine.contentSegments(segments));
-        SegmentDistribution segmentDistribution = new SegmentDistribution(copiedSegments, currentLine);
-        ArrayList<Segment> segmentsForLeft = segmentDistribution.getSegmentsInOpenNegativeHalfSpace();
-        ArrayList<Segment> segmentsForRight = segmentDistribution.getSegmentsInOpenPositiveHalfSpace();
+        SegmentDispenser segmentDispenser = new SegmentDispenser(copiedSegments, currentLine);
+        ArrayList<Segment> segmentsForLeft = segmentDispenser.getSegmentsInOpenNegativeHalfSpace();
+        ArrayList<Segment> segmentsForRight = segmentDispenser.getSegmentsInOpenPositiveHalfSpace();
         return segmentsForLeft.size() * segmentsForRight.size() - intersectionListSize*7;
     }
 

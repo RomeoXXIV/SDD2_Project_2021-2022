@@ -6,9 +6,9 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Implémentation de l'Heuristique Aléatoire prenant, grace à la classe Random de la librairie java, un segment aléatoire de la liste de segments.
+ * RandomHeuristic est une classe implémentation de l'heuristique dite "aléatoire" consistant à prendre simplement
+ * un segment aléatoirement dans la liste de segments.
  * @author Romeo Ibraimovski
- * @author Maxime Nabli
  */
 public class RandomHeuristic implements HeuristicSelector {
     @Override

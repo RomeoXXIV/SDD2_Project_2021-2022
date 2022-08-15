@@ -8,9 +8,6 @@ public class OptimizedRandomHeuristic implements HeuristicSelector {
     @Override
     public Segment selectSegment(ArrayList<Segment> segments) {
         //TODO à implémenter
-        /*int length = segments.size();
-        Boolean [] rightEndPoint = new Boolean[length];
-        Boolean [] leftEndPoint = new Boolean[length];*/
         return segments.get(0);
     }
 

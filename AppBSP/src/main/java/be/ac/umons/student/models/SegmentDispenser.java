@@ -3,16 +3,16 @@ package be.ac.umons.student.models;
 import java.util.ArrayList;
 
 /**
- * SegmentDistribution est une classe effectuant la distribution des segments d'une liste de segments non confondus
- * à la droite dans les demi-espaces ouverts positifs et négatifs définie par rapport à une droite.
+ * SegmentDispenser est une classe effectuant la distribution des segments d'une liste de segments non confondus
+ * à une droite dans les demi-espaces ouverts positifs et négatifs définie par rapport à cette droite.
  * @author Romeo Ibraimovski
  */
-public class SegmentDistribution {
+public class SegmentDispenser {
 
     private final ArrayList<Segment> segmentsInOpenNegativeHalfSpace;
     private final ArrayList<Segment> segmentsInOpenPositiveHalfSpace;
 
-    public SegmentDistribution(ArrayList<Segment> segmentArrayList, Line line) {
+    public SegmentDispenser(ArrayList<Segment> segmentArrayList, Line line) {
         this.segmentsInOpenNegativeHalfSpace = new ArrayList<>();
         this.segmentsInOpenPositiveHalfSpace = new ArrayList<>();
 

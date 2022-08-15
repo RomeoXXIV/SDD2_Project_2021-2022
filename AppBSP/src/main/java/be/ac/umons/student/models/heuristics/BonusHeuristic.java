@@ -2,7 +2,7 @@ package be.ac.umons.student.models.heuristics;
 
 import be.ac.umons.student.models.Segment;
 import be.ac.umons.student.models.Line;
-import be.ac.umons.student.models.SegmentDistribution;
+import be.ac.umons.student.models.SegmentDispenser;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -60,17 +60,17 @@ public class BonusHeuristic implements HeuristicSelector {
         Line currentLine = segment.toLine();
         ArrayList<Segment> contentSegment = currentLine.contentSegments(segments);
         copiedSegments.removeAll(contentSegment);
-        SegmentDistribution segmentDistribution = new SegmentDistribution(copiedSegments, currentLine);
-        ArrayList<Segment> segmentsForLeft = segmentDistribution.getSegmentsInOpenNegativeHalfSpace();
-        ArrayList<Segment> segmentsForRight = segmentDistribution.getSegmentsInOpenPositiveHalfSpace();
+        SegmentDispenser segmentDispenser = new SegmentDispenser(copiedSegments, currentLine);
+        ArrayList<Segment> segmentsForLeft = segmentDispenser.getSegmentsInOpenNegativeHalfSpace();
+        ArrayList<Segment> segmentsForRight = segmentDispenser.getSegmentsInOpenPositiveHalfSpace();
         return segmentsForLeft.size() * segmentsForRight.size() - contentSegment.size();
     }
 
     public int leftAndRightRatio(Segment segment, ArrayList<Segment> segments) {
         Line segmentLine = segment.toLine();
-        SegmentDistribution segmentDistribution = new SegmentDistribution(segments, segmentLine);
-        ArrayList<Segment> segmentsForLeft = segmentDistribution.getSegmentsInOpenNegativeHalfSpace();
-        ArrayList<Segment> segmentsForRight = segmentDistribution.getSegmentsInOpenPositiveHalfSpace();
+        SegmentDispenser segmentDispenser = new SegmentDispenser(segments, segmentLine);
+        ArrayList<Segment> segmentsForLeft = segmentDispenser.getSegmentsInOpenNegativeHalfSpace();
+        ArrayList<Segment> segmentsForRight = segmentDispenser.getSegmentsInOpenPositiveHalfSpace();
         if (segmentsForRight.size() != 0 && segmentsForLeft.size() != 0) {
             return Math.abs((int) (segmentsForLeft.size() / segmentsForRight.size()));
         }
